@@ -101,6 +101,14 @@ class _NotesState extends State<Notes> {
                         color: Colors.pink, 
                         mainTitle: title1, 
                         mainSubtitle : subtitle1),
+                      noteList(
+                        color: Colors.green, 
+                        mainTitle: title1, 
+                        mainSubtitle : subtitle1),
+                      noteList(
+                        color: Colors.teal, 
+                        mainTitle: title1, 
+                        mainSubtitle : subtitle1),
                     ],
                   ),
               
