@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'landing_page.dart';
-import 'custom_colors.dart';
+import 'package:notes/Constants/Colors.dart';
+import 'package:notes/Screens/landingScreen.dart';
 
 void main() => runApp(Notable());
 

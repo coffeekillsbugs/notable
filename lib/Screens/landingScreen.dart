@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'custom_colors.dart';
+import 'package:notes/Constants/Colors.dart';
 
 class LandingPage extends StatefulWidget {
   @override
