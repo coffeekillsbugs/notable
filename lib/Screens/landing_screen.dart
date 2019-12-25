@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notes/Constants/Colors.dart';
+import 'package:notes/Constants/colors.dart';
+import 'package:notes/Screens/add_note_screen.dart';
+import 'package:notes/Widgets/new_note.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -13,6 +15,11 @@ class _LandingPageState extends State<LandingPage> {
     print(screenSize.width);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark().copyWith(
+        primaryColor: smokyBlack,
+        accentColor: carribeanGreen,
+        scaffoldBackgroundColor: smokyBlack,
+      ),
       home: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -41,10 +48,11 @@ class _LandingPageState extends State<LandingPage> {
               body: GridView(
                 physics: BouncingScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, 
+                  crossAxisCount: 2,
                   childAspectRatio: 0.75,
                   crossAxisSpacing: 0.0,
-                  mainAxisSpacing: 0.0,),
+                  mainAxisSpacing: 0.0,
+                ),
                 children: <Widget>[
                   NoteLayout(screenSize: screenSize),
                   NoteLayout(screenSize: screenSize),
@@ -68,7 +76,6 @@ class _LandingPageState extends State<LandingPage> {
   }
 }
 
-
 class AddNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -82,6 +89,9 @@ class AddNote extends StatelessWidget {
           color: carribeanGreen,
         ),
         child: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => NewNote()));
+          },
           child: Icon(
             Icons.add,
             color: smokyBlack,
@@ -93,34 +103,7 @@ class AddNote extends StatelessWidget {
   }
 }
 
-class NoteLayout extends StatelessWidget {
-  final screenSize, variableHeight;
 
-  NoteLayout({this.screenSize, this.variableHeight});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
-      child: Container(
-       // height: 200.0,
-        //width: screenSize.width * 0.45,
-        margin: EdgeInsets.all(4.0),
-        decoration: BoxDecoration(
-            color: outerSpace,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: carribeanGreen,
-                offset: Offset(0, 3),
-                blurRadius: 1.0,
-              ),
-            ],
-            ),
-      ),
-    );
-  }
-}
 
 /*
 CustomAppBar(
