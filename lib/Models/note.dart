@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class _Note{
+class Note{
   String title;
   String body;
   Color color;
 
-  _Note({this.title, this.body, this.color});
+  Note({this.title, this.body, this.color});
   }

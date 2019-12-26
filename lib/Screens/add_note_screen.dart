@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:notes/Constants/colors.dart';
+import 'package:notes/Constants/lists.dart';
 import 'package:notes/Models/note.dart';
 
-class NewNote extends StatelessWidget {
+class NewNote extends StatefulWidget {
+  @override
+  _NewNoteState createState() => _NewNoteState();
+}
+
+class _NewNoteState extends State<NewNote> {
   @override
   Widget build(BuildContext context) {
+    Color userColor = carribeanGreen;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
@@ -32,9 +39,9 @@ class NewNote extends StatelessWidget {
                                 padding: EdgeInsets.all(10.0),
                                 child: TextField(
                                   keyboardType: TextInputType.text,
-                                  cursorColor: carribeanGreen,
+                                  cursorColor: userColor,
                                   style: TextStyle(
-                                    color: carribeanGreen,
+                                    color: userColor,
                                     fontSize: 20.0,
                                   ),
                                   decoration: InputDecoration(
@@ -44,10 +51,10 @@ class NewNote extends StatelessWidget {
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide.none,
                                     ),
-                                    focusColor: carribeanGreen,
+                                    focusColor: userColor,
                                     hintText: 'Title',
                                     hintStyle: TextStyle(
-                                        color: carribeanGreen.withOpacity(0.5),
+                                        color: userColor.withOpacity(0.5),
                                         fontSize: 20.0),
                                   ),
                                 ),
@@ -59,12 +66,62 @@ class NewNote extends StatelessWidget {
                           ),
                           Expanded(
                             flex: 1,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: carribeanGreen,
-                                  borderRadius: BorderRadius.circular(10.0)),
+                            child: InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  backgroundColor: gunMetal,
+                                  context: context,
+                                  builder: (BuildContext builder) {
+                                    return Padding(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: GridView.builder(
+                                        itemCount: colorsChoice.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          return Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(
+                                                    () {
+                                                      userColor = colorsChoice[index].color;
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: colorsChoice[index]
+                                                          .color,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),),
+                                                ),
+                                              ),);
+                                        },
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 4,
+                                          //crossAxisSpacing: 3.0,
+                                          childAspectRatio: 1.2,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: userColor,
+                                    borderRadius: BorderRadius.circular(10.0)),
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -81,9 +138,9 @@ class NewNote extends StatelessWidget {
                         child: TextField(
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
-                          cursorColor: carribeanGreen,
+                          cursorColor: userColor,
                           style: TextStyle(
-                            color: carribeanGreen,
+                            color: userColor,
                             fontSize: 20.0,
                           ),
                           decoration: InputDecoration(
@@ -93,7 +150,7 @@ class NewNote extends StatelessWidget {
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
-                              focusColor: carribeanGreen,
+                              focusColor: userColor,
                               contentPadding: EdgeInsets.all(10.0)),
                         ),
                       ),
@@ -120,7 +177,7 @@ class NewNote extends StatelessWidget {
                                 child: Center(
                                   child: Icon(
                                     Icons.chevron_left,
-                                    color: carribeanGreen,
+                                    color: userColor,
                                     size: 40.0,
                                   ),
                                 ),
@@ -140,7 +197,7 @@ class NewNote extends StatelessWidget {
                               child: Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: carribeanGreen,
+                                    color: userColor,
                                     borderRadius: BorderRadius.circular(10.0)),
                                 child: Text(
                                   'SAVE',
