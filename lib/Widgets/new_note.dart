@@ -16,26 +16,36 @@ class NoteLayout extends StatelessWidget {
           color: notes[0].color,
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 4.0, top: 40.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: outerSpace,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                
-                children: <Widget>[
-                  
-                  SizedBox(
-                    height: 10.0,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Center(
+                  child: Text(
+                    notes[0].title,
+                    //textScaleFactor: 1.0,
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                    ),
                   ),
-                  Expanded(
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 4.0,left: 2.0, right: 2.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: outerSpace,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
                       child: Text(
                         notes[0].body,
                         //textScaleFactor: 1.0,
@@ -47,10 +57,10 @@ class NoteLayout extends StatelessWidget {
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
