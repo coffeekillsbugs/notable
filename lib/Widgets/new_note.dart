@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/Constants/colors.dart';
+import 'package:notes/Constants/lists.dart';
 
 class NoteLayout extends StatelessWidget {
   final screenSize, variableHeight;
@@ -12,22 +13,42 @@ class NoteLayout extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
       child: Container(
         decoration: BoxDecoration(
-            color: carribeanGreen, borderRadius: BorderRadius.circular(10.0)),
+          color: notes[0].color,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         child: Padding(
-          padding: EdgeInsets.only(bottom: 3.0),
+          padding: EdgeInsets.only(bottom: 4.0, top: 40.0),
           child: Container(
-            // height: 200.0,
-            //width: screenSize.width * 0.45,
             decoration: BoxDecoration(
               color: outerSpace,
               borderRadius: BorderRadius.circular(10.0),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: carribeanGreen,
-              //     offset: Offset(0, 3),
-              //     blurRadius: 1.0,
-              //   ),
-              // ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                
+                children: <Widget>[
+                  
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Text(
+                        notes[0].body,
+                        //textScaleFactor: 1.0,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:notes/Constants/colors.dart';
 import 'package:notes/Models/color_choice.dart';
+import 'package:notes/Models/note.dart';
 
 List <ColorsChoice> colorsChoice = [
   ColorsChoice(color: carribeanGreen),
@@ -12,4 +13,12 @@ List <ColorsChoice> colorsChoice = [
   ColorsChoice(color: amazonite),
   ColorsChoice(color: magentaProcess),
   ColorsChoice(color: redViolet),
+];
+
+List <Note> notes = [
+  Note(
+    title: 'Shopping',
+    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+    color: carribeanGreen,
+  ),
 ];
