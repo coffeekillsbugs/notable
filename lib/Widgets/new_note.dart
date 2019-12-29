@@ -12,27 +12,25 @@ class NoteLayout extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
       child: Container(
         decoration: BoxDecoration(
-          color: carribeanGreen,
-          borderRadius: BorderRadius.circular(10.0)
-        ),
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 3.0),
-                child: Container(
-          // height: 200.0,
-          //width: screenSize.width * 0.45,
-          decoration: BoxDecoration(
-            color: outerSpace,
-            borderRadius: BorderRadius.circular(10.0),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: carribeanGreen,
-            //     offset: Offset(0, 3),
-            //     blurRadius: 1.0,
-            //   ),
-            // ],
+            color: carribeanGreen, borderRadius: BorderRadius.circular(10.0)),
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 3.0),
+          child: Container(
+            // height: 200.0,
+            //width: screenSize.width * 0.45,
+            decoration: BoxDecoration(
+              color: outerSpace,
+              borderRadius: BorderRadius.circular(10.0),
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: carribeanGreen,
+              //     offset: Offset(0, 3),
+              //     blurRadius: 1.0,
+              //   ),
+              // ],
+            ),
           ),
         ),
-              ),
       ),
     );
   }

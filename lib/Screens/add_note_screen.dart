@@ -9,9 +9,10 @@ class NewNote extends StatefulWidget {
 }
 
 class _NewNoteState extends State<NewNote> {
+  Color userColor = carribeanGreen;
   @override
   Widget build(BuildContext context) {
-    Color userColor = carribeanGreen;
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
@@ -85,6 +86,7 @@ class _NewNoteState extends State<NewNote> {
                                                   setState(
                                                     () {
                                                       userColor = colorsChoice[index].color;
+                                                      Navigator.pop(context);
                                                     },
                                                   );
                                                 },
