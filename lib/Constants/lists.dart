@@ -19,6 +19,26 @@ List <Note> notes = [
   Note(
     title: 'Shopping',
     body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+    color: mintGreen,
+  ),
+  Note(
+    title: 'Shopping',
+    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+    color: redCrayola,
+  ),
+  Note(
+    title: 'Shopping',
+    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+    color: sunsetOrange,
+  ),
+  Note(
+    title: 'Shopping',
+    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+    color: lemonYellow,
+  ),
+  Note(
+    title: 'Shopping',
+    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
     color: carribeanGreen,
   ),
 ];

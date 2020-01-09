@@ -6,7 +6,9 @@ void main() => runApp(Notable());
 class Notable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
-    home: LandingPage());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LandingPage(),
+    );
   }
 }
