@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/Constants/colors.dart';
 import 'package:notes/Constants/lists.dart';
-import 'package:notes/Models/note.dart';
 import 'package:provider/provider.dart';
 
 class NewNote extends StatefulWidget {
@@ -157,7 +156,7 @@ class _NewNoteState extends State<NewNote> {
                               maxLines: null,
                               cursorColor: Provider.of<UserColor>(context).userColor,
                               focusNode: nextField,
-                              textInputAction: TextInputAction.done,
+                              textInputAction: TextInputAction.newline,
                               style: TextStyle(
                                 color: Provider.of<UserColor>(context).userColor,
                                 fontSize: 20.0,

@@ -1,7 +1,4 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 void main() => runApp(Notable());
 
@@ -270,7 +267,7 @@ class _NotableState extends State<Notable> {
                       topRight: Radius.circular(50.0)),
                   child: FlatButton(
                     onPressed: () {
-                      //TODO: Add note
+                    
                     },
                     child: Icon(Icons.add, color: Colors.white),
                     color: Color(0xFF00994C),

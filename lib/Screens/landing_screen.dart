@@ -28,43 +28,41 @@ class _LandingPageState extends State<LandingPage> {
           accentColor: carribeanGreen,
           scaffoldBackgroundColor: smokyBlack,
         ),
-        home: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              Scaffold(
-                resizeToAvoidBottomInset: false,
-                appBar: AppBar(
-                  backgroundColor: charlestonGreen,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0),
-                    )
-                  ),
-                  title: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'NOTABLE',
-                      style: TextStyle(
-                        color: carribeanGreen,
-                        fontFamily: 'Righteous',
-                        fontSize: 25.0,
-                        //fontWeight: FontWeight.w600,
-                      ),
+        home: Stack(
+          children: <Widget>[
+            Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                backgroundColor: charlestonGreen,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                  )
+                ),
+                title: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'NOTABLE',
+                    style: TextStyle(
+                      color: carribeanGreen,
+                      fontFamily: 'Righteous',
+                      fontSize: 25.0,
+                      //fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                backgroundColor: gunMetal,
-                // *--- Body ---* //
-                body: (notes.length == 0) ? EmptyContainer() : GridViewNotes(),
-                // *--- Add Button ---* //
-                floatingActionButton: AddNote(),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerDocked,
               ),
-              //CustomAppBar(screenSize: screenSize)
-            ],
-          ),
+              backgroundColor: gunMetal,
+              // *--- Body ---* //
+              body: (notes.length == 0) ? EmptyContainer() : GridViewNotes(),
+              // *--- Add Button ---* //
+              floatingActionButton: AddNote(),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+            ),
+            //CustomAppBar(screenSize: screenSize)
+          ],
         ),
       ),
     );
@@ -134,17 +132,17 @@ class AddNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 130.0),
-      child: Container(
-        height: 50.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: carribeanGreen,
-        ),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => NewNote()));
-          },
+      child: InkWell(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NewNote()));
+        },
+        child: Container(
+          height: 50.0,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: carribeanGreen,
+      ),
           child: Icon(
             Icons.add,
             color: smokyBlack,
