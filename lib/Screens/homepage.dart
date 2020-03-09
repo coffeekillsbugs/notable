@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:notes/Constants/colors.dart';
-import 'package:notes/Constants/lists.dart';
+import 'package:notes/components/note_layout.dart';
+import 'package:notes/theme/colors.dart';
+import 'package:notes/models/lists.dart';
 import 'package:notes/Screens/add_note_screen.dart';
-import 'package:notes/Widgets/new_note.dart';
 import 'package:provider/provider.dart';
 
-class LandingPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _LandingPageState createState() => _LandingPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {

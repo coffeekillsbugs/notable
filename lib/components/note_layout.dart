@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notes/Constants/colors.dart';
-import 'package:notes/Constants/lists.dart';
+import 'package:notes/theme/colors.dart';
+import 'package:notes/models/lists.dart';
 
 class NoteLayout extends StatelessWidget {
 

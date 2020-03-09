@@ -1,4 +1,4 @@
-import 'package:notes/Constants/colors.dart';
+import 'package:notes/theme/colors.dart';
 import 'package:notes/Models/color_choice.dart';
 import 'package:notes/Models/note.dart';
 
