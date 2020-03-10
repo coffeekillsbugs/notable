@@ -26,197 +26,195 @@ class _NewNoteState extends State<NewNote> {
   //Color userColor = carribeanGreen;
   @override
   Widget build(BuildContext noteContext) {
-    return SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: smokyBlack,
-          body: ChangeNotifierProvider<UserColor>(
-            create: (context) => UserColor(),
-            child: Consumer<UserColor>(
-              builder: (context, provider, child) => Container(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: <Widget>[
-                              // * Back Button * //
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  splashColor: gunMetal,
-                                  onTap: () {
-                                    Navigator.pop(noteContext);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: outerSpace,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.chevron_left,
-                                        color: Provider.of<UserColor>(context)
-                                            .userColor,
-                                        size: 40.0,
-                                      ),
-                                    ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: smokyBlack,
+      body: ChangeNotifierProvider<UserColor>(
+        create: (context) => UserColor(),
+        child: Consumer<UserColor>(
+          builder: (context, provider, child) => Container(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(8.0, MediaQuery.of(context).viewPadding.top, 8.0, 8.0),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        children: <Widget>[
+                          // * Back Button * //
+                          Expanded(
+                            flex: 1,
+                            child: InkWell(
+                              splashColor: gunMetal,
+                              onTap: () {
+                                Navigator.pop(noteContext);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: outerSpace,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.chevron_left,
+                                    color: Provider.of<UserColor>(context)
+                                        .userColor,
+                                    size: 40.0,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 10.0,
-                              ),
-                              // * Current Color Box * //
-                              Expanded(
-                                flex: 3,
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      showModalBottomSheet(
-                                        backgroundColor: gunMetal,
-                                        context: context,
-                                        builder: (BuildContext builder) {
-                                          return Padding(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: GridView.builder(
-                                              itemCount: colorsChoice.length,
-                                              itemBuilder: (BuildContext gridContext,index) {
-                                                return Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      setState(
-                                                        () {
-                                                          Provider.of<UserColor>(context, listen: false).changeColor(colorsChoice[index].color);
-                                                          Navigator.pop(gridContext);
-                                                        },
-                                                      );
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          // * Current Color Box * //
+                          Expanded(
+                            flex: 3,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  showModalBottomSheet(
+                                    backgroundColor: gunMetal,
+                                    context: context,
+                                    builder: (BuildContext builder) {
+                                      return Padding(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: GridView.builder(
+                                          itemCount: colorsChoice.length,
+                                          itemBuilder: (BuildContext gridContext,index) {
+                                            return Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(
+                                                    () {
+                                                      Provider.of<UserColor>(context, listen: false).changeColor(colorsChoice[index].color);
+                                                      Navigator.pop(gridContext);
                                                     },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            colorsChoice[index]
-                                                                .color,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      ),
-                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        colorsChoice[index]
+                                                            .color,
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(10.0),
                                                   ),
-                                                );
-                                              },
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 4,
-                                                //crossAxisSpacing: 3.0,
-                                                childAspectRatio: 1.2,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10.0),
-                                            topRight: Radius.circular(10.0),
+                                            );
+                                          },
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 4,
+                                            //crossAxisSpacing: 3.0,
+                                            childAspectRatio: 1.2,
                                           ),
                                         ),
                                       );
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Provider.of<UserColor>(context)
-                                            .userColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: gunMetal,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              cursorColor:
-                                  Provider.of<UserColor>(context).userColor,
-                              focusNode: nextField,
-                              textInputAction: TextInputAction.newline,
-                              style: TextStyle(
-                                color:
-                                    Provider.of<UserColor>(context).userColor,
-                                fontSize: 20.0,
-                              ),
-                              decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  focusColor:
-                                      Provider.of<UserColor>(context).userColor,
-                                  contentPadding: EdgeInsets.all(10.0)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 3,
-                                child: InkWell(
-                                  splashColor: null,
-                                  onTap: () {
-                                    //TODO Save the note
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: Provider.of<UserColor>(context)
-                                            .userColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Text(
-                                      'SAVE',
-                                      style: TextStyle(
-                                        color: gunMetal,
-                                        fontSize: 20.0,
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0),
                                       ),
                                     ),
+                                  );
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Provider.of<UserColor>(context)
+                                        .userColor,
+                                    borderRadius:
+                                        BorderRadius.circular(10.0)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: gunMetal,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          cursorColor:
+                              Provider.of<UserColor>(context).userColor,
+                          focusNode: nextField,
+                          textInputAction: TextInputAction.newline,
+                          style: TextStyle(
+                            color:
+                                Provider.of<UserColor>(context).userColor,
+                            fontSize: 20.0,
+                          ),
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              focusColor:
+                                  Provider.of<UserColor>(context).userColor,
+                              contentPadding: EdgeInsets.all(10.0)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 3,
+                            child: InkWell(
+                              splashColor: null,
+                              onTap: () {
+                                //TODO Save the note
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Provider.of<UserColor>(context)
+                                        .userColor,
+                                    borderRadius:
+                                        BorderRadius.circular(10.0)),
+                                child: Text(
+                                  'SAVE',
+                                  style: TextStyle(
+                                    color: gunMetal,
+                                    fontSize: 20.0,
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
         ),
+      ),
     );
   }
 }

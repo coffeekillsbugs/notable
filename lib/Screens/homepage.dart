@@ -47,7 +47,7 @@ class AppBarDrop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 80.0,
+      height: MediaQuery.of(context).size.height * 0.125,
       decoration: BoxDecoration(
         color: charlestonGreen,
         borderRadius: BorderRadius.only(
@@ -56,9 +56,9 @@ class AppBarDrop extends StatelessWidget {
         ),
       ),
       child: Align(
-        alignment: Alignment.bottomRight,
-        child: Padding(
-          padding: EdgeInsets.all(10.0),
+        alignment: Alignment.centerRight,
+              child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top, right: 10.0),
           child: Material(
             color: Colors.transparent,
             child: Text(
@@ -89,7 +89,7 @@ class EmptyContainer extends StatelessWidget {
               style: TextStyle(
                 color: carribeanGreen,
                 fontSize: 30.0,
-              )),
+              ),),
         ),
       ),
     );
@@ -110,7 +110,7 @@ class _GridViewNotesState extends State<GridViewNotes> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 55.0),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.125 - MediaQuery.of(context).viewPadding.top),
       child: Container(
         child: GridView.builder(
           physics: BouncingScrollPhysics(),
@@ -136,7 +136,7 @@ class AddNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 130.0),
+      padding: EdgeInsets.symmetric(horizontal: 130.0),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -147,7 +147,10 @@ class AddNote extends StatelessWidget {
             height: 50.0,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
               color: carribeanGreen,
             ),
             child: Icon(
