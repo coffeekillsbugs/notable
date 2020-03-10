@@ -30,3 +30,4 @@ Color amethyst = Color(0xFF9d75cb);
 Color brilliantAzure = Color(0xFF279af1);
 Color redViolet = Color(0xFFc60f7b);
 Color magentaProcess = Color(0xFFf90093);
+Color almostWhite = Color(0xFFE5E6E8);

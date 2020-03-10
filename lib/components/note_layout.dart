@@ -11,14 +11,22 @@ class NoteLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
       child: Container(
         decoration: BoxDecoration(
           color: notes[index].color,
           borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 5.0,
+              color: Colors.black.withOpacity(0.7),
+              offset: Offset(3.0, 4.0),
+              spreadRadius: 0.3,
+            )
+          ],
         ),
         child: Padding(
-          padding: EdgeInsets.only(bottom: 4.0,left: 2.0, right: 2.0),
+          padding: EdgeInsets.only(bottom: 4.0),
           child: Container(
             decoration: BoxDecoration(
               color: charlestonGreen,
@@ -34,7 +42,7 @@ class NoteLayout extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 15.0,
-                    color: isabelline,//notes[index].color,
+                    color: almostWhite,//notes[index].color,
                   ),
                 ),
               ),
@@ -45,15 +53,3 @@ class NoteLayout extends StatelessWidget {
     );
   }
 }
-
-
-// Text(
-//                     notes[index].title,
-//                     //textScaleFactor: 1.0,
-//                     textAlign: TextAlign.left,
-//                     overflow: TextOverflow.ellipsis,
-//                     style: TextStyle(
-//                       fontSize: 15.0,
-//                       color: smokyBlack,
-//                     ),
-//                   ),

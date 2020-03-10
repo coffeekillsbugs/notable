@@ -28,13 +28,14 @@ class _NewNoteState extends State<NewNote> {
   Widget build(BuildContext noteContext) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: smokyBlack,
+      backgroundColor: gunMetal,
       body: ChangeNotifierProvider<UserColor>(
         create: (context) => UserColor(),
         child: Consumer<UserColor>(
           builder: (context, provider, child) => Container(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(8.0, MediaQuery.of(context).viewPadding.top, 8.0, 8.0),
+              padding: EdgeInsets.fromLTRB(
+                  8.0, MediaQuery.of(context).viewPadding.top, 8.0, 8.0),
               child: Column(
                 children: <Widget>[
                   Expanded(
@@ -46,15 +47,23 @@ class _NewNoteState extends State<NewNote> {
                           // * Back Button * //
                           Expanded(
                             flex: 1,
+                            // TODO : Splash color is not circular, spills
                             child: InkWell(
-                              splashColor: gunMetal,
                               onTap: () {
                                 Navigator.pop(noteContext);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: outerSpace,
+                                  color: charlestonGreen,
                                   borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5.0,
+                                      color: Colors.black.withOpacity(0.7),
+                                      offset: Offset(1.0, 2.0),
+                                      spreadRadius: 0.1,
+                                    )
+                                  ],
                                 ),
                                 child: Center(
                                   child: Icon(
@@ -73,66 +82,102 @@ class _NewNoteState extends State<NewNote> {
                           // * Current Color Box * //
                           Expanded(
                             flex: 3,
+                            // TODO : Splash color is not circular, spills
                             child: InkWell(
                               onTap: () {
-                                setState(() {
-                                  showModalBottomSheet(
-                                    backgroundColor: gunMetal,
-                                    context: context,
-                                    builder: (BuildContext builder) {
-                                      return Padding(
-                                        padding: EdgeInsets.all(10.0),
-                                        child: GridView.builder(
+                                setState(
+                                  () {
+                                    showModalBottomSheet(
+                                      backgroundColor: gunMetal,
+                                      context: context,
+                                      builder: (BuildContext builder) {
+                                        return ListView.builder(
                                           itemCount: colorsChoice.length,
-                                          itemBuilder: (BuildContext gridContext,index) {
+                                          itemBuilder:
+                                              (BuildContext gridContext,
+                                                  index) {
                                             return Padding(
-                                              padding: EdgeInsets.all(8.0),
+                                              padding: index == 0 ? EdgeInsets.only(left: 15.0, right:15.0, top: 30.0, bottom: 10.0) : EdgeInsets.only(left: 15.0, right:15.0, top: 10.0, bottom: 10.0),
                                               child: InkWell(
                                                 onTap: () {
                                                   setState(
                                                     () {
-                                                      Provider.of<UserColor>(context, listen: false).changeColor(colorsChoice[index].color);
-                                                      Navigator.pop(gridContext);
+                                                      Provider.of<UserColor>(
+                                                              context,
+                                                              listen: false)
+                                                          .changeColor(
+                                                              colorsChoice[
+                                                                      index]
+                                                                  .color);
+                                                      Navigator.pop(
+                                                          gridContext);
                                                     },
                                                   );
                                                 },
                                                 child: Container(
+                                                  width: double.infinity,
+                                                  height: 60.0,
                                                   decoration: BoxDecoration(
-                                                    color:
-                                                        colorsChoice[index]
-                                                            .color,
+                                                    color: colorsChoice[index]
+                                                        .color,
                                                     borderRadius:
-                                                        BorderRadius
-                                                            .circular(10.0),
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        blurRadius: 8.0,
+                                                        color: Colors.black
+                                                            .withOpacity(0.7),
+                                                        offset:
+                                                            Offset(0.0, 1.0),
+                                                        spreadRadius: 0.1,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      colorNames[index]
+                                                          .colorName,
+                                                      style: TextStyle(
+                                                        color:
+                                                            colorNames[index]
+                                                                .textColor,
+                                                        fontSize: 25.0,
+                                                        fontFamily:
+                                                            'Righteous',
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             );
                                           },
-                                          gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 4,
-                                            //crossAxisSpacing: 3.0,
-                                            childAspectRatio: 1.2,
-                                          ),
+                                        );
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.0),
+                                          topRight: Radius.circular(10.0),
                                         ),
-                                      );
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.0),
-                                        topRight: Radius.circular(10.0),
                                       ),
-                                    ),
-                                  );
-                                });
+                                    );
+                                  },
+                                );
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Provider.of<UserColor>(context)
-                                        .userColor,
-                                    borderRadius:
-                                        BorderRadius.circular(10.0)),
+                                  color:
+                                      Provider.of<UserColor>(context).userColor,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5.0,
+                                      color: Colors.black.withOpacity(0.7),
+                                      offset: Offset(1.0, 2.0),
+                                      spreadRadius: 0.1,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -146,8 +191,16 @@ class _NewNoteState extends State<NewNote> {
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: gunMetal,
+                          color: charlestonGreen,
                           borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 5.0,
+                              color: Colors.black.withOpacity(0.7),
+                              offset: Offset(1.0, 2.0),
+                              spreadRadius: 0.1,
+                            )
+                          ],
                         ),
                         child: TextField(
                           keyboardType: TextInputType.multiline,
@@ -157,8 +210,7 @@ class _NewNoteState extends State<NewNote> {
                           focusNode: nextField,
                           textInputAction: TextInputAction.newline,
                           style: TextStyle(
-                            color:
-                                Provider.of<UserColor>(context).userColor,
+                            color: Provider.of<UserColor>(context).userColor,
                             fontSize: 20.0,
                           ),
                           decoration: InputDecoration(
@@ -191,15 +243,24 @@ class _NewNoteState extends State<NewNote> {
                               child: Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: Provider.of<UserColor>(context)
-                                        .userColor,
-                                    borderRadius:
-                                        BorderRadius.circular(10.0)),
+                                  color: charlestonGreen,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5.0,
+                                      color: Colors.black.withOpacity(0.7),
+                                      offset: Offset(1.0, 2.0),
+                                      spreadRadius: 0.1,
+                                    )
+                                  ],
+                                ),
                                 child: Text(
                                   'SAVE',
                                   style: TextStyle(
-                                    color: gunMetal,
-                                    fontSize: 20.0,
+                                    color: Provider.of<UserColor>(context)
+                                        .userColor,
+                                    fontSize: 22.0,
+                                    fontFamily: 'Righteous',
                                   ),
                                 ),
                               ),

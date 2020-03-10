@@ -3,7 +3,6 @@ import 'package:notes/components/note_layout.dart';
 import 'package:notes/theme/colors.dart';
 import 'package:notes/models/lists.dart';
 import 'package:provider/provider.dart';
-import 'package:notes/routes.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -54,6 +53,14 @@ class AppBarDrop extends StatelessWidget {
           bottomLeft: Radius.circular(10.0),
           bottomRight: Radius.circular(10.0),
         ),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 5.0,
+            color: Colors.black.withOpacity(0.7),
+            offset: Offset(2.0, 3.0),
+            spreadRadius: 0.5,
+          ),
+        ],
       ),
       child: Align(
         alignment: Alignment.centerRight,
@@ -110,7 +117,7 @@ class _GridViewNotesState extends State<GridViewNotes> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.125 - MediaQuery.of(context).viewPadding.top),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.125 - MediaQuery.of(context).viewPadding.top + 5.0),
       child: Container(
         child: GridView.builder(
           physics: BouncingScrollPhysics(),
@@ -136,7 +143,7 @@ class AddNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 130.0),
+      padding: EdgeInsets.symmetric(horizontal: 120.0),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -152,10 +159,18 @@ class AddNote extends StatelessWidget {
                 topRight: Radius.circular(10.0),
               ),
               color: carribeanGreen,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 5.0,
+                  color: Colors.black,
+                  offset: Offset(2.0, 3.0),
+                  spreadRadius: 0.3,
+                )
+              ],
             ),
             child: Icon(
               Icons.add,
-              color: smokyBlack,
+              color: charlestonGreen,
               size: 35.0,
             ),
           ),
