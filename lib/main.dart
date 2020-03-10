@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes/screens/homepage.dart';
+import 'package:notes/routes.dart' as router;
 
 void main() => runApp(Notable());
 
@@ -8,7 +8,9 @@ class Notable extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      //home: HomePage(),
+      onGenerateRoute: router.generateRoute,
+      initialRoute: '/',
     );
   }
 }
