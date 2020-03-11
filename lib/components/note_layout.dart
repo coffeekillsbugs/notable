@@ -42,7 +42,10 @@ class NoteLayout extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 15.0,
-                    color: almostWhite,//notes[index].color,
+                    color: almostWhite,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w300,
+                    //notes[index].color,
                   ),
                 ),
               ),

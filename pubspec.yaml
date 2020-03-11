@@ -64,6 +64,17 @@ flutter:
     - family: Righteous
       fonts:
         - asset: fonts/Righteous-Regular.ttf
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-VariableFont.ttf
+    - family: Playfair
+      fonts:
+        - asset: fonts/PlayfairDisplay-Regular.ttf
+          style: regular
+        - asset: fonts/PlayfairDisplay-Medium.ttf
+          style: medium
+        - asset: fonts/PlayfairDisplay-SemiBold.ttf
+          style: semibold
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
