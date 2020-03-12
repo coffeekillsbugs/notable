@@ -75,6 +75,9 @@ flutter:
           style: medium
         - asset: fonts/PlayfairDisplay-SemiBold.ttf
           style: semibold
+    - family: Roboto-Mono
+      fonts:
+        - asset: fonts/RobotoMono-Light.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

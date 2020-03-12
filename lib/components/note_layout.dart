@@ -43,8 +43,8 @@ class NoteLayout extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15.0,
                     color: almostWhite,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w300,
+                    fontFamily: 'Roboto-Mono',
+                    //fontWeight: FontWeight.w300,
                     //notes[index].color,
                   ),
                 ),
