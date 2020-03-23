@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:notes/Models/note.dart';
 import 'package:notes/components/note_layout.dart';
+import 'package:notes/database/database.dart';
 import 'package:notes/theme/colors.dart';
 import 'package:notes/models/lists.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,6 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  List<Note> listNote;
+  int count = 0;
   @override
   void initState() {
     super.initState();
@@ -18,6 +24,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
+    if (listNote == null) {
+      listNote = List<Note>();
+      updateListNote();
+    }
+
     return Provider(
       create: (context) => screenSize,
       child: Stack(
@@ -26,7 +38,7 @@ class _HomePageState extends State<HomePage> {
             resizeToAvoidBottomInset: false,
             backgroundColor: gunMetal,
             // *--- Body ---* //
-            body: (notes.length == 0) ? EmptyContainer() : GridViewNotes(),
+            body: (count == 0) ? EmptyContainer() : GridViewNotes(),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,6 +50,21 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  void updateListNote() {
+
+    final Future<Database> dbFuture = databaseHelper.initializeDB();
+
+    dbFuture.then( (database) {
+      Future<List<Note>> listNoteFuture = databaseHelper.toNoteList();
+      listNoteFuture.then((listNote) {
+        setState(() {
+          this.listNote = listNote;
+          this.count = listNote.length;
+        });
+      });
+    });
   }
 }
 
@@ -64,8 +91,9 @@ class AppBarDrop extends StatelessWidget {
       ),
       child: Align(
         alignment: Alignment.centerRight,
-              child: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top, right: 10.0),
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).viewPadding.top, right: 10.0),
           child: Material(
             color: Colors.transparent,
             child: Text(
@@ -91,12 +119,14 @@ class EmptyContainer extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: EdgeInsets.all(10.0),
-          child: Text('Such Empty! Click on "Add" button to add notes.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: carribeanGreen,
-                fontSize: 30.0,
-              ),),
+          child: Text(
+            'Such Empty! Click on "Add" button to add notes.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: carribeanGreen,
+              fontSize: 30.0,
+            ),
+          ),
         ),
       ),
     );
@@ -117,7 +147,10 @@ class _GridViewNotesState extends State<GridViewNotes> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.125 - MediaQuery.of(context).viewPadding.top + 5.0),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.125 -
+              MediaQuery.of(context).viewPadding.top +
+              5.0),
       child: Container(
         child: GridView.builder(
           physics: BouncingScrollPhysics(),

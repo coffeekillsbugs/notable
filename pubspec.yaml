@@ -19,9 +19,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite:
+  sqflite: ^1.3.0
   path:
   async: ^2.2.0
+  path_provider: ^1.6.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -70,11 +71,8 @@ flutter:
     - family: Playfair
       fonts:
         - asset: fonts/PlayfairDisplay-Regular.ttf
-          style: regular
         - asset: fonts/PlayfairDisplay-Medium.ttf
-          style: medium
         - asset: fonts/PlayfairDisplay-SemiBold.ttf
-          style: semibold
     - family: Roboto-Mono
       fonts:
         - asset: fonts/RobotoMono-Light.ttf
