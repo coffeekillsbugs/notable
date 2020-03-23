@@ -1,6 +1,5 @@
-import 'package:notes/theme/colors.dart';
 import 'package:notes/models/color_choice.dart';
-import 'package:notes/models/note.dart';
+import 'package:notes/theme/colors.dart';
 
 
 
@@ -45,6 +44,19 @@ List <ColorName> colorNames = [
     colorName: 'Red Violet',
     textColor: almostWhite,
   ),
+];
+
+List <ColorsChoice> colorsChoice = [
+  ColorsChoice(color: carribeanGreen),
+  ColorsChoice(color: harvardCrimson),
+  ColorsChoice(color: redCrayola),
+  ColorsChoice(color: mintGreen),
+  ColorsChoice(color: sunsetOrange),
+  ColorsChoice(color: lemonYellow),
+  ColorsChoice(color: red),
+  ColorsChoice(color: amazonite),
+  ColorsChoice(color: magentaProcess),
+  ColorsChoice(color: redViolet),
 ];
 
 // List <Note> notes = [

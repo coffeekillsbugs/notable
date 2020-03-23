@@ -5,7 +5,7 @@ class Note {
   String _body;
   Color _color;
 
-  Note(this._id, this._body, this._color);
+  Note(this._body, this._color,[this._id]);
 
   int get id => _id;
   String get body => _body;

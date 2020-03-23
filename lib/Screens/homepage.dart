@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:notes/Models/note.dart';
+import 'package:notes/models/note.dart';
 import 'package:notes/components/note_layout.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/theme/colors.dart';
-import 'package:notes/models/lists.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -13,9 +12,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  DatabaseHelper databaseHelper = DatabaseHelper();
-  List<Note> listNote;
-  int count = 0;
+  // DatabaseHelper databaseHelper = DatabaseHelper();
+  // List<Note> listNote;
+  // int count = 0;
+
   @override
   void initState() {
     super.initState();
@@ -25,47 +25,53 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    if (listNote == null) {
-      listNote = List<Note>();
-      updateListNote();
-    }
+    // if (listNote == null) {
+    //   listNote = List<Note>();
+    //   //updateListNote();
+    // }
+    //Provider.of<UpdateList>(context, listen: false).updateListNote();
 
-    return Provider(
-      create: (context) => screenSize,
-      child: Stack(
-        children: <Widget>[
-          Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: gunMetal,
-            // *--- Body ---* //
-            body: (count == 0) ? EmptyContainer() : GridViewNotes(),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              AppBarDrop(),
-              AddNote(),
-            ],
-          ),
-        ],
+    return ChangeNotifierProvider<UpdateList>(
+      create: (context) => UpdateList(),
+      child: Consumer<UpdateList>(
+        builder: (context, provider, child) {
+          Provider.of<UpdateList>(context, listen: false).updateListNote();
+           return Stack(
+          children: <Widget>[
+            Scaffold(
+              resizeToAvoidBottomInset: false,
+              backgroundColor: gunMetal,
+              // *--- Body ---* //
+              //TODO implement FutureBuilder
+              body: (Provider.of<UpdateList>(context, listen: false).getcount() == 0) ? GridViewNotes() : GridViewNotes(),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                AppBarDrop(),
+                AddNote(),
+              ],
+            ),
+          ],
+        );}
       ),
     );
   }
 
-  void updateListNote() {
+  // void updateListNote() {
 
-    final Future<Database> dbFuture = databaseHelper.initializeDB();
+  //   final Future<Database> dbFuture = databaseHelper.initializeDB();
 
-    dbFuture.then( (database) {
-      Future<List<Note>> listNoteFuture = databaseHelper.toNoteList();
-      listNoteFuture.then((listNote) {
-        setState(() {
-          this.listNote = listNote;
-          this.count = listNote.length;
-        });
-      });
-    });
-  }
+  //   dbFuture.then( (database) {
+  //     Future<List<Note>> listNoteFuture = databaseHelper.toNoteList();
+  //     listNoteFuture.then((listNote) {
+  //       setState(() {
+  //         this.listNote = listNote;
+  //         this.count = listNote.length;
+  //       });
+  //     });
+  //   });
+  // }
 }
 
 class AppBarDrop extends StatelessWidget {
@@ -123,8 +129,9 @@ class EmptyContainer extends StatelessWidget {
             'Such Empty! Click on "Add" button to add notes.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: carribeanGreen,
-              fontSize: 30.0,
+              color: almostWhite,
+              fontSize: 25.0,
+              fontFamily: 'Righteous'
             ),
           ),
         ),
@@ -160,10 +167,11 @@ class _GridViewNotesState extends State<GridViewNotes> {
             crossAxisSpacing: 0.0,
             mainAxisSpacing: 0.0,
           ),
-          itemCount: notes.length,
+          itemCount: Provider.of<UpdateList>(context, listen: false).getcount(),
           itemBuilder: (BuildContext context, int index) {
             return NoteLayout(
               index: index,
+              displayList: Provider.of<UpdateList>(context, listen: false).getListNote(),
             );
           },
         ),
@@ -213,3 +221,33 @@ class AddNote extends StatelessWidget {
   }
 }
 
+class UpdateList extends ChangeNotifier {
+
+  List<Note> listNote = List<Note>();
+  int count = 0;
+
+  void updateListNote() {
+
+    final Future<Database> dbFuture = DatabaseHelper().initializeDB();
+    final Future<int> dataCount = DatabaseHelper().getCount();
+
+    //TODO what is this warning?????
+    if(dataCount == 0) {
+      this.count = 0;
+    }
+    else {
+      dbFuture.then( (database) {
+      Future<List<Note>> listNoteFuture = DatabaseHelper().toNoteList();
+      listNoteFuture.then((listNote) {
+          this.listNote = listNote;
+          this.count = listNote.length;
+      });
+    });
+    }
+    notifyListeners();
+  }
+
+  List<Note> getListNote() => this.listNote;
+
+  int getcount() => this.count;
+}

@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-// class ColorsChoice{
-//   Color color;
+class ColorsChoice{
+  Color color;
 
-//   ColorsChoice({this.color});
-// }
+  ColorsChoice({this.color});
+}
 
 class ColorName{
   String colorName;

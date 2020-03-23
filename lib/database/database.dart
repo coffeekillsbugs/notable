@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:notes/Models/note.dart';
+import 'package:notes/models/note.dart';
 
 class DatabaseHelper {
   static DatabaseHelper _databaseHelper;
@@ -104,53 +104,4 @@ class DatabaseHelper {
   }
 }
 
-// class DBHelper {
 
-//   static Database _db;
-
-//   Future<Database> get db async{
-//     if(_db !=null)
-//       return _db;
-//     _db = await initDb();
-//       return _db;
-//   }
-
-//   //Creating a database with name notes.db
-//   initDb() async {
-//     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-//     String path = join(documentsDirectory.path, "notes.db");
-//     var theDB = await openDatabase(path, version: 1, onCreate: _onCreate);
-//     return theDB;
-//   }
-
-//   // Creating a table name notes
-//   void _onCreate(Database db, int version) async {
-//     // when creating the db, create the table
-//     await db.execute(
-//       "CREATE TABLE Notes(id INTEGER PRIMARY KEY, body TEXT, color TEXT)"
-//     );
-//     print('Created tables.');
-//   }
-
-//   //* Retreving notes from notes table *//
-//   Future<List<Note>> getNotes() async {
-//     var dbClient = await db;
-//     List<Map> list = await dbClient.rawQuery('Select * from Notes');
-//     List<Note> savedNotes = new List();
-//     for (int i = 0; i < list.length; i++) {
-//       savedNotes.add(Note(list[i]["id"], list[i]["body"], list[i]["color"]));
-//     }
-//     print(savedNotes.length);
-//     return savedNotes;
-//   }
-
-//   void saveNotes(Note newNote) async {
-//     var dbClient = await db;
-//     await dbClient.transaction((txn) async {
-//       return await txn.rawInsert('INSERT INTO Notes(id, body, color) VALUES(' +
-//       '\'' +
-//       newNote.id +
-//       '\'' + )
-//     })
-//   }
-// }
