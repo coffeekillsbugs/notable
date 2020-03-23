@@ -2,18 +2,7 @@ import 'package:notes/theme/colors.dart';
 import 'package:notes/models/color_choice.dart';
 import 'package:notes/models/note.dart';
 
-List <ColorsChoice> colorsChoice = [
-  ColorsChoice(color: carribeanGreen),
-  ColorsChoice(color: harvardCrimson),
-  ColorsChoice(color: redCrayola),
-  ColorsChoice(color: mintGreen),
-  ColorsChoice(color: sunsetOrange),
-  ColorsChoice(color: lemonYellow),
-  ColorsChoice(color: red),
-  ColorsChoice(color: amazonite),
-  ColorsChoice(color: magentaProcess),
-  ColorsChoice(color: redViolet),
-];
+
 
 List <ColorName> colorNames = [
   ColorName(
@@ -58,25 +47,25 @@ List <ColorName> colorNames = [
   ),
 ];
 
-List <Note> notes = [
-  Note(
-    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
-    color: mintGreen,
-  ),
-  Note(
-    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
-    color: redCrayola,
-  ),
-  Note(
-    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
-    color: sunsetOrange,
-  ),
-  Note(
-    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
-    color: lemonYellow,
-  ),
-  Note(
-    body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
-    color: carribeanGreen,
-  ),
-];
+// List <Note> notes = [
+//   Note(
+//     body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+//     color: mintGreen,
+//   ),
+//   Note(
+//     body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+//     color: redCrayola,
+//   ),
+//   Note(
+//     body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+//     color: sunsetOrange,
+//   ),
+//   Note(
+//     body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+//     color: lemonYellow,
+//   ),
+//   Note(
+//     body: 'Soap\nDish\nBiscuits\n\nRazor\n\nSoap\nDish\nThis is to certify that miss fsldjfkl sdfjlsfj',
+//     color: carribeanGreen,
+//   ),
+// ];

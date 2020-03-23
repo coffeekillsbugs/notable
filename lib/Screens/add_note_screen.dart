@@ -249,7 +249,7 @@ class _NewNoteState extends State<NewNote> {
                                     BoxShadow(
                                       blurRadius: 5.0,
                                       color: Colors.black.withOpacity(0.7),
-                                      offset: Offset(1.0, 2.0),
+                                      offset: Offset(0.0, 2.0),
                                       spreadRadius: 0.1,
                                     )
                                   ],
