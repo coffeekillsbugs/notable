@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notes/components/note_layout.dart';
-import 'package:notes/theme/colors.dart';
-import 'package:notes/models/lists.dart';
-import 'package:notes/Screens/add_note_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:notes/components/bottom_floater.dart';
+import 'package:notes/components/notable_app_bar.dart';
+import 'package:notes/components/note_card.dart';
+import 'package:notes/constants/colors.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,144 +11,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return Provider(
-      create: (context) => screenSize,
-          child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark().copyWith(
-          primaryColor: smokyBlack,
-          accentColor: carribeanGreen,
-          scaffoldBackgroundColor: smokyBlack,
-        ),
-        home: Stack(
-          children: <Widget>[
-            Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: AppBar(
-                backgroundColor: charlestonGreen,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10.0),
-                    bottomRight: Radius.circular(10.0),
-                  )
-                ),
-                title: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'NOTABLE',
-                    style: TextStyle(
-                      color: carribeanGreen,
-                      fontFamily: 'Righteous',
-                      fontSize: 25.0,
-                      //fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-              backgroundColor: gunMetal,
-              // *--- Body ---* //
-              body: (notes.length == 0) ? EmptyContainer() : GridViewNotes(),
-              // *--- Add Button ---* //
-              floatingActionButton: AddNote(),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
+    var _width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: AppColor.gunMetal,
+      appBar: PreferredSize(
+        child: NotableAppBar(),
+        preferredSize: Size.fromHeight(80.0),
+      ),
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          Container(
+            child: ListView(
+              padding: EdgeInsets.only(top: 5.0, bottom: 80.0, left: 10.0, right: 10.0),
+              physics: BouncingScrollPhysics(),
+              children: <Widget>[
+                NoteCard(),
+                NoteCard(),
+                NoteCard(),
+                NoteCard(),
+                NoteCard(),
+              ],
             ),
-            //CustomAppBar(screenSize: screenSize)
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class EmptyContainer extends StatelessWidget {
-  const EmptyContainer({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Text(
-            'Such Empty! Click on "Add" button to add notes.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: carribeanGreen,
-              fontSize: 30.0,
-            )
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class GridViewNotes extends StatefulWidget {
-
-  @override
-  _GridViewNotesState createState() => _GridViewNotesState();
-}
-
-class _GridViewNotesState extends State<GridViewNotes> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: GridView.builder(
-        physics: BouncingScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.75,
-          crossAxisSpacing: 0.0,
-          mainAxisSpacing: 0.0,
-        ),
-        itemCount: notes.length,
-        itemBuilder: (BuildContext context, int index) {
-          return NoteLayout(index: index,);
-        },
-      ),
-    );
-  }
-}
-
-class AddNote extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 130.0),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NewNote()));
-        },
-        child: Container(
-          height: 50.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: carribeanGreen,
-      ),
-          child: Icon(
-            Icons.add,
-            color: smokyBlack,
-            size: 35.0,
-          ),
-        ),
+          BottomFloater(),
+        ],
       ),
     );
   }
@@ -156,16 +45,4 @@ class AddNote extends StatelessWidget {
 
 
 
-/*
-CustomAppBar(
-            backgroundColor: smokyBlack,
-            /*---Icon Button---*/
-            leading: IconButton(
-              onPressed: () {},
-              icon: ,
-            ),
-            /*---Notable---*/
-            title: 
-            centerTitle: true,
-          ),
-  */
+
