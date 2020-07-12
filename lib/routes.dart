@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes/screens/add_note_screen.dart';
 import 'package:notes/screens/homepage.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -8,7 +7,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/': return MaterialPageRoute(builder: (context) => HomePage());
       //break;
 
-    case 'addNote': return MaterialPageRoute(builder: (context) => NewNote());
+    //case 'addNote': return MaterialPageRoute(builder: (context) => NewNote());
       //break;
     default: return MaterialPageRoute(builder: (context) => HomePage());
   }

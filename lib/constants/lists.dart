@@ -1,5 +1,5 @@
 import 'package:notes/models/color_choice.dart';
-import 'package:notes/theme/colors.dart';
+import 'package:notes/configs/colors.dart';
 
 
 

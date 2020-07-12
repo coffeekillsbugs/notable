@@ -19,15 +19,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^1.3.0
-  path:
-  async: ^2.2.0
-  path_provider: ^1.6.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   provider: ^4.0.1
+  flutter_icons: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -65,17 +62,23 @@ flutter:
     - family: Righteous
       fonts:
         - asset: fonts/Righteous-Regular.ttf
-    - family: Inter
+    - family: Merriweather
       fonts:
-        - asset: fonts/Inter-VariableFont.ttf
+        - asset: fonts/Merriweather-Light.ttf
+          weight: 200
+        - asset: fonts/Merriweather-Regular.ttf
+          weight: 300
     - family: Playfair
       fonts:
         - asset: fonts/PlayfairDisplay-Regular.ttf
         - asset: fonts/PlayfairDisplay-Medium.ttf
         - asset: fonts/PlayfairDisplay-SemiBold.ttf
-    - family: Roboto-Mono
+    - family: SourceSansPro
       fonts:
-        - asset: fonts/RobotoMono-Light.ttf
+        - asset: fonts/SourceSansPro-Light.ttf
+          weight: 200
+        - asset: fonts/SourceSansPro-Regular.ttf
+          weight: 300
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
