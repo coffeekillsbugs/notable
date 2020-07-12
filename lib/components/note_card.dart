@@ -19,7 +19,6 @@ class _NoteCardState extends State<NoteCard> {
       child: AnimatedContainer(
         duration: _duration,
         curve: Curves.easeInOut,
-       
         height: _isCollapsed ? 120.0 : 250,
         width: double.infinity,
         decoration: ShapeDecoration(
@@ -34,8 +33,9 @@ class _NoteCardState extends State<NoteCard> {
             AnimatedPadding(
               duration: _duration,
               curve: Curves.easeInOut,
-               padding: EdgeInsets.only(
-            right: _isCollapsed ? _padding : 0.0, bottom: _isCollapsed ? 0.0 : 5.0),
+              padding: EdgeInsets.only(
+                  right: _isCollapsed ? _padding : 0.0,
+                  bottom: _isCollapsed ? 0.0 : 5.0),
               child: GestureDetector(
                 onTap: () {
                   setState(() {
@@ -123,7 +123,11 @@ class _NoteCardState extends State<NoteCard> {
 
   void _update(DragUpdateDetails details) {
     setState(() {
-      _padding = 40.0;
+      // _padding = _padding + details.primaryDelta.abs();
+      // if (_padding < 10.0)
+      //   _padding = 5.0;
+      // else
+        _padding = 40.0;
       print('_padding : $_padding');
     });
   }

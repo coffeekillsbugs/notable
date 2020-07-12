@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:notes/components/bottom_floater.dart';
 import 'package:notes/components/notable_app_bar.dart';
 import 'package:notes/components/note_card.dart';
+import 'package:notes/components/todo_card.dart';
 import 'package:notes/constants/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,10 +30,11 @@ class _HomePageState extends State<HomePage> {
               physics: BouncingScrollPhysics(),
               children: <Widget>[
                 NoteCard(),
-                NoteCard(),
-                NoteCard(),
-                NoteCard(),
-                NoteCard(),
+                // NoteCard(),
+                // NoteCard(),
+                // NoteCard(),
+                // NoteCard(),
+                TodoCard(),
               ],
             ),
           ),
