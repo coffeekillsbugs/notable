@@ -1,27 +1,39 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:notes/components/new_note.dart';
+import 'package:notes/components/new_todo.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:notes/configs/constants.dart';
-import 'package:notes/constants/colors.dart';
+
+import '../constants/colors.dart';
+import '../providers/flag_provider.dart';
 
 class BottomFloater extends StatefulWidget {
   @override
   _BottomFloaterState createState() => _BottomFloaterState();
 }
 
-class _BottomFloaterState extends State<BottomFloater> {
+class _BottomFloaterState extends State<BottomFloater> with SingleTickerProviderStateMixin {
+  GlobalKey<TodoButtonState> todo = GlobalKey<TodoButtonState>();
+  GlobalKey<NoteButtonState> note = GlobalKey<NoteButtonState>();
   TextEditingController _searchController;
   PageController _buttonController;
+  AnimationController _addController;
+  Animation<double> _addAnimation;
   int _currentPage = 0;
   bool _hasText = false;
-  Duration _duration = Duration(milliseconds: 200);
-  Duration _duration2 = Duration(milliseconds: 400);
-  bool _showNoteType = false;
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
     _buttonController = PageController(initialPage: 0, keepPage: false);
+
+    _addController = AnimationController(vsync: this, duration : Duration(milliseconds: 800));
+    _addAnimation = Tween<double>(begin: 0.0, end: 3 * pi / 4).animate(
+      CurvedAnimation(curve: Curves.elasticInOut, parent: _addController, reverseCurve: Curves.elasticInOut,),
+    );
   }
 
   @override
@@ -33,24 +45,21 @@ class _BottomFloaterState extends State<BottomFloater> {
 
   @override
   Widget build(BuildContext context) {
+    var _change = Provider.of<FlagProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          AnimatedOpacity(
-            opacity: _showNoteType ? 1.0 : 0.0,
-            duration: _duration2,
-            child: SquareButton(index: 1),
+          TodoButton(
+            key: todo,
+            toggleVisibility: toggleVisibility,
           ),
-          SizedBox(height: 10.0),
-          AnimatedOpacity(
-            opacity: _showNoteType ? 1.0 : 0.0,
-            duration: _duration,
-            child: SquareButton(index: 0),
+          NoteButton(
+            key: note,
+            toggleVisibility: toggleVisibility,
           ),
-          SizedBox(height: 10.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -121,6 +130,7 @@ class _BottomFloaterState extends State<BottomFloater> {
                   ],
                 ),
               ),
+              // Add Note and Settings >>>------------------>#
               GestureDetector(
                 child: Container(
                   alignment: Alignment.center,
@@ -140,14 +150,23 @@ class _BottomFloaterState extends State<BottomFloater> {
                   child: PageView(
                     onPageChanged: (int value) {
                       _currentPage = value;
+                      if (value == 1 && _change.showNoteType == true) {
+                        toggleVisibility(_change);
+                      }
                     },
                     controller: _buttonController,
                     scrollDirection: Axis.vertical,
                     children: <Widget>[
-                      Icon(
+                      AnimatedBuilder(
+                        animation: _addController,
+                        builder: (context, child) => Transform.rotate(
+                          angle: _addAnimation.value,
+                          child: Icon(
                         Feather.plus,
                         color: AppColor.charlestonGreen,
                         size: 30.0,
+                      ),
+                        ),
                       ),
                       Icon(
                         AntDesign.setting,
@@ -159,9 +178,7 @@ class _BottomFloaterState extends State<BottomFloater> {
                 ),
                 onTap: () {
                   if (_currentPage == 0) {
-                    setState(() {
-                      _showNoteType = !_showNoteType;
-                    });
+                    toggleVisibility(_change);
                   } else {
                     Navigator.pushNamed(context, 'settings');
                   }
@@ -173,39 +190,20 @@ class _BottomFloaterState extends State<BottomFloater> {
       ),
     );
   }
-}
 
-class SquareButton extends StatelessWidget {
-  final index;
+  void toggleVisibility(var change) {
+    change.changeStatus(!change.showNoteType);
 
-  SquareButton({this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        child: Container(
-          alignment: Alignment.center,
-          height: 60.0,
-          width: 60.0,
-          decoration: BoxDecoration(
-            color: AppColor.charlestonGreen,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.4),
-                offset: Offset(0.0, 3.0),
-                blurRadius: 10.0,
-              ),
-            ],
-          ),
-          child: Icon(
-            index == 0 ? AntDesign.edit : MaterialCommunityIcons.checkbox_marked_outline,
-            color: AppColor.carribeanGreen,
-            size: 25.0,
-          ),
-        ),
-        onTap: () {
-          Navigator.pushNamed(context, index == 0 ? 'newNote' : 'newTodo');
-        });
+    if (change.showNoteType == false) {
+      _addController.reverse();
+      note.currentState.noteController.reverse()
+        ..whenComplete(() => todo.currentState.todoController.reverse());
+    } else {
+      _addController.forward();
+      note.currentState.noteController.forward()
+        ..whenComplete(() => todo.currentState.todoController.forward());
+    }
   }
 }
+
+

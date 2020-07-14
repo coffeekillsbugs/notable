@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notes/routes.dart' as router;
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+import 'package:notes/routes.dart' as router;
+import './providers/flag_provider.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -14,9 +17,12 @@ void main() {
 class Notable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: router.generateRoute,
-      initialRoute: '/',
+    return ChangeNotifierProvider(
+      create: (context) => FlagProvider(),
+          child: MaterialApp(
+        onGenerateRoute: router.generateRoute,
+        initialRoute: '/',
+      ),
     );
   }
 }

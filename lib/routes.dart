@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notes/screens/homepage.dart';
-import 'package:notes/screens/new_note.dart';
-import 'package:notes/screens/new_todo.dart';
-import 'package:notes/screens/settings.dart';
+
+import './screens/homepage.dart';
+import './screens/new_note.dart';
+import './screens/new_todo.dart';
+import './screens/settings.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
