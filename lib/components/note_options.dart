@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:notes/constants/colors.dart';
+import 'package:notes/configs/colors.dart';
 
 class NoteOptions extends StatelessWidget {
 

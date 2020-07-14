@@ -2,31 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import '../constants/colors.dart';
+import '../configs/colors.dart';
 import '../providers/flag_provider.dart';
 
-class TodoButton extends StatefulWidget {
+class NoteButton extends StatefulWidget {
   final Function toggleVisibility;
-  TodoButton({Key key, @required this.toggleVisibility}) : super(key: key);
+  NoteButton({Key key, @required this.toggleVisibility}) : super(key: key);
   @override
-  TodoButtonState createState() => TodoButtonState();
+  NoteButtonState createState() => NoteButtonState();
 }
 
-class TodoButtonState extends State<TodoButton>
+class NoteButtonState extends State<NoteButton>
     with SingleTickerProviderStateMixin {
-  AnimationController todoController;
-  Animation<double> todoAnimation;
+  AnimationController noteController;
+  Animation<double> noteAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    todoController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
-    todoAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    noteController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300))
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {}
+          });
+    noteAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         curve: Curves.elasticInOut,
-        parent: todoController,
+        parent: noteController,
         reverseCurve: Curves.elasticInOut,
       ),
     );
@@ -37,11 +40,11 @@ class TodoButtonState extends State<TodoButton>
     var _width = MediaQuery.of(context).size.width;
     var _change = Provider.of<FlagProvider>(context, listen: false);
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0, left: _width - 80),
+      margin: EdgeInsets.only(bottom: 20.0, left: _width - 80),
       child: AnimatedBuilder(
-        animation: todoController,
+        animation: noteController,
         builder: (context, child) => Transform.scale(
-          scale: todoAnimation.value,
+          scale: noteAnimation.value,
           child: GestureDetector(
             child: Container(
               alignment: Alignment.center,
@@ -59,14 +62,14 @@ class TodoButtonState extends State<TodoButton>
                 ],
               ),
               child: Icon(
-                MaterialCommunityIcons.checkbox_marked_outline,
+                AntDesign.edit,
                 color: AppColor.carribeanGreen,
                 size: 25.0,
               ),
             ),
             onTap: () {
               widget.toggleVisibility(_change);
-              Navigator.pushNamed(context, 'newTodo');
+              Navigator.pushNamed(context, 'newNote');
             },
           ),
         ),

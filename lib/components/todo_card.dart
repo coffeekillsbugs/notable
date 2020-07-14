@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:notes/constants/colors.dart';
-import 'package:notes/models/todo_item_model.dart';
-import 'package:notes/components/todo_item.dart';
+
+import '../configs/colors.dart';
+import '../components/todo_item.dart';
+import '../models/todo_item_model.dart';
 
 class TodoCard extends StatefulWidget {
   @override

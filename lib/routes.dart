@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './screens/homepage.dart';
-import './screens/new_note.dart';
+import 'screens/new_note_screen.dart';
 import './screens/new_todo.dart';
 import './screens/settings.dart';
 

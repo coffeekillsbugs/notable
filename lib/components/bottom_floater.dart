@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:notes/components/new_note.dart';
-import 'package:notes/components/new_todo.dart';
+import 'package:notes/components/new_note_button.dart';
+import 'package:notes/components/new_todo_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import '../constants/colors.dart';
+import '../configs/colors.dart';
 import '../providers/flag_provider.dart';
 
 class BottomFloater extends StatefulWidget {
@@ -40,6 +40,8 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
   void dispose() {
     _searchController.dispose();
     _buttonController.dispose();
+
+    _addController.dispose();
     super.dispose();
   }
 
@@ -80,6 +82,7 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                 ),
                 child: Row(
                   children: <Widget>[
+                    // Search Box >>>---------------------->#
                     Expanded(
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -197,11 +200,11 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
     if (change.showNoteType == false) {
       _addController.reverse();
       note.currentState.noteController.reverse()
-        ..whenComplete(() => todo.currentState.todoController.reverse());
+        ..whenCompleteOrCancel(() => todo.currentState.todoController.reverse());
     } else {
       _addController.forward();
       note.currentState.noteController.forward()
-        ..whenComplete(() => todo.currentState.todoController.forward());
+        ..whenCompleteOrCancel(() => todo.currentState.todoController.forward());
     }
   }
 }

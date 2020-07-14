@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes/constants/colors.dart';
+import 'package:notes/configs/colors.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

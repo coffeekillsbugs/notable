@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/components/note_options.dart';
-import 'package:notes/constants/colors.dart';
+import 'package:notes/configs/colors.dart';
 
 class NoteCard extends StatefulWidget {
   @override

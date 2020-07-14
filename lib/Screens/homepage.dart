@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
-import 'package:notes/constants/colors.dart';
-import 'package:notes/components/note_card.dart';
-import 'package:notes/components/todo_card.dart';
-import 'package:notes/providers/flag_provider.dart';
-import 'package:notes/components/bottom_floater.dart';
-import 'package:notes/components/notable_app_bar.dart';
+import '../configs/colors.dart';
+import '../components/note_card.dart';
+import '../components/todo_card.dart';
+import '../components/bottom_floater.dart';
+import '../components/notable_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,8 +14,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
-    var _check = Provider.of<FlagProvider>(context);
     return Scaffold(
       backgroundColor: AppColor.gunMetal,
       appBar: PreferredSize(
