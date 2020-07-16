@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import './screens/homepage.dart';
-import 'screens/new_note_screen.dart';
-import './screens/new_todo.dart';
+import './screens/new_note_screen.dart';
+import './screens/new_todo_screen.dart';
 import './screens/settings.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -14,7 +14,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => NewNote());
 
     case 'newTodo':
-      return MaterialPageRoute(builder: (context) => NewTodo());
+      return MaterialPageRoute(builder: (context) => NewTodoScreen());
       
     case 'settings':
       return MaterialPageRoute(builder: (context) => SettingsScreen());

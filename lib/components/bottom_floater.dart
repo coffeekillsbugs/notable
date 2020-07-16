@@ -89,6 +89,7 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                         child: TextField(
                           controller: _searchController,
                           cursorColor: AppColor.carribeanGreen,
+                          keyboardType: TextInputType.text,
                           style: TextStyle(
                               color: AppColor.carribeanGreen,
                               fontSize: 18.0,
