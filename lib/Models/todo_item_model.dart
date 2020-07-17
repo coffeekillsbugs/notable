@@ -1,41 +1,42 @@
 class TodoItemModel {
   String text;
   bool isDone;
+  int position;
 
-  TodoItemModel(this.isDone, this.text);
+  TodoItemModel({this.isDone = false, this.text, this.position = 0});
 }
 
 List<TodoItemModel> todoItem = [
   TodoItemModel(
-    false,
-    'Toothbrush',
+    isDone: false,
+    text: 'Toothbrush',
   ),
   TodoItemModel(
-    false,
-    'Paste',
+    isDone: false,
+    text: 'Paste',
   ),
   TodoItemModel(
-    false,
-    'Lays',
+    isDone: false,
+    text: 'Lays',
   ),
   TodoItemModel(
-    false,
-    'Deodrant',
+    isDone: false,
+    text: 'Deodrant',
   ),
   TodoItemModel(
-    true,
-    'Biscuits',
+    isDone: true,
+    text: 'Biscuits',
   ),
   TodoItemModel(
-    true,
-    'Cake',
+    isDone: true,
+    text: 'Cake',
   ),
   TodoItemModel(
-    true,
-    'Sugar',
+    isDone: true,
+    text: 'Sugar',
   ),
   TodoItemModel(
-    true,
-    'Rice',
+    isDone: true,
+    text: 'Rice',
   ),
 ];
