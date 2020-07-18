@@ -17,7 +17,7 @@ class NoteOptions extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 print('tapped edit');
-                //TODO edit note
+                Navigator.pushNamed(context, 'newNote');
               },
               child: Icon(
                 MaterialIcons.edit,

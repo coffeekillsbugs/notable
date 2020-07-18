@@ -5,6 +5,7 @@ import '../Models/todo_item_model.dart';
 
 class FlagProvider with ChangeNotifier {
   bool _showNoteType = false;
+  bool _isEditMode = false;
   Color _flavour = AppColor.carribeanGreen;
   List<TodoItemModel> _todoListBuffer = List();
   //bool _showNewTodo = false;

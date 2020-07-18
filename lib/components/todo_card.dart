@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:notes/Models/note.dart';
 
 import '../configs/colors.dart';
 import '../components/todo_item.dart';
 import '../models/todo_item_model.dart';
 
 class TodoCard extends StatefulWidget {
+  final int index;
+
+  TodoCard(this.index);
   @override
   _TodoCardState createState() => _TodoCardState();
 }
@@ -13,13 +17,14 @@ class TodoCard extends StatefulWidget {
 class _TodoCardState extends State<TodoCard> {
   @override
   Widget build(BuildContext context) {
+    final Color _flavour = noteList[widget.index].color;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Container(
         height: 280,
         width: double.infinity,
         decoration: ShapeDecoration(
-          color: AppColor.carribeanGreen,
+          color: _flavour,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -51,17 +56,17 @@ class _TodoCardState extends State<TodoCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Heading',
+                        noteList[widget.index].title,
                         style: TextStyle(
-                          color: AppColor.carribeanGreen,
+                          color: _flavour,
                           fontSize: 20.0,
                           fontFamily: 'Merriweather',
                         ),
                       ),
                       Text(
-                        '12th April, 2019',
+                        '12th April, 2019', //noteList[widget.index].dateTime.toString()
                         style: TextStyle(
-                          color: AppColor.carribeanGreen.withAlpha(150),
+                          color: _flavour.withAlpha(150),
                           fontSize: 14.0,
                           fontFamily: 'Merriweather',
                         ),
@@ -78,7 +83,7 @@ class _TodoCardState extends State<TodoCard> {
                         },
                         child: Icon(
                           MaterialIcons.edit,
-                          color: AppColor.carribeanGreen,
+                          color: _flavour,
                           size: 25.0,
                         ),
                       ),
@@ -90,7 +95,7 @@ class _TodoCardState extends State<TodoCard> {
                         },
                         child: Icon(
                           MaterialIcons.delete,
-                          color: AppColor.carribeanGreen,
+                          color: _flavour,
                           size: 25.0,
                         ),
                       ),
@@ -111,7 +116,8 @@ class _TodoCardState extends State<TodoCard> {
                 ),
               ),
               child: ListView.builder(
-                physics: BouncingScrollPhysics(),
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 itemCount: todoItem.length,
                 itemBuilder: (BuildContext context, int index) {

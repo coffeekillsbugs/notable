@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:notes/Models/note.dart';
 import 'package:notes/components/note_options.dart';
 import 'package:notes/configs/colors.dart';
 
 class NoteCard extends StatefulWidget {
+  final int index;
+
+  NoteCard(this.index);
   @override
   _NoteCardState createState() => _NoteCardState();
 }
@@ -11,8 +15,10 @@ class _NoteCardState extends State<NoteCard> {
   bool _isCollapsed = true;
   double _padding = 5.0;
   Duration _duration = Duration(milliseconds: 200);
+  
   @override
   Widget build(BuildContext context) {
+    final Color _flavour = noteList[widget.index].color;
     //_width = MediaQuery.of(context).size.width - 40;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -22,7 +28,7 @@ class _NoteCardState extends State<NoteCard> {
         height: _isCollapsed ? 120.0 : 250,
         width: double.infinity,
         decoration: ShapeDecoration(
-          color: AppColor.carribeanGreen,
+          color: _flavour,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -41,10 +47,11 @@ class _NoteCardState extends State<NoteCard> {
                   setState(() {
                     if (_padding > 5.0)
                       _padding = 5.0;
-                    else
+                    // else
                       _isCollapsed = !_isCollapsed;
                   });
                 },
+                onHorizontalDragEnd: _end,
                 onHorizontalDragUpdate: _update,
                 child: AnimatedContainer(
                   duration: _duration,
@@ -72,9 +79,9 @@ class _NoteCardState extends State<NoteCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Heading',
+                            noteList[widget.index].title,
                             style: TextStyle(
-                              color: AppColor.carribeanGreen,
+                              color: _flavour,
                               fontSize: 20.0,
                               fontFamily: 'Merriweather',
                             ),
@@ -105,7 +112,7 @@ class _NoteCardState extends State<NoteCard> {
                       Text(
                         '12th April, 2019',
                         style: TextStyle(
-                          color: AppColor.carribeanGreen.withAlpha(150),
+                          color: _flavour.withAlpha(150),
                           fontSize: 14.0,
                           fontFamily: 'Merriweather',
                         ),
@@ -122,13 +129,43 @@ class _NoteCardState extends State<NoteCard> {
   }
 
   void _update(DragUpdateDetails details) {
-    setState(() {
-      // _padding = _padding + details.primaryDelta.abs();
-      // if (_padding < 10.0)
-      //   _padding = 5.0;
-      // else
+    if (_padding >= 5.0 && _padding <= 40.0) {
+      setState(() {
+        if (details.primaryDelta.isNegative) {
+          // print('primaryDelta[floor] : ${details.primaryDelta.floorToDouble()}');
+          _padding = _padding - details.primaryDelta.floorToDouble();
+        } else {
+          // print('primaryDelta[ceil] : ${details.primaryDelta.ceilToDouble()}');
+          _padding = _padding - details.primaryDelta.ceilToDouble();
+        }
+        // print('_padding : $_padding');
+      });
+    }
+
+    if (_padding > 40.0) {
+      _padding = 40.0;
+    }
+    if (_padding < 5.0) {
+      _padding = 5.0;
+    }
+
+    // _deltaPadding = _padding;
+
+    // if(_deltaPadding > )
+  }
+
+  void _end(DragEndDetails details) {
+    //print('DED : ${details.primaryVelocity.}');
+    if (details.primaryVelocity >= 0.0) {
+      setState(() {
+        _padding = 5.0;
+      });
+    }
+
+    if (details.primaryVelocity < 0.0) {
+      setState(() {
         _padding = 40.0;
-      print('_padding : $_padding');
-    });
+      });
+    }
   }
 }
