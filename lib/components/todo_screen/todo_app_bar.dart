@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:notes/configs/colors.dart';
-import 'package:notes/providers/flag_provider.dart';
+import 'package:notes/providers/note_provider.dart';
 
 class TodoAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var _flavour = Provider.of<FlagProvider>(context).flavour;
+    var _flavour = Provider.of<NoteProvider>(context).flavour;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),

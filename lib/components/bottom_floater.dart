@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../configs/colors.dart';
-import '../providers/flag_provider.dart';
+import '../providers/note_provider.dart';
 
 class BottomFloater extends StatefulWidget {
   @override
@@ -47,7 +47,7 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    var _change = Provider.of<FlagProvider>(context, listen: false);
+    var _change = Provider.of<NoteProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Column(

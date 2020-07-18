@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../configs/colors.dart';
-import '../providers/flag_provider.dart';
+import '../providers/note_provider.dart';
 
 class NoteBody extends StatefulWidget {
   final padding;
@@ -14,13 +14,35 @@ class NoteBody extends StatefulWidget {
 
 class _NoteBodyState extends State<NoteBody> {
   FocusNode _bodyFocusNode, _titleFocusNode;
+  TextEditingController _bodyController, _titleController;
 
   @override
+  void initState() {
+    super.initState();
+
+    _bodyController = TextEditingController();
+    _titleController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _bodyController.dispose();
+    _titleController.dispose();
+
+    super.dispose();
+  }
+  
+  @override
   Widget build(BuildContext ctx) {
-    var _kheight =
-        MediaQuery.of(context).size.height - widget.padding;
+    var _kheight = MediaQuery.of(context).size.height - widget.padding;
     var _width = MediaQuery.of(context).size.width;
-    var _flavour = Provider.of<FlagProvider>(context).flavour;
+    var _flavour = Provider.of<NoteProvider>(context).flavour;
+    var _noteProvider = Provider.of<NoteProvider>(context);
+
+    if (_noteProvider.isEditMode) {
+      _bodyController.text = _noteProvider.noteBody().body;
+      _titleController.text = _noteProvider.noteBody().title;
+    }
     return Container(
       height: _kheight - 160,
       width: double.infinity,
@@ -45,18 +67,15 @@ class _NoteBodyState extends State<NoteBody> {
             child: TextField(
               scrollPhysics: BouncingScrollPhysics(),
               onSubmitted: (String value) {
-                FocusScope.of(context)
-                    .requestFocus(_bodyFocusNode);
+                FocusScope.of(context).requestFocus(_bodyFocusNode);
               },
               focusNode: _titleFocusNode,
-              //controller: _searchController,
+              controller: _titleController,
               keyboardType: TextInputType.text,
               cursorColor: _flavour,
               maxLines: 1,
               style: TextStyle(
-                  color: _flavour,
-                  fontSize: 30.0,
-                  fontFamily: 'Merriweather'),
+                  color: _flavour, fontSize: 30.0, fontFamily: 'Merriweather'),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Title',
@@ -75,7 +94,7 @@ class _NoteBodyState extends State<NoteBody> {
             child: TextField(
               focusNode: _bodyFocusNode,
               scrollPhysics: BouncingScrollPhysics(),
-              //controller: _searchController,
+              controller: _bodyController,
               keyboardType: TextInputType.multiline,
               cursorColor: AppColor.isabelline,
               maxLines: null,

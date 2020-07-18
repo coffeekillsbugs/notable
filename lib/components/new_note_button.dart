@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../configs/colors.dart';
-import '../providers/flag_provider.dart';
+import '../providers/note_provider.dart';
 
 class NoteButton extends StatefulWidget {
   final Function toggleVisibility;
@@ -38,7 +38,7 @@ class NoteButtonState extends State<NoteButton>
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
-    var _change = Provider.of<FlagProvider>(context, listen: false);
+    var _change = Provider.of<NoteProvider>(context, listen: false);
     return Container(
       margin: EdgeInsets.only(bottom: 20.0, left: _width - 80),
       child: AnimatedBuilder(

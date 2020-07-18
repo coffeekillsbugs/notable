@@ -4,7 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 import '../configs/colors.dart';
 import '../configs/constants.dart';
-import '../providers/flag_provider.dart';
+import '../providers/note_provider.dart';
 
 class FooterActions extends StatefulWidget {
   @override
@@ -15,13 +15,14 @@ class _FooterActionsState extends State<FooterActions> {
   
   @override
   Widget build(BuildContext context) {
-    var _flavour = Provider.of<FlagProvider>(context).flavour;
+    var _flavour = Provider.of<NoteProvider>(context).flavour;
     return Container(
       child: Row(
         children: <Widget>[
           //Back Button >>>--------------------------------->#
           GestureDetector(
             onTap: () {
+              Provider.of<NoteProvider>(context, listen: false).updateMode(false);
               Navigator.pop(context);
             },
             child: Container(
@@ -127,7 +128,7 @@ class _FooterActionsState extends State<FooterActions> {
                   onTap: () {
                     setState(
                       () {
-                        Provider.of<FlagProvider>(context, listen: false)
+                        Provider.of<NoteProvider>(context, listen: false)
                             .changeColor(colorsChoice[index].color);
                         Navigator.pop(gridContext);
                       },

@@ -7,13 +7,15 @@ class Note {
   Color _color;
   DateTime _dateTime;
   NoteType _noteType;
+  int _position;
 
-  Note(this._title, this._color, this._dateTime, this._noteType);
+  Note(this._title, this._color, this._dateTime, this._noteType, this._position);
 
   NoteType get noteType => _noteType;
   Color get color => _color;
   String get title => _title;
   DateTime get dateTime => _dateTime;
+  int get position => _position;
 }
 
 enum NoteType {
@@ -26,9 +28,10 @@ class SimpleNote extends Note {
   String _body;
   Color _color;
   DateTime _dateTime;
+  int _position;
 
-  SimpleNote(this._title, this._body, this._color, this._dateTime)
-      : super(_title, _color, _dateTime, NoteType.SimpleNote);
+  SimpleNote(this._title, this._body, this._color, this._dateTime, this._position)
+      : super(_title, _color, _dateTime, NoteType.SimpleNote, _position);
 
   String get body => _body;
 }
@@ -38,9 +41,10 @@ class TodoNote extends Note {
   List<TodoItemModel> _todoList;
   Color _color;
   DateTime _dateTime;
+  int _position;
 
-  TodoNote(this._title, this._todoList, this._color, this._dateTime)
-      : super(_title, _color, _dateTime, NoteType.TodoNote);
+  TodoNote(this._title, this._todoList, this._color, this._dateTime, this._position)
+      : super(_title, _color, _dateTime, NoteType.TodoNote, _position);
 
   List<TodoItemModel> get todoList => _todoList;
 }
@@ -51,29 +55,34 @@ List<Note> noteList = [
     'These are the notes of today\' lecture',
     AppColor.lemonYellow,
     DateTime.now(),
+    0,
   ),
   TodoNote(
     'Shopping',
     todoItem,
     AppColor.mintGreen,
     DateTime.now(),
+    1,
   ),
   TodoNote(
     'Shopping',
     todoItem,
     AppColor.amazonite,
     DateTime.now(),
+    2,
   ),
   SimpleNote(
     'Physics',
     'These are the notes of today\' lecture',
     AppColor.sunsetOrange,
     DateTime.now(),
+    3,
   ),
   SimpleNote(
     'Biology',
     'These are the notes of today\' lecture',
     AppColor.redCrayola,
     DateTime.now(),
+    4,
   ),
 ];

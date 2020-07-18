@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../../configs/colors.dart';
-import '../../providers/flag_provider.dart';
+import '../../providers/note_provider.dart';
 
 class TodoBody extends StatelessWidget {
   final _padding;
@@ -11,10 +11,10 @@ class TodoBody extends StatelessWidget {
   TodoBody(this._padding);
   @override
   Widget build(BuildContext context) {
-    var _flavour = Provider.of<FlagProvider>(context).flavour;
+    var _flavour = Provider.of<NoteProvider>(context).flavour;
     var _height = MediaQuery.of(context).size.height - _padding;
     var _width = MediaQuery.of(context).size.width;
-    var _itemList = Provider.of<FlagProvider>(context).itemList;
+    var _itemList = Provider.of<NoteProvider>(context).itemList;
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
@@ -105,9 +105,9 @@ class _AddItemState extends State<AddItem> {
   }
   @override
   Widget build(BuildContext context) {
-    var _flavour = Provider.of<FlagProvider>(context).flavour;
+    var _flavour = Provider.of<NoteProvider>(context).flavour;
     var _width = MediaQuery.of(context).size.width;
-    var _addItem = Provider.of<FlagProvider>(context, listen: false);
+    var _addItem = Provider.of<NoteProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
       child: Container(

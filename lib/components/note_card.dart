@@ -15,10 +15,12 @@ class _NoteCardState extends State<NoteCard> {
   bool _isCollapsed = true;
   double _padding = 5.0;
   Duration _duration = Duration(milliseconds: 200);
+  SimpleNote _simpleNote;
   
   @override
   Widget build(BuildContext context) {
     final Color _flavour = noteList[widget.index].color;
+    _simpleNote = noteList[widget.index];
     //_width = MediaQuery.of(context).size.width - 40;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -35,7 +37,9 @@ class _NoteCardState extends State<NoteCard> {
         ),
         child: Stack(
           children: <Widget>[
-            NoteOptions(),
+            // Note Options >>>--------------------->#
+            NoteOptions(noteList[widget.index].position),
+            // Note Card elements >>>----------------->#
             AnimatedPadding(
               duration: _duration,
               curve: Curves.easeInOut,
@@ -93,9 +97,10 @@ class _NoteCardState extends State<NoteCard> {
                             duration: _duration,
                             curve: Curves.easeInOut,
                             height: _isCollapsed ? 54.0 : 184.0,
+                            width: double.infinity,
                             child: SingleChildScrollView(
                               child: Text(
-                                'the quick fox jumps over the lazy dog. The uick fox jomoif ver the lazy dog. \nthe quick fox jumps over the sliaf dog. the uidkf lkj ulmpus over the lzy dog. The uick foroi jmps over the lazy dog',
+                                _simpleNote.body,
                                 overflow:
                                     _isCollapsed ? TextOverflow.ellipsis : null,
                                 maxLines: _isCollapsed ? 3 : null,
