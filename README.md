@@ -4,7 +4,7 @@ Simple notes app built with [Flutter](https://flutter.dev).
 
 ## Authors
 
-* **Nihar Lekhade** - *Developer* - [coffeekillsbugs](https://github.com/coffeekillsbugs)
+* **Nihar Lekhade** - *Developer* - [ghostEleven](https://github.com/ghostEleven)
 
 ## License
 
