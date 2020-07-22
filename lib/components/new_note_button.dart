@@ -51,7 +51,7 @@ class NoteButtonState extends State<NoteButton>
               height: 60.0,
               width: 60.0,
               decoration: BoxDecoration(
-                color: AppColor.charlestonGreen,
+                color: AppColor.secondaryColor,
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
@@ -63,7 +63,7 @@ class NoteButtonState extends State<NoteButton>
               ),
               child: Icon(
                 AntDesign.edit,
-                color: AppColor.carribeanGreen,
+                color: AppColor.brandPink,
                 size: 25.0,
               ),
             ),

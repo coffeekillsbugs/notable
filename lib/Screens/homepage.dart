@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.gunMetal,
+      backgroundColor: AppColor.primaryColor,
       appBar: PreferredSize(
         child: NotableAppBar(),
         preferredSize: Size.fromHeight(80.0),

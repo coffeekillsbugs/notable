@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:notes/components/new_note_button.dart';
@@ -14,7 +15,8 @@ class BottomFloater extends StatefulWidget {
   _BottomFloaterState createState() => _BottomFloaterState();
 }
 
-class _BottomFloaterState extends State<BottomFloater> with SingleTickerProviderStateMixin {
+class _BottomFloaterState extends State<BottomFloater>
+    with SingleTickerProviderStateMixin {
   GlobalKey<TodoButtonState> todo = GlobalKey<TodoButtonState>();
   GlobalKey<NoteButtonState> note = GlobalKey<NoteButtonState>();
   TextEditingController _searchController;
@@ -30,9 +32,14 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
     _searchController = TextEditingController();
     _buttonController = PageController(initialPage: 0, keepPage: false);
 
-    _addController = AnimationController(vsync: this, duration : Duration(milliseconds: 800));
+    _addController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     _addAnimation = Tween<double>(begin: 0.0, end: 3 * pi / 4).animate(
-      CurvedAnimation(curve: Curves.elasticInOut, parent: _addController, reverseCurve: Curves.elasticInOut,),
+      CurvedAnimation(
+        curve: Curves.elasticInOut,
+        parent: _addController,
+        reverseCurve: Curves.elasticInOut,
+      ),
     );
   }
 
@@ -70,7 +77,7 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                 height: 60.0,
                 width: MediaQuery.of(context).size.width - 90,
                 decoration: BoxDecoration(
-                  color: AppColor.charlestonGreen,
+                  color: AppColor.secondaryColor,
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(
@@ -88,19 +95,36 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                         alignment: Alignment.centerLeft,
                         child: TextField(
                           controller: _searchController,
-                          cursorColor: AppColor.carribeanGreen,
+                          cursorColor: AppColor.brandViolet,
                           keyboardType: TextInputType.text,
                           style: TextStyle(
-                              color: AppColor.carribeanGreen,
-                              fontSize: 18.0,
-                              fontFamily: 'Merriweather'),
+                            fontSize: 18.0,
+                            fontFamily: 'Merriweather',
+                            foreground: Paint()
+                              ..shader = ui.Gradient.linear(
+                                Offset(0, 20),
+                                Offset(150, 20),
+                                <Color>[
+                                  AppColor.brandViolet,
+                                  AppColor.brandPink,
+                                ],
+                              ),
+                          ),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Search',
+                            hintText: ' Search',
                             hintStyle: TextStyle(
-                              color: AppColor.carribeanGreen.withAlpha(150),
                               fontSize: 18.0,
                               fontFamily: 'Merriweather',
+                              foreground: Paint()
+                                ..shader = ui.Gradient.linear(
+                                  Offset(0, 20),
+                                  Offset(150, 20),
+                                  <Color>[
+                                    AppColor.brandViolet,
+                                    AppColor.brandPink,
+                                  ],
+                                ),
                             ),
                           ),
                           onChanged: (String value) {
@@ -120,7 +144,7 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                             child: Container(
                               child: Icon(
                                 AntDesign.close,
-                                color: AppColor.carribeanGreen,
+                                color: AppColor.brandPink,
                               ),
                             ),
                             onTap: () {
@@ -141,7 +165,7 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                   height: 60.0,
                   width: 60.0,
                   decoration: BoxDecoration(
-                    color: AppColor.carribeanGreen,
+                    //color: AppColor.carribeanGreen,
                     borderRadius: BorderRadius.circular(10.0),
                     boxShadow: [
                       BoxShadow(
@@ -150,6 +174,14 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                         blurRadius: 10.0,
                       ),
                     ],
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColor.brandViolet,
+                        AppColor.brandPink,
+                      ],
+                    ),
                   ),
                   child: PageView(
                     onPageChanged: (int value) {
@@ -166,15 +198,15 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
                         builder: (context, child) => Transform.rotate(
                           angle: _addAnimation.value,
                           child: Icon(
-                        Feather.plus,
-                        color: AppColor.charlestonGreen,
-                        size: 30.0,
-                      ),
+                            Feather.plus,
+                            color: AppColor.secondaryColor,
+                            size: 30.0,
+                          ),
                         ),
                       ),
                       Icon(
-                        AntDesign.setting,
-                        color: AppColor.charlestonGreen,
+                        MaterialCommunityIcons.settings,
+                        color: AppColor.secondaryColor,
                         size: 25.0,
                       ),
                     ],
@@ -201,13 +233,13 @@ class _BottomFloaterState extends State<BottomFloater> with SingleTickerProvider
     if (change.showNoteType == false) {
       _addController.reverse();
       note.currentState.noteController.reverse()
-        ..whenCompleteOrCancel(() => todo.currentState.todoController.reverse());
+        ..whenCompleteOrCancel(
+            () => todo.currentState.todoController.reverse());
     } else {
       _addController.forward();
       note.currentState.noteController.forward()
-        ..whenCompleteOrCancel(() => todo.currentState.todoController.forward());
+        ..whenCompleteOrCancel(
+            () => todo.currentState.todoController.forward());
     }
   }
 }
-
-

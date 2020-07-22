@@ -16,7 +16,7 @@ class _NoteCardState extends State<NoteCard> {
   double _padding = 5.0;
   Duration _duration = Duration(milliseconds: 200);
   SimpleNote _simpleNote;
-  
+
   @override
   Widget build(BuildContext context) {
     final Color _flavour = noteList[widget.index].color;
@@ -34,6 +34,13 @@ class _NoteCardState extends State<NoteCard> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
+          shadows: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              offset: Offset(0.0, 2.0),
+              blurRadius: 40.0,
+            ),
+          ],
         ),
         child: Stack(
           children: <Widget>[
@@ -44,15 +51,15 @@ class _NoteCardState extends State<NoteCard> {
               duration: _duration,
               curve: Curves.easeInOut,
               padding: EdgeInsets.only(
-                  right: _isCollapsed ? _padding : 0.0,
-                  bottom: _isCollapsed ? 0.0 : 5.0),
+                right: _isCollapsed ? _padding : 0.0,
+                bottom: _isCollapsed ? 0.0 : 5.0,
+              ),
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    if (_padding > 5.0)
-                      _padding = 5.0;
+                    if (_padding > 5.0) _padding = 5.0;
                     // else
-                      _isCollapsed = !_isCollapsed;
+                    _isCollapsed = !_isCollapsed;
                   });
                 },
                 onHorizontalDragEnd: _end,
@@ -63,7 +70,7 @@ class _NoteCardState extends State<NoteCard> {
                   padding: EdgeInsets.all(10.0),
                   height: _isCollapsed ? 120.0 : 250,
                   decoration: ShapeDecoration(
-                    color: AppColor.charlestonGreen,
+                    color: AppColor.secondaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),

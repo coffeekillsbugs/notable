@@ -6,6 +6,9 @@ import '../components/text_styling.dart';
 import '../components/footer_actions.dart';
 
 class NewNote extends StatefulWidget {
+  // final _paddingTop;
+
+  // NewNote(this._paddingTop);
   @override
   _NewNoteState createState() => _NewNoteState();
 }
@@ -17,21 +20,18 @@ class _NewNoteState extends State<NewNote> {
     var _padding = MediaQuery.of(context).padding.top;
     //var _width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColor.gunMetal,
+      backgroundColor: AppColor.primaryColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              children: <Widget>[
-                NoteBody(_padding),
-                SizedBox(height: 10.0),
-                TextStyling(),
-                SizedBox(height: 10.0),
-                FooterActions(),
-              ],
-            ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              NoteBody(),
+              SizedBox(height: 16.0),
+              TextStyling(),
+              SizedBox(height: 16.0),
+              FooterActions(),
+            ],
           ),
         ),
       ),

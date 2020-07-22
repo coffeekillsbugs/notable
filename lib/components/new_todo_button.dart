@@ -48,7 +48,7 @@ class TodoButtonState extends State<TodoButton>
               height: 60.0,
               width: 60.0,
               decoration: BoxDecoration(
-                color: AppColor.charlestonGreen,
+                color: AppColor.secondaryColor,
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
@@ -60,7 +60,7 @@ class TodoButtonState extends State<TodoButton>
               ),
               child: Icon(
                 MaterialCommunityIcons.checkbox_marked_outline,
-                color: AppColor.carribeanGreen,
+                color: AppColor.brandPink,
                 size: 25.0,
               ),
             ),

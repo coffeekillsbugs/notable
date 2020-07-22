@@ -61,24 +61,26 @@ flutter:
   fonts:
     - family: Righteous
       fonts:
-        - asset: fonts/Righteous-Regular.ttf
+        - asset: assets/fonts/Righteous-Regular.ttf
     - family: Merriweather
       fonts:
-        - asset: fonts/Merriweather-Light.ttf
+        - asset: assets/fonts/Merriweather-Light.ttf
           weight: 200
-        - asset: fonts/Merriweather-Regular.ttf
+        - asset: assets/fonts/Merriweather-Regular.ttf
           weight: 300
-    - family: Playfair
+    - family: Montserrat
       fonts:
-        - asset: fonts/PlayfairDisplay-Regular.ttf
-        - asset: fonts/PlayfairDisplay-Medium.ttf
-        - asset: fonts/PlayfairDisplay-SemiBold.ttf
-    - family: SourceSansPro
-      fonts:
-        - asset: fonts/SourceSansPro-Light.ttf
-          weight: 200
-        - asset: fonts/SourceSansPro-Regular.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
           weight: 300
+        - asset: assets/fonts/Montserrat-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Montserrat-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Montserrat-BoldItalic.ttf
+          weight: 700
+          style: italic
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
