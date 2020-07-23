@@ -2,13 +2,13 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:notes/components/new_note_button.dart';
-import 'package:notes/components/new_todo_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../configs/colors.dart';
 import '../providers/note_provider.dart';
+import '../components/new_note_button.dart';
+import '../components/new_todo_button.dart';
 
 class BottomFloater extends StatefulWidget {
   @override
@@ -56,7 +56,7 @@ class _BottomFloaterState extends State<BottomFloater>
   Widget build(BuildContext context) {
     var _change = Provider.of<NoteProvider>(context, listen: false);
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -75,7 +75,7 @@ class _BottomFloaterState extends State<BottomFloater>
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 height: 60.0,
-                width: MediaQuery.of(context).size.width - 90,
+                width: MediaQuery.of(context).size.width - 108,
                 decoration: BoxDecoration(
                   color: AppColor.secondaryColor,
                   borderRadius: BorderRadius.circular(10.0),
@@ -83,7 +83,7 @@ class _BottomFloaterState extends State<BottomFloater>
                     BoxShadow(
                       color: Colors.black.withOpacity(0.4),
                       offset: Offset(0.0, 3.0),
-                      blurRadius: 10.0,
+                      blurRadius: 4.0,
                     ),
                   ],
                 ),

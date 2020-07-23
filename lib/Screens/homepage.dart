@@ -26,8 +26,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Container(
             child: ListView.builder(
-              padding: EdgeInsets.only(
-                  top: 5.0, bottom: 80.0, left: 10.0, right: 10.0),
+              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 80.0),
               physics: BouncingScrollPhysics(),
               itemCount: noteList.length,
               itemBuilder: (context, index) => noteList[index].noteType == NoteType.SimpleNote ? NoteCard(index) : TodoCard(index),

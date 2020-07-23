@@ -10,19 +10,20 @@ class TextStyling extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.0,
+      height: 56.0,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: AppColor.charlestonGreen,
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.3),
-        //     offset: Offset(0.0, 3.0),
-        //     blurRadius: 5.0,
-        //   )
-        // ],
+        color: AppColor.secondaryColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            offset: Offset(0.0, 3.0),
+            blurRadius: 4.0,
+          )
+        ],
       ),
+      
     );
   }
 }

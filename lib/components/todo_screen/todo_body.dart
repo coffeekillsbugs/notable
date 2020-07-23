@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/components/todo_screen/todo_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -6,85 +7,50 @@ import '../../configs/colors.dart';
 import '../../providers/note_provider.dart';
 
 class TodoBody extends StatelessWidget {
-  final _padding;
+  final _padding, _index;
 
-  TodoBody(this._padding);
+  TodoBody(this._padding, this._index);
   @override
   Widget build(BuildContext context) {
     var _flavour = Provider.of<NoteProvider>(context).flavour;
     var _height = MediaQuery.of(context).size.height - _padding;
     var _width = MediaQuery.of(context).size.width;
     var _itemList = Provider.of<NoteProvider>(context).itemList;
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        // Todo ListView Builder >>>----------------------->#
-        Container(
-          color: Colors.transparent,
-          height: _height - 160.0,
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(
-              horizontal: 10.0,
-            ),
-            physics: BouncingScrollPhysics(),
-            itemCount: _itemList.length,
-            itemBuilder: (context, index) => _itemList.length == 0 ? Center(child: Text('Add Items'),) : Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.0),
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                height: 50.0,
-                decoration: BoxDecoration(
-                  color: AppColor.gunMetal,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      offset: Offset(0.0, 0.0),
-                      blurRadius: 5.0,
-                    )
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: _width - 80.0,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        child: Text(
-                          _itemList[index].text,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: AppColor.isabelline,
-                            fontSize: 22.0,
-                            fontFamily: 'SourceSansPro',
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        print('tapped checkbox');
-                        //TODO checkbox
-                      },
-                      child: Icon(
-                        MaterialIcons.check_box_outline_blank,
-                        color: _flavour,
-                        size: 25.0,
-                      ),
-                    ),
-                  ],
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0,),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: _width - 140.0,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
+              child: Text(
+                _itemList[_index].text,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColor.isabelline,
+                  fontSize: 20.0,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ),
           ),
-        ),
-        SizedBox(height: 10.0),
-        // Todo Adder >>>------------------------>#
-        AddItem(),
-      ],
+          GestureDetector(
+            onTap: () {
+              print('tapped checkbox');
+              //TODO checkbox
+            },
+            child: Icon(
+              MaterialIcons.check_box_outline_blank,
+              color: _flavour,
+              size: 25.0,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -103,94 +69,98 @@ class _AddItemState extends State<AddItem> {
 
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     var _flavour = Provider.of<NoteProvider>(context).flavour;
     var _width = MediaQuery.of(context).size.width;
     var _addItem = Provider.of<NoteProvider>(context, listen: false);
-    return Padding(
-      padding: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-      child: Container(
-        color: Colors.transparent,
-        height: 60.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
+    return Container(
+      color: Colors.transparent,
+      height: 52.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          // Add Item textfield >>>-------------------->#
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            width: _width - 112.0,
+            height: 52.0,
+            decoration: BoxDecoration(
+              color: AppColor.secondaryColor,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.4),
+                  offset: Offset(0.0, 3.0),
+                  blurRadius: 4.0,
+                )
+              ],
+            ),
+            child: TextField(
+              scrollPhysics: BouncingScrollPhysics(),
+              // onSubmitted: (String value) {
+              //   FocusScope.of(context)
+              //       .requestFocus(_bodyFocusNode);
+              // },
+              // focusNode: _addTaskFocusNode,
+              controller: _itemController,
+              keyboardType: TextInputType.text,
+              cursorColor: AppColor.isabelline,
+              maxLines: 1,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w300,
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Task to perform...',
+                hintStyle: TextStyle(
+                  color: Colors.white.withAlpha(150),
+                  fontSize: 20.0,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 16.0),
+          // Add Item button >>>---------------------->#
+          GestureDetector(
+            onTap: () {
+              if (_itemController.text.isNotEmpty)
+                _addItem.addItem(_itemController.text);
+            },
+            child: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              width: _width - 110.0,
-              height: 60.0,
+              width: 64.0,
+              height: 52.0,
               decoration: BoxDecoration(
-                color: AppColor.charlestonGreen,
+                color: AppColor.secondaryColor,
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withOpacity(0.4),
                     offset: Offset(0.0, 3.0),
-                    blurRadius: 5.0,
+                    blurRadius: 4.0,
                   )
                 ],
               ),
-              child: TextField(
-                scrollPhysics: BouncingScrollPhysics(),
-                // onSubmitted: (String value) {
-                //   FocusScope.of(context)
-                //       .requestFocus(_bodyFocusNode);
-                // },
-                // focusNode: _addTaskFocusNode,
-                controller: _itemController,
-                keyboardType: TextInputType.text,
-                cursorColor: AppColor.isabelline,
-                maxLines: 1,
+              child: Text(
+                'ADD',
                 style: TextStyle(
-                  color: AppColor.isabelline,
-                  fontSize: 25.0,
-                  fontFamily: 'SourceSansPro',
-                ),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Task to perform...',
-                  hintStyle: TextStyle(
-                    color: AppColor.isabelline.withAlpha(100),
-                    fontSize: 25.0,
-                    fontFamily: 'SourceSansPro',
-                  ),
+                  color: _flavour,
+                  fontSize: 16.0,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                if(_itemController.text.isNotEmpty)
-                _addItem.addItem(_itemController.text);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                width: 80.0,
-                height: 60.0,
-                decoration: BoxDecoration(
-                  color: AppColor.charlestonGreen,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      offset: Offset(0.0, 3.0),
-                      blurRadius: 5.0,
-                    )
-                  ],
-                ),
-                child: Text(
-                  'ADD',
-                  style: TextStyle(
-                    color: _flavour,
-                    fontSize: 25.0,
-                    fontFamily: 'Righteous',
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

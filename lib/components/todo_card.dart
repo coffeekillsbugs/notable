@@ -21,7 +21,7 @@ class _TodoCardState extends State<TodoCard> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Container(
-        height: 280,
+        height: 280.0,
         width: double.infinity,
         decoration: ShapeDecoration(
           color: _flavour,
@@ -36,7 +36,7 @@ class _TodoCardState extends State<TodoCard> {
               height: 60.0,
               width: double.infinity,
               decoration: ShapeDecoration(
-                color: AppColor.charlestonGreen,
+                color: AppColor.secondaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -44,7 +44,7 @@ class _TodoCardState extends State<TodoCard> {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.4),
                     offset: Offset(0.0, 3.0),
-                    blurRadius: 10.0,
+                    blurRadius: 4.0,
                   ),
                 ],
               ),

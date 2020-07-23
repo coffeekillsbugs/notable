@@ -40,7 +40,7 @@ class NoteButtonState extends State<NoteButton>
     var _width = MediaQuery.of(context).size.width;
     var _change = Provider.of<NoteProvider>(context, listen: false);
     return Container(
-      margin: EdgeInsets.only(bottom: 20.0, left: _width - 80),
+      margin: EdgeInsets.only(bottom: 20.0, left: _width - 92.0),
       child: AnimatedBuilder(
         animation: noteController,
         builder: (context, child) => Transform.scale(

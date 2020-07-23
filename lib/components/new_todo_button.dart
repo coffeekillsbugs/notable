@@ -37,7 +37,7 @@ class TodoButtonState extends State<TodoButton>
     var _width = MediaQuery.of(context).size.width;
     var _change = Provider.of<NoteProvider>(context, listen: false);
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0, left: _width - 80),
+      margin: EdgeInsets.only(bottom: 10.0, left: _width - 92.0),
       child: AnimatedBuilder(
         animation: todoController,
         builder: (context, child) => Transform.scale(
@@ -54,7 +54,7 @@ class TodoButtonState extends State<TodoButton>
                   BoxShadow(
                     color: Colors.black.withOpacity(0.4),
                     offset: Offset(0.0, 3.0),
-                    blurRadius: 10.0,
+                    blurRadius: 4.0,
                   ),
                 ],
               ),

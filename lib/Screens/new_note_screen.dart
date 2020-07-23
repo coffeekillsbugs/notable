@@ -14,7 +14,6 @@ class NewNote extends StatefulWidget {
 }
 
 class _NewNoteState extends State<NewNote> {
-  
   @override
   Widget build(BuildContext context) {
     var _padding = MediaQuery.of(context).padding.top;
@@ -22,23 +21,22 @@ class _NewNoteState extends State<NewNote> {
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              NoteBody(),
-              SizedBox(height: 16.0),
-              TextStyling(),
-              SizedBox(height: 16.0),
-              FooterActions(),
-            ],
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            margin: EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                NoteBody(_padding),
+                SizedBox(height: 16.0),
+                TextStyling(),
+                SizedBox(height: 16.0),
+                FooterActions(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-
-
-

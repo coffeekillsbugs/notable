@@ -18,7 +18,7 @@ class AppColor {
   static const Color magentaProcess = Color(0xFFf90093);
   static const Color almostWhite = Color(0xFFE5E6E8);
 
-  static const Color primaryColor = Color(0xFF121212);
+  static const Color primaryColor = Color(0xFF2D2D2D);
   static const Color secondaryColor = Color(0xFF212121);
   static const Color brandViolet = Color(0xFF7700A6);
   static const Color brandPink = Color(0xFFFE00FE);

@@ -26,11 +26,11 @@ class _FooterActionsState extends State<FooterActions> {
               Navigator.pop(context);
             },
             child: Container(
-              height: 48.0,
+              height: 52.0,
               width: 64.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: AppColor.charlestonGreen,
+                color: AppColor.secondaryColor,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
@@ -58,7 +58,7 @@ class _FooterActionsState extends State<FooterActions> {
                 borderRadius: BorderRadius.circular(10.0),
                 splashColor: _flavour,
                 child: Container(
-                  height: 48.0,
+                  height: 52.0,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -90,16 +90,16 @@ class _FooterActionsState extends State<FooterActions> {
           GestureDetector(
             onTap: modalSheet,
             child: Container(
-              height: 48.0,
+              height: 52.0,
               width: 64.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: _flavour,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withOpacity(0.4),
                     offset: Offset(0.0, 3.0),
-                    blurRadius: 5.0,
+                    blurRadius: 4.0,
                   )
                 ],
               ),

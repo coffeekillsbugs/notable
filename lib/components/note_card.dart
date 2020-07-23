@@ -37,8 +37,8 @@ class _NoteCardState extends State<NoteCard> {
           shadows: [
             BoxShadow(
               color: Colors.black.withOpacity(0.4),
-              offset: Offset(0.0, 2.0),
-              blurRadius: 40.0,
+              offset: Offset(0.0, 3.0),
+              blurRadius: 4.0,
             ),
           ],
         ),
