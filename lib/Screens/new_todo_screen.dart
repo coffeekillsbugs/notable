@@ -43,7 +43,7 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                     // Todo List >>>--------------------->#
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
-                        (context, index) => TodoBody(_padding, index),
+                        (context, index) => TodoBody(index),
                         childCount: _itemList.length,
                       ),
                     ),

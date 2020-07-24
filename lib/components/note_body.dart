@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../configs/colors.dart';
 import '../providers/note_provider.dart';
 
 class NoteBody extends StatefulWidget {

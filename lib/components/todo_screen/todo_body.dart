@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes/components/todo_screen/todo_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -7,13 +6,13 @@ import '../../configs/colors.dart';
 import '../../providers/note_provider.dart';
 
 class TodoBody extends StatelessWidget {
-  final _padding, _index;
+  final _index;
 
-  TodoBody(this._padding, this._index);
+  TodoBody(this._index);
   @override
   Widget build(BuildContext context) {
     var _flavour = Provider.of<NoteProvider>(context).flavour;
-    var _height = MediaQuery.of(context).size.height - _padding;
+    //var _height = MediaQuery.of(context).size.height - _padding;
     var _width = MediaQuery.of(context).size.width;
     var _itemList = Provider.of<NoteProvider>(context).itemList;
     return Container(

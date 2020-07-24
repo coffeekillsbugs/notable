@@ -11,7 +11,7 @@ class NoteProvider with ChangeNotifier {
   Color _flavour = AppColor.carribeanGreen;
 
   List<TodoItemModel> _todoListBuffer = List();
-  List<Note> _noteList = noteList;
+  //List<Note> _noteList = noteList;
 
   int _position;
   //bool _showNewTodo = false;
