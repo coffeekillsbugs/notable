@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:notes/Models/note.dart';
 
@@ -17,25 +19,74 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
-      appBar: PreferredSize(
-        child: NotableAppBar(),
-        preferredSize: Size.fromHeight(80.0),
-      ),
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: <Widget>[
-          Container(
-            child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 80.0),
-              physics: BouncingScrollPhysics(),
-              itemCount: noteList.length,
-              itemBuilder: (context, index) => noteList[index].noteType == NoteType.SimpleNote ? NoteCard(index) : TodoCard(index),
+      // appBar: PreferredSize(
+      //   child: NotableAppBar(),
+      //   preferredSize: Size.fromHeight(80.0),
+      // ),
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: <Widget>[
+            // Container(
+            //   child: ListView.builder(
+            //     padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 80.0),
+            //     physics: BouncingScrollPhysics(),
+            //     itemCount: noteList.length,
+            //     itemBuilder: (context, index) => noteList[index].noteType == NoteType.SimpleNote ? NoteCard(index) : TodoCard(index),
+            //   ),
+            // ),
+            // CustomScrollView(
+            //   physics: BouncingScrollPhysics(),
+            //   slivers: <Widget>[
+            //     SliverPersistentHeader(
+            //       delegate: NotableHeader(
+            //         maxHeight: 72.0,
+            //         minHeight: 72.0,
+            //       ),
+            //       pinned: true,
+            //     ),
+            //     SliverList(
+            //       delegate: SliverChildBuilderDelegate(
+            //         (context, index) => Padding(
+            //           padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0,
+            //               index == noteList.length - 1 ? 88.0 : 0.0),
+            //           child: noteList[index].noteType == NoteType.SimpleNote
+            //               ? NoteCard(index)
+            //               : TodoCard(index),
+            //         ),
+            //         childCount: noteList.length,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            NestedScrollView(
+              headerSliverBuilder: (context, boxIsScrolled) {
+                return <Widget>[
+                  SliverPersistentHeader(
+                    delegate: NotableHeader(
+                      maxHeight: 72.0,
+                      minHeight: 72.0,
+                    ),
+                    pinned: true,
+                  ),
+                ];
+              },
+              body: Container(
+                child: ListView.builder(
+                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 80.0),
+                  physics: BouncingScrollPhysics(),
+                  itemCount: noteList.length,
+                  itemBuilder: (context, index) =>
+                      noteList[index].noteType == NoteType.SimpleNote
+                          ? NoteCard(index)
+                          : TodoCard(index),
+                ),
+              ),
             ),
-          ),
-          BottomFloater(),
-        ],
+            BottomFloater(),
+          ],
+        ),
       ),
     );
   }
 }
-

@@ -20,25 +20,47 @@ class NotableAppBar extends StatelessWidget {
           ),
         ],
       ),
-      child: SafeArea(
-        child: Text(
-          'NOTABLE',
-          style: TextStyle(
-            //color: AppColor.carribeanGreen,
-            fontSize: 30.0,
-            fontFamily: 'Righteous',
-            foreground: Paint()
-              ..shader = ui.Gradient.linear(
-                Offset(0, 20),
-                Offset(150, 20),
-                <Color>[
-                  AppColor.brandViolet,
-                  AppColor.brandPink,
-                ],
-              ),
-          ),
+      child: Text(
+        'NOTABLE',
+        style: TextStyle(
+          //color: AppColor.carribeanGreen,
+          fontSize: 30.0,
+          fontFamily: 'Righteous',
+          foreground: Paint()
+            ..shader = ui.Gradient.linear(
+              Offset(0, 20),
+              Offset(150, 20),
+              <Color>[
+                AppColor.brandViolet,
+                AppColor.brandPink,
+              ],
+            ),
         ),
       ),
     );
+  }
+}
+
+class NotableHeader extends SliverPersistentHeaderDelegate {
+  NotableHeader({this.maxHeight, this.minHeight});
+
+  final double minHeight;
+  final double maxHeight;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return NotableAppBar();
+  }
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

@@ -23,7 +23,7 @@ class _NoteCardState extends State<NoteCard> {
     _simpleNote = noteList[widget.index];
     //_width = MediaQuery.of(context).size.width - 40;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: AnimatedContainer(
         duration: _duration,
         curve: Curves.easeInOut,

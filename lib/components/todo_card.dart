@@ -19,7 +19,7 @@ class _TodoCardState extends State<TodoCard> {
   Widget build(BuildContext context) {
     final Color _flavour = noteList[widget.index].color;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
         height: 280.0,
         width: double.infinity,
@@ -115,14 +115,24 @@ class _TodoCardState extends State<TodoCard> {
                   ),
                 ),
               ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                itemCount: todoItem.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return TodoItem(index: index);
-                },
+              // child: ListView.builder(
+              //   shrinkWrap: true,
+              //   physics: ClampingScrollPhysics(),
+              //   padding: EdgeInsets.symmetric(vertical: 10.0),
+              //   itemCount: todoItem.length,
+              //   itemBuilder: (BuildContext context, int index) {
+              //     return TodoItem(index: index);
+              //   },
+              // ),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => TodoItem(index: index),
+                      childCount: todoItem.length,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -131,5 +141,3 @@ class _TodoCardState extends State<TodoCard> {
     );
   }
 }
-
-
