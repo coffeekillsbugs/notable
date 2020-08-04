@@ -22,7 +22,34 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: <Widget>[
           CustomPaint(
-            painter: Header(),
+            painter: Header(MediaQuery.of(context).padding.top),
+            child: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Container(
+                //color: Colors.white,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 16.0),
+                height: 56.0,
+                width: 168.0,
+                child: Text(
+                  'NOTABLE',
+                  style: TextStyle(
+                    //color: AppColor.carribeanGreen,
+                    fontSize: 30.0,
+                    fontFamily: 'Righteous',
+                    foreground: Paint()
+                      ..shader = ui.Gradient.linear(
+                        Offset(0, 20),
+                        Offset(150, 20),
+                        <Color>[
+                          AppColor.brandViolet,
+                          AppColor.brandPink,
+                        ],
+                      ),
+                  ),
+                ),
+              ),
+            ),
           ),
           // [Status Bar Box] >>>---------------->
           Container(
@@ -46,16 +73,33 @@ class _HomePageState extends State<HomePage> {
 }
 
 class Header extends CustomPainter {
+  final _topPadding;
+
+  Header(this._topPadding);
+
   @override
   void paint(Canvas canvas, Size size) {
+    var _verticalHeight = _topPadding + 56.0;
     Paint paint = Paint();
+    Paint shadowPaint = Paint()
+    ..color = Colors.black
+    ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4.0);
     Path path = Path();
 
+    // print('size : $size');
     paint.color = AppColor.primaryColor;
 
-    path.lineTo(0.0, 80.0);
-    path.lineTo(100.0, 80.0);
+    //Header path
+    path.lineTo(0.0, _verticalHeight);
+    path.lineTo(136.0, _verticalHeight);
+    path.lineTo(168.0, _topPadding + 16.0);
+    path.lineTo(168.0, 0.0);
+    path.close();
 
+    //Header shadow
+    canvas.drawPath(path, shadowPaint);
+
+    //Header canvas
     canvas.drawPath(path, paint);
   }
 
