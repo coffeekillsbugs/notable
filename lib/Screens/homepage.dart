@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColor.primaryColor,
       body: Stack(
         children: <Widget>[
+          // [App Bar] >>>-------------------->
           CustomPaint(
             painter: Header(MediaQuery.of(context).padding.top),
             child: Padding(
@@ -39,8 +40,8 @@ class _HomePageState extends State<HomePage> {
                     fontFamily: 'Righteous',
                     foreground: Paint()
                       ..shader = ui.Gradient.linear(
-                        Offset(0, 20),
-                        Offset(150, 20),
+                        Offset(50, 40),
+                        Offset(50, 65),
                         <Color>[
                           AppColor.brandViolet,
                           AppColor.brandPink,
@@ -59,11 +60,28 @@ class _HomePageState extends State<HomePage> {
               color: AppColor.primaryColor,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black45,
+                  color: Colors.black,
                   offset: Offset(0.0, 2.0),
-                  blurRadius: 4.0,
+                  blurRadius: 8.0,
                 ),
               ],
+            ),
+          ),
+          // [Bottom Nav Bar] >>>------------------>
+          CustomPaint(
+            painter: Halo(),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: GestureDetector(
+                onTap: () {
+                  print('halo tapped');
+                },
+                child: Container(
+                  height: 72.0,
+                  width: 72.0,
+                  color: Colors.transparent,
+                ),
+              ),
             ),
           ),
         ],
@@ -82,8 +100,8 @@ class Header extends CustomPainter {
     var _verticalHeight = _topPadding + 56.0;
     Paint paint = Paint();
     Paint shadowPaint = Paint()
-    ..color = Colors.black
-    ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4.0);
+      ..color = Colors.black
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 4.0);
     Path path = Path();
 
     // print('size : $size');
@@ -101,6 +119,81 @@ class Header extends CustomPainter {
 
     //Header canvas
     canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class Halo extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    //print(size);
+    var _center = Offset(size.width - 36.0, size.height - 36.0);
+
+    Paint background = Paint()
+    ..color = AppColor.primaryColor;
+
+    Paint backgroundShadow = Paint()
+      ..color = Colors.black
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 8.0);
+
+    Path backgroundPath = Path();
+
+    // Background Canvas
+    backgroundPath.moveTo(size.width, size.height);
+    backgroundPath.lineTo(size.width - 72.0, size.height);
+    backgroundPath.lineTo(size.width - 72.0, size.height - 56.0);
+    backgroundPath.lineTo(size.width - 56.0, size.height - 72.0);
+    backgroundPath.lineTo(size.width, size.height - 72.0);
+    backgroundPath.close();
+
+    canvas.drawPath(backgroundPath, backgroundShadow);
+
+    canvas.drawPath(backgroundPath, background);
+
+    // Outer Circle Paint
+    Paint paint = Paint()
+      ..shader = ui.Gradient.radial(
+        _center,
+        18.0,
+        [
+          AppColor.brandViolet,
+          AppColor.brandPink,
+        ],
+      );
+
+    // Outer Circle Shadow
+    Paint shadowPaint = Paint()
+      ..color = AppColor.brandPink
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 8.0);
+
+    // Outer Circle Path
+    Path path = Path()..addOval(Rect.fromCircle(center: _center, radius: 20.0));
+
+    // Inner Circle Paint
+    Paint paintInner = Paint()..color = AppColor.brandPink;
+
+    // Inner Circle Shadow
+    Paint shadowPaintInner = Paint()
+      ..color = AppColor.primaryColor
+      ..maskFilter = MaskFilter.blur(BlurStyle.inner, 4.0);
+    
+    // Inner Circle Path
+    Path pathInner = Path()
+      ..addOval(Rect.fromCircle(center: _center, radius: 12.0));
+
+    // Outer Circle Shadow
+    canvas.drawPath(path, shadowPaint);
+    // Outer Circle Canvas
+    canvas.drawPath(path, paint);
+
+    // Inner Circle Canvas
+    canvas.drawPath(pathInner, paintInner);
+    // Inner Circle Shadow
+    canvas.drawPath(pathInner, shadowPaintInner);
   }
 
   @override
