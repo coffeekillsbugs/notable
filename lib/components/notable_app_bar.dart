@@ -1,66 +1,96 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:notes/configs/colors.dart';
 
-class NotableAppBar extends StatelessWidget {
+import '../configs/colors.dart';
+import '../components/custom_clip_shadow.dart';
+
+class NotableHeader extends StatelessWidget {
+  NotableHeader({
+    @required this.paddingTop,
+  });
+
+  final double paddingTop;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.bottomLeft,
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0,),
-      height: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColor.primaryColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            offset: Offset(0.0, 3.0),
-            blurRadius: 4.0,
-          ),
-        ],
+    return CustomClipShadow(
+      shadow: Shadow(
+        offset: Offset(2.0, 2.0),
+        blurRadius: 2.0,
       ),
-      child: Text(
-        'NOTABLE',
-        style: TextStyle(
-          //color: AppColor.carribeanGreen,
-          fontSize: 30.0,
-          fontFamily: 'Righteous',
-          foreground: Paint()
-            ..shader = ui.Gradient.linear(
-              Offset(0, 20),
-              Offset(150, 20),
-              <Color>[
-                AppColor.brandViolet,
-                AppColor.brandPink,
-              ],
-            ),
+      clipper: HeaderClipper(paddingTop),
+      child: Container(
+        height: paddingTop + 56.0,
+        width: 168.0,
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(
+            left: 16.0, top: paddingTop),
+        color: AppColor.primaryColor,
+        child: Text(
+          'NOTABLE',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontFamily: 'Righteous',
+            foreground: Paint()
+              ..shader = ui.Gradient.linear(
+                Offset(50, 40),
+                Offset(50, 65),
+                <Color>[
+                  AppColor.brandViolet,
+                  AppColor.brandPink,
+                ],
+              ),
+          ),
         ),
       ),
     );
   }
 }
 
-class NotableHeader extends SliverPersistentHeaderDelegate {
-  NotableHeader({this.maxHeight, this.minHeight});
+class HeaderClipper extends CustomClipper<Path> {
+  final double topPadding;
 
-  final double minHeight;
-  final double maxHeight;
+  HeaderClipper(this.topPadding);
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return NotableAppBar();
+  Path getClip(Size size) {
+    var _verticalHeight = topPadding + 56.0;
+    var path = Path();
+
+    path.lineTo(0.0, _verticalHeight);
+    path.lineTo(136.0, _verticalHeight);
+    path.lineTo(168.0, topPadding + 16.0);
+    path.lineTo(168.0, 0.0);
+    path.close();
+
+    return path;
   }
 
   @override
-  double get maxExtent => maxHeight;
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
+  bool shouldReclip(CustomClipper<Path> oldDelegate) => false;
 }
+
+// class NotableHeader extends SliverPersistentHeaderDelegate {
+//   NotableHeader({this.maxHeight, this.minHeight});
+
+//   final double minHeight;
+//   final double maxHeight;
+
+//   @override
+//   Widget build(
+//       BuildContext context, double shrinkOffset, bool overlapsContent) {
+//     return NotableAppBar();
+//   }
+
+//   @override
+//   double get maxExtent => maxHeight;
+
+//   @override
+//   double get minExtent => minHeight;
+
+//   @override
+//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+//     return true;
+//   }
+// }
