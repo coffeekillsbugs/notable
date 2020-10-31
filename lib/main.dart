@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 import './routes.dart' as router;
-import 'providers/note_provider.dart';
+import './theme/colors.dart';
+import './theme/textTheme.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -11,18 +11,28 @@ void main() {
       statusBarColor: Colors.transparent,
     ),
   );
-  runApp(Notable());
+  runApp(Sigma());
 }
 
-class Notable extends StatelessWidget {
+class Sigma extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => NoteProvider(),
-          child: MaterialApp(
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    ThemeData sigmaTheme = ThemeData.light();
+
+    return MaterialApp(
+      title: 'Sigma',
+      theme: sigmaTheme.copyWith(
+        primaryColor: AppColor.deepBlue,
+        textTheme: sigmaTextTheme,
+      ),
         onGenerateRoute: router.generateRoute,
         initialRoute: '/',
-      ),
-    );
+      );
   }
 }
