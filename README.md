@@ -1,19 +1,16 @@
-# Notable  [![platform](https://img.shields.io/badge/platform-android%20%7C%20ios-blue)]() [![license](https://img.shields.io/badge/license-GNU%20AGPL%203.0-blue)](LICENSE)
+# sigma
 
-Simple notes app built with [Flutter](https://flutter.dev).
+A new Flutter project.
 
-## Authors
+## Getting Started
 
-* **Nihar Lekhade** - *Developer* - [ghostEleven](https://github.com/ghostEleven)
+This project is a starting point for a Flutter application.
 
-## License
+A few resources to get you started if this is your first Flutter project:
 
-This project is licensed under GNU AGPL 3.0. See [License](LICENSE) for more details.
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-## Roadmap
-
-Refer [Open Issue(s)](https://github.com/coffeekillsbugs/notable/issues) for progress.
-
-## Acknowledgments
-
-Flutter Community
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
