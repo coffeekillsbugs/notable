@@ -11,6 +11,23 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> {
+
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -18,18 +35,25 @@ class _InfoScreenState extends State<InfoScreen> {
         GradientBackground(),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: PreferredSize(
-            child: Container(
-              alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.all(16.0),
-              color: AppColor.deepBlue,
-              child:
-                  Text('About', style: Theme.of(context).textTheme.headline2),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            primary: true,
+            toolbarHeight: 150.0,
+            elevation: 0.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                'About',
+                textScaleFactor: 1.0,
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              titlePadding:
+                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              background: Container(color: AppColor.deepBlue),
             ),
-            preferredSize: Size.fromHeight(150.0),
           ),
           body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+            controller: _scrollController,
+            physics: BouncingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,32 +127,34 @@ class _InfoScreenState extends State<InfoScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                      height: 56.0,
-                      width: 200.0,
-                      child: GestureDetector(
-                        onTap: _donate,
-                          child: Image(
-                          image: AssetImage('assets/images/donate.png'),
-                          fit: BoxFit.contain,
-                        ),
+                    height: 56.0,
+                    width: 200.0,
+                    child: GestureDetector(
+                      onTap: _donate,
+                      child: Image(
+                        image: AssetImage('assets/images/donate.png'),
+                        fit: BoxFit.contain,
                       ),
                     ),
+                  ),
                 ),
                 SizedBox(height: 96.0),
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButtonBlur(Icons.chevron_left_rounded),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButton:
+              FloatingActionButtonBlur(Icons.chevron_left_rounded),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
         ),
       ],
     );
   }
 
   _donate() async {
-    const url = 'https://www.buymeacoffee.bugCatcher';
+    const url = 'https://www.buymeacoffee.com/bugCatcher';
 
-    if(await canLaunch(url)) {
+    if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
