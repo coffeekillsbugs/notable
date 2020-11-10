@@ -17,7 +17,6 @@ void main() {
 class Sigma extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -27,12 +26,22 @@ class Sigma extends StatelessWidget {
 
     return MaterialApp(
       title: 'Sigma',
+      builder: (BuildContext context, Widget child) {
+        final MediaQueryData data = MediaQuery.of(context);
+
+        return MediaQuery(
+          data: data.copyWith(
+            textScaleFactor: 1.0,
+          ),
+          child: child,
+        );
+      },
       theme: sigmaTheme.copyWith(
         primaryColor: AppColor.deepBlue,
         textTheme: sigmaTextTheme,
       ),
-        onGenerateRoute: router.generateRoute,
-        initialRoute: '/',
-      );
+      onGenerateRoute: router.generateRoute,
+      initialRoute: '/',
+    );
   }
 }

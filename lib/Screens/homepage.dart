@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text(
                                 'Games to play',
-                                textScaleFactor: 1.0,
+                                // textScaleFactor: 1.0,
                                 overflow: TextOverflow.fade,
                                 style: Theme.of(context).textTheme.headline6,
                               ),

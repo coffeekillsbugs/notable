@@ -43,7 +43,7 @@ class _InfoScreenState extends State<InfoScreen> {
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'About',
-                textScaleFactor: 1.0,
+                // textScaleFactor: 1.0,
                 style: Theme.of(context).textTheme.headline3,
               ),
               titlePadding:
@@ -97,19 +97,19 @@ class _InfoScreenState extends State<InfoScreen> {
                         children: [
                           Text(
                             'Sigma',
-                            textScaleFactor: 1.0,
+                            // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.headline5,
                           ),
                           SizedBox(height: 4.0),
                           Text(
                             'v1.0.0',
-                            textScaleFactor: 1.0,
+                            // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.caption,
                           ),
                           SizedBox(height: 16.0),
                           Text(
                             'A simple app.\nWrite notes, create todo\'s.',
-                            textScaleFactor: 1.0,
+                            // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ],

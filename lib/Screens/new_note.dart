@@ -9,6 +9,23 @@ class NewNoteScreen extends StatefulWidget {
 }
 
 class _NewNoteScreenState extends State<NewNoteScreen> {
+
+  FocusNode _description;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _description = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _description.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -26,6 +43,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 32.0),
                     // color: Colors.white,
                     child: TextField(
+                      autofocus: true,
                       maxLines: 1,
                       keyboardType: TextInputType.text,
                       style: Theme.of(context).textTheme.headline3,
@@ -34,14 +52,18 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Title',
-                        hintStyle: Theme.of(context).textTheme.headline3,
+                        hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white60),
                       ),
+                      onSubmitted: (text) {
+                        _description.requestFocus();
+                      },
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 32.0),
                     // color: Colors.white,
                     child: TextField(
+                      focusNode: _description,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
                       style: Theme.of(context).textTheme.bodyText1,
@@ -51,7 +73,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Whats on your mind?',
-                        hintStyle: Theme.of(context).textTheme.bodyText1,
+                        hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white60),
                       ),
                     ),
                   ),
