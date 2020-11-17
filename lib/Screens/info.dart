@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../widgets/gradient_background.dart';
-import '../widgets/fab_blur.dart';
+// import '../widgets/gradient_background.dart';
+import '../widgets/white_button.dart';
 import '../theme/colors.dart';
 
 class InfoScreen extends StatefulWidget {
@@ -11,7 +11,6 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> {
-
   ScrollController _scrollController;
 
   @override
@@ -19,6 +18,7 @@ class _InfoScreenState extends State<InfoScreen> {
     super.initState();
 
     _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
   }
 
   @override
@@ -32,55 +32,49 @@ class _InfoScreenState extends State<InfoScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GradientBackground(),
+        // GradientBackground(),
         Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            primary: true,
-            toolbarHeight: 150.0,
-            elevation: 0.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                'About',
-                // textScaleFactor: 1.0,
-                style: Theme.of(context).textTheme.headline3,
-              ),
-              titlePadding:
-                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-              background: Container(color: AppColor.deepBlue),
-            ),
-          ),
-          body: SingleChildScrollView(
+          backgroundColor: AppColor.darkGrey,
+          body: CustomScrollView(
             controller: _scrollController,
             physics: BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 32.0),
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                pinned: true,
+                floating: false,
+                primary: true,
+                toolbarHeight: 80.0,
+                expandedHeight: 120.0,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text(
+                    'About',
+                    textScaleFactor: 0.9,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  titlePadding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  background: Container(color: AppColor.darkGrey),
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate.fixed(
+                  [
+                    SizedBox(height: 32.0),
                 // >>> Icon and Info
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      alignment: Alignment.center,
                       padding: EdgeInsets.all(24.0),
                       height: 110.0,
                       width: 110.0,
                       decoration: BoxDecoration(
-                        color: Colors.white38,
+                        color: Colors.white.withOpacity(0.09),
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(10.0),
                           bottomRight: Radius.circular(10.0),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            offset: Offset(0.0, 12.0),
-                            blurRadius: 32.0,
-                          ),
-                        ],
                       ),
                       child: Image(
                         image: AssetImage('assets/images/sigma_symbol.png'),
@@ -123,7 +117,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 KitKatButton('FEEDBACK'),
                 KitKatButton('LICENSES'),
                 KitKatButton('REPORT BUG'),
-                SizedBox(height: 32.0),
+                SizedBox(height: 26.0),
                 Align(
                   alignment: Alignment.center,
                   child: Container(
@@ -139,13 +133,16 @@ class _InfoScreenState extends State<InfoScreen> {
                   ),
                 ),
                 SizedBox(height: 96.0),
-              ],
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          floatingActionButton:
-              FloatingActionButtonBlur(Icons.chevron_left_rounded),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: WhiteButton(
+            kIcon: Icons.chevron_left_rounded,
+            kSize: 40.0,
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         ),
       ],
     );
@@ -160,6 +157,8 @@ class _InfoScreenState extends State<InfoScreen> {
       throw 'Could not launch $url';
     }
   }
+
+  void _scrollListener() {}
 }
 
 class KitKatButton extends StatelessWidget {
@@ -169,15 +168,15 @@ class KitKatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String shareUrl = 'shareURL';
+    // const String shareUrl = 'shareURL';
     const String feedbackUrl =
         'mailto:arthurexcalibur9@protonmail.com?subject=Sigma%20Feedback&body=What%20are%20your%20thoughts?';
-    const String licenseUrl = 'licenseURL';
-    const String bugUrl = 'bugUrl';
+    // const String licenseUrl = 'licenseURL';
+    // const String bugUrl = 'bugUrl';
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        splashColor: AppColor.deepBlue,
+        splashColor: Colors.white,
         onTap: () {
           if (kText == 'FEEDBACK') {
             _externalLink(feedbackUrl);

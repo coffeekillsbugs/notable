@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sigma/widgets/fab_blur.dart';
 
-import '../widgets/gradient_background.dart';
+import '../theme/colors.dart';
+import '../widgets/white_button.dart';
+import '../widgets/black_button.dart';
 
 class NewTodoScreen extends StatefulWidget {
   @override
@@ -9,7 +10,6 @@ class NewTodoScreen extends StatefulWidget {
 }
 
 class _NewTodoScreenState extends State<NewTodoScreen> {
-
   // FocusNode _description;
 
   // @override
@@ -28,60 +28,52 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GradientBackground(),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: 32.0),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 32.0),
-                    // color: Colors.white,
-                    child: TextField(
-                      autofocus: true,
-                      maxLines: 1,
-                      keyboardType: TextInputType.text,
-                      style: Theme.of(context).textTheme.headline3,
-                      cursorColor: Colors.white,
-                      cursorRadius: Radius.circular(10.0),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Title',
-                        hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white60),
-                      ),
-                    ),
+    return Scaffold(
+      backgroundColor: AppColor.darkGrey,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(height: 32.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
+                // color: Colors.white,
+                child: TextField(
+                  autofocus: true,
+                  maxLines: 1,
+                  keyboardType: TextInputType.text,
+                  style: Theme.of(context).textTheme.headline3,
+                  cursorColor: Colors.white,
+                  cursorRadius: Radius.circular(10.0),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Title',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .headline3
+                        .copyWith(color: Colors.white60),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 32.0),
-                    color: Colors.white,
-                    //TODO implement todo list item addition method
-                  ),
-                  SizedBox(height: 100.0),
-                ],
+                ),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
+                color: Colors.white,
+                //TODO implement todo list item addition method
+              ),
+              SizedBox(height: 100.0),
+            ],
           ),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButtonBlur(Icons.chevron_left_rounded),
-                SizedBox(width: 16.0),
-                FloatingActionButtonBlur(Icons.save),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
+      floatingActionButton: Row(
+        children: [
+          WhiteButton(kIcon: Icons.chevron_left_rounded, kSize: 40.0),
+          SizedBox(width: 16.0),
+          BlackButton(kIcon: Icons.save),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }
