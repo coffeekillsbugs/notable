@@ -54,7 +54,7 @@ class _InfoScreenState extends State<InfoScreen> {
                   ),
                   titlePadding:
                       EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                  background: Container(color: AppColor.darkGrey),
+                  // background: Container(color: AppColor.darkGrey),
                 ),
               ),
               SliverList(

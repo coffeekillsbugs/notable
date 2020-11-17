@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/white_button.dart';
 import '../widgets/black_button.dart';
+import '../theme/colors.dart';
 
 class NewNoteScreen extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColor.darkGrey,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),

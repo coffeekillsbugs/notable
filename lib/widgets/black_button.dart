@@ -25,13 +25,13 @@ class BlackButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColor.darkGrey,
           borderRadius: BorderRadius.circular(5.0),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.3),
-          //     offset: Offset(0.0, 48.0),
-          //     blurRadius: 32.0,
-          //   ),
-          // ],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              offset: Offset(0.0, 0.0),
+              blurRadius: 10.0,
+            ),
+          ],
         ),
         child: Container(
         //   height: 24.0,
@@ -44,7 +44,7 @@ class BlackButton extends StatelessWidget {
             kIcon,
             size: kSize,
             color: Colors.white,
-            semanticLabel: 'Info',
+            // semanticLabel: 'Info',
           ),
         ),
       ),

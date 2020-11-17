@@ -38,6 +38,7 @@ class Sigma extends StatelessWidget {
       },
       theme: sigmaTheme.copyWith(
         primaryColor: AppColor.darkGrey,
+        
         textTheme: sigmaTextTheme,
       ),
       onGenerateRoute: router.generateRoute,
