@@ -1,7 +1,10 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../theme/colors.dart';
+import '../sigma_provider.dart';
 
 class WhiteButton extends StatelessWidget {
   final IconData kIcon;
@@ -13,8 +16,9 @@ class WhiteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (kIcon == Icons.menu) {
-          Navigator.pushNamed(context, 'Info');
+        if (kIcon == Icons.add) {
+          // Navigator.pushNamed(context, 'Info');
+          Provider.of<SigmaProvider>(context, listen: false).changeTodoPadding();
         } else {
           Navigator.pop(context);
         }

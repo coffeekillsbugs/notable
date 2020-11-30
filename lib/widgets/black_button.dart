@@ -1,7 +1,8 @@
-// import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../theme/colors.dart';
+import '../sigma_provider.dart';
 
 class BlackButton extends StatelessWidget {
   final IconData kIcon;
@@ -13,11 +14,18 @@ class BlackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // >>> Logic to collpse extended floating action buttons on interaction
+        if (Provider.of<SigmaProvider>(context, listen: false).isFABCollapsed == false) {
+          Provider.of<SigmaProvider>(context, listen: false)
+              .changeTodoPadding();
+        }
+
+        // >>> Naviagation routes
         if (kIcon == Icons.edit) {
           Navigator.pushNamed(context, 'NewNote');
         } else if (kIcon == Icons.check_box_outline_blank_rounded) {
           Navigator.pushNamed(context, 'NewTodo');
-        } 
+        }
       },
       child: Container(
         height: 56.0,
@@ -34,12 +42,12 @@ class BlackButton extends StatelessWidget {
           ],
         ),
         child: Container(
-        //   height: 24.0,
-        // width: 24.0,
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.12),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
+          //   height: 24.0,
+          // width: 24.0,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.12),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
           child: Icon(
             kIcon,
             size: kSize,
