@@ -14,16 +14,16 @@ class BlackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // >>> Logic to collpse extended floating action buttons on interaction
+        // >>> Logic to collapse extended floating action buttons on interaction
         if (Provider.of<SigmaProvider>(context, listen: false).isFABCollapsed == false) {
           Provider.of<SigmaProvider>(context, listen: false)
               .changeTodoPadding();
         }
 
-        // >>> Naviagation routes
+        // >>> Navigation routes
         if (kIcon == Icons.edit) {
           Navigator.pushNamed(context, 'NewNote');
-        } else if (kIcon == Icons.check_box_outline_blank_rounded) {
+        } else if (kIcon == Icons.check_box_rounded) {
           Navigator.pushNamed(context, 'NewTodo');
         }
       },
@@ -35,9 +35,9 @@ class BlackButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.black,
+              color: Colors.black.withOpacity(0.4),
               offset: Offset(0.0, 0.0),
-              blurRadius: 10.0,
+              blurRadius: 4.0,
             ),
           ],
         ),

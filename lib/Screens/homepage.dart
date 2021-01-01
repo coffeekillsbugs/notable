@@ -31,9 +31,9 @@ class _HomePageState extends State<HomePage> {
               SliverAppBar(
                 pinned: true,
                 floating: false,
-                primary: true,
                 toolbarHeight: 80.0,
                 expandedHeight: 120.0,
+                backgroundColor: AppColor.darkGrey,
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text(
                     'Home',
@@ -49,15 +49,15 @@ class _HomePageState extends State<HomePage> {
           ),
           // >>> Todolist Button
           AnimatedPositioned(
-            duration: Duration(milliseconds: 200),
+            duration: Duration(milliseconds: 100),
             bottom: _isCollapsed ? 16.0 : 160.0,
             right: 16.0,
             child: BlackButton(
-                          kIcon: Icons.check_box_outline_blank_rounded),
+                          kIcon: Icons.check_box_rounded),
           ),
-          // >>> black button
+          // >>> Note button
           AnimatedPositioned(
-            duration: Duration(milliseconds: 200),
+            duration: Duration(milliseconds: 100),
             bottom: _isCollapsed ? 16.0 : 88.0,
             right: 16.0,
             child: BlackButton(kIcon: Icons.edit),

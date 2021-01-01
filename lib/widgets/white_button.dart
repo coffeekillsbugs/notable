@@ -10,7 +10,7 @@ class WhiteButton extends StatelessWidget {
   final IconData kIcon;
   final double kSize;
 
-  WhiteButton({this.kIcon, this.kSize = 24.0});
+  WhiteButton({@required this.kIcon, this.kSize = 24.0});
 
   @override
   Widget build(BuildContext context) {

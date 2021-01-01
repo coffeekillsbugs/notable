@@ -74,6 +74,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 32.0),
                 // color: Colors.white,
                 child: TextField(
+                  // autofocus: true,
                   focusNode: _description,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -98,13 +99,14 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
       ),
       floatingActionButton: Row(
         // mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
         children: [
           WhiteButton(kIcon: Icons.chevron_left_rounded, kSize: 40.0),
           SizedBox(width: 16.0),
           BlackButton(kIcon: Icons.save),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 

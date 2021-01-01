@@ -28,7 +28,7 @@ class Sigma extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (context) => SigmaProvider(),
-          child: MaterialApp(
+      child: MaterialApp(
         title: 'Sigma',
         builder: (BuildContext context, Widget child) {
           final MediaQueryData data = MediaQuery.of(context);
@@ -42,7 +42,6 @@ class Sigma extends StatelessWidget {
         },
         theme: sigmaTheme.copyWith(
           primaryColor: AppColor.darkGrey,
-          
           textTheme: sigmaTextTheme,
         ),
         onGenerateRoute: router.generateRoute,
