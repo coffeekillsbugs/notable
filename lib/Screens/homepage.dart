@@ -12,12 +12,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   bool _isCollapsed;
 
   @override
   Widget build(BuildContext context) {
-
     _isCollapsed = Provider.of<SigmaProvider>(context).isFABCollapsed;
 
     return Scaffold(
@@ -52,8 +50,7 @@ class _HomePageState extends State<HomePage> {
             duration: Duration(milliseconds: 100),
             bottom: _isCollapsed ? 16.0 : 160.0,
             right: 16.0,
-            child: BlackButton(
-                          kIcon: Icons.check_box_rounded),
+            child: BlackButton(kIcon: Icons.check_box_rounded),
           ),
           // >>> Note button
           AnimatedPositioned(
@@ -66,7 +63,14 @@ class _HomePageState extends State<HomePage> {
           Positioned(
             bottom: 16.0,
             right: 16.0,
-            child:  WhiteButton(kIcon: Icons.add, kSize: 28.0),
+            child: WhiteButton(
+              kOnTap: () {
+                Provider.of<SigmaProvider>(context, listen: false)
+                    .changeTodoPadding();
+              },
+              kIcon: Icons.add,
+              kSize: 28.0,
+            ),
           )
         ],
       ),

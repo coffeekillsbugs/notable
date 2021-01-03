@@ -14,10 +14,13 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
   String _kDateTime;
   List<String> _dummyList = List();
 
+  TextEditingController _todoItemController;
+
   @override
   void initState() {
     super.initState();
 
+    _todoItemController = TextEditingController(text: '');
     _todoItem = FocusNode();
   }
 
@@ -81,52 +84,56 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                     children: [
                       Container(
                         child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: _dummyList.length,
-                          itemBuilder: (context, index) {
-                            if(_dummyList.isEmpty) {
-                              return Container();
-                            }
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _dummyList.length,
+                            itemBuilder: (context, index) {
+                              if (_dummyList.isEmpty) {
+                                return Container();
+                              }
 
-                            return Container(
-                              alignment: Alignment.center,
-                              // color: Colors.white24,
-                              height: 56.0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    _dummyList[index],
-                                    style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0),
-                                  ),
-                                  InkWell(
-                                    splashColor: Colors.white,
-                                    borderRadius: BorderRadius.circular(28.0),
-                                    onTap: () {
-                                      setState(() {
-                                        _dummyList.removeAt(index);
-                                      });
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: 56.0,
-                                      width: 56.0,
-                                      decoration: BoxDecoration(
-                                        // color: Colors.white38,
-                                        borderRadius: BorderRadius.circular(28.0),
-                                      ),
-                                      child: Icon(
-                                        Icons.delete_rounded,
-                                        color: Colors.white,
+                              return Container(
+                                alignment: Alignment.center,
+                                // color: Colors.white24,
+                                height: 56.0,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      _dummyList[index],
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .copyWith(fontSize: 20.0),
+                                    ),
+                                    InkWell(
+                                      splashColor: Colors.white,
+                                      borderRadius: BorderRadius.circular(28.0),
+                                      onTap: () {
+                                        setState(() {
+                                          _dummyList.removeAt(index);
+                                        });
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        height: 56.0,
+                                        width: 56.0,
+                                        decoration: BoxDecoration(
+                                          // color: Colors.white38,
+                                          borderRadius:
+                                              BorderRadius.circular(28.0),
+                                        ),
+                                        child: Icon(
+                                          Icons.delete_rounded,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        ),
+                                  ],
+                                ),
+                              );
+                            }),
                       ),
                       SizedBox(height: 16.0),
                       Divider(
@@ -155,6 +162,7 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                                       borderRadius: BorderRadius.circular(5.0)),
                                   child: TextField(
                                     focusNode: _todoItem,
+                                    controller: _todoItemController,
                                     maxLines: 1,
                                     keyboardType: TextInputType.text,
                                     style:
@@ -170,9 +178,11 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                                           .copyWith(color: Colors.white60),
                                     ),
                                     onSubmitted: (text) {
-                                      setState(() {
-                                        _dummyList.add(text);
-                                      });
+                                      if (text.isNotEmpty) {
+                                        setState(() {
+                                          _dummyList.add(text);
+                                        });
+                                      }
                                     },
                                   ),
                                 ),
@@ -180,7 +190,16 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                             ),
                             SizedBox(width: 16.0),
                             // New To Do item add button
-                            WhiteButton(kIcon: Icons.add),
+                            WhiteButton(
+                              kOnTap: () {
+                                if (_todoItemController.text.isNotEmpty) {
+                                  setState(() {
+                                    _dummyList.add(_todoItemController.text);
+                                  });
+                                }
+                              },
+                              kIcon: Icons.add,
+                            ),
                           ],
                         ),
                       ),
@@ -197,7 +216,11 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          WhiteButton(kIcon: Icons.chevron_left_rounded, kSize: 40.0),
+          WhiteButton(
+            kOnTap: () => Navigator.pop(context),
+            kIcon: Icons.chevron_left_rounded,
+            kSize: 40.0,
+          ),
           SizedBox(width: 16.0),
           BlackButton(kIcon: Icons.save),
         ],
