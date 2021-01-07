@@ -12,7 +12,7 @@ class NewTodoScreen extends StatefulWidget {
 class _NewTodoScreenState extends State<NewTodoScreen> {
   FocusNode _todoItem;
   String _kDateTime;
-  List<String> _dummyList = List();
+  List<String> _dummyList;
 
   TextEditingController _todoItemController;
 
@@ -22,6 +22,8 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
 
     _todoItemController = TextEditingController(text: '');
     _todoItem = FocusNode();
+
+    _dummyList = List();
   }
 
   // @override
