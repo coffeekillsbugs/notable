@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import './routes.dart' as router;
 import './theme/colors.dart';
 import './theme/textTheme.dart';
 import 'sigma_provider.dart';
+import './models/sigma_note.dart';
 
-void main() {
+void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ),
   );
+
+  Hive.registerAdapter(SigmaNoteAdapter());
+  Hive.registerAdapter(TodoItemModelAdapter());
+  Hive.registerAdapter(NoteTypeAdapter());
+
+  await Hive.initFlutter();
+  await Hive.openBox<SigmaNote>('sigmaNotes');
+
   runApp(Sigma());
 }
 

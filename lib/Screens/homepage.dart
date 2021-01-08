@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../theme/colors.dart';
 import '../widgets/white_button.dart';
 import '../widgets/black_button.dart';
 import '../sigma_provider.dart';
+import '../views/note_view.dart';
+import '../views/todo_view.dart';
+import '../models/sigma_note.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,6 +18,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isCollapsed;
+  bool temp = true;
+  bool isNoteCollapsed = false;
+  List<SigmaNote> _noteList = List();
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +46,50 @@ class _HomePageState extends State<HomePage> {
                     textScaleFactor: 0.9,
                     style: Theme.of(context).textTheme.headline4,
                   ),
-                  titlePadding:
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  titlePadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                 ),
               ),
-              SliverFillRemaining(),
+              ValueListenableBuilder(
+                valueListenable: Hive.box<SigmaNote>('sigmaNotes').listenable(),
+                builder: (context, Box<SigmaNote> note, widget) {
+                  if (_noteList.isNotEmpty) {
+                    return SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: Theme.of(context).textTheme.headline6,
+                            children: [
+                              TextSpan(
+                                text: 'Such Empty.\n',
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
+                              TextSpan(
+                                text: 'Try adding a few notes.',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          if(index % 2 == 0)
+                            return NoteView();
+                          else
+                          return TodoView();
+                        },
+                        childCount: 5,
+                      ),
+                    );
+                  }
+                },
+              ),
             ],
           ),
           // >>> Todolist Button
@@ -65,8 +112,7 @@ class _HomePageState extends State<HomePage> {
             right: 16.0,
             child: WhiteButton(
               kOnTap: () {
-                Provider.of<SigmaProvider>(context, listen: false)
-                    .changeTodoPadding();
+                Provider.of<SigmaProvider>(context, listen: false).changeTodoPadding();
               },
               kIcon: Icons.add,
               kSize: 28.0,
