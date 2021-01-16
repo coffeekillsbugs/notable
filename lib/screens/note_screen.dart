@@ -79,6 +79,8 @@ class _NoteScreenState extends State<NoteScreen> {
                   controller: _titleController,
                   maxLines: 1,
                   keyboardType: TextInputType.text,
+                  textCapitalization: TextCapitalization.sentences,
+                  autocorrect: false,
                   style: Theme.of(context).textTheme.headline3,
                   cursorColor: Colors.white,
                   cursorRadius: Radius.circular(10.0),
@@ -147,6 +149,7 @@ class _NoteScreenState extends State<NoteScreen> {
                     noteBody: _noteBodyController.text,
                   ),
                 );
+                sigmaProvider.updateEditMode();
                 // Show updated
                 Navigator.popAndPushNamed(context, 'NoteView');
               } else {
@@ -158,6 +161,7 @@ class _NoteScreenState extends State<NoteScreen> {
                     noteBody: _noteBodyController.text,
                   ),
                 );
+                Navigator.pop(context);
               }
             },
             kIcon: Icons.save,

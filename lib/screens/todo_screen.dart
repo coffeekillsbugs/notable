@@ -46,7 +46,7 @@ class _TodoScreenState extends State<TodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    sigmaProvider = Provider.of<SigmaProvider>(context);
+    sigmaProvider = Provider.of<SigmaProvider>(context, listen: false);
 
     if (sigmaProvider.isEditMode) {
       isEditMode = sigmaProvider.isEditMode;
@@ -79,6 +79,8 @@ class _TodoScreenState extends State<TodoScreen> {
                     controller: _titleController,
                     maxLines: 1,
                     keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.sentences,
+                    autocorrect: false,
                     style: Theme.of(context).textTheme.headline3,
                     cursorColor: Colors.white,
                     cursorRadius: Radius.circular(10.0),
@@ -178,6 +180,8 @@ class _TodoScreenState extends State<TodoScreen> {
                                     controller: _todoItemController,
                                     maxLines: 1,
                                     keyboardType: TextInputType.text,
+                                    textCapitalization: TextCapitalization.sentences,
+                                    autocorrect: false,
                                     style: Theme.of(context).textTheme.bodyText1,
                                     cursorColor: Colors.white,
                                     cursorRadius: Radius.circular(10.0),

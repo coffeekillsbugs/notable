@@ -14,7 +14,7 @@ class SigmaProvider extends ChangeNotifier {
       _isEditMode = true;
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   void updateSelectedIndex(int index) {
