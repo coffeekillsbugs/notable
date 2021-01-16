@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 
 class SigmaProvider extends ChangeNotifier {
-bool _isFABCollapsed = true;
+  bool _isEditMode = false;
+  int _selectedIndex;
 
-get isFABCollapsed => _isFABCollapsed;
+  get isEditMode => _isEditMode;
+  get selectedIndex => _selectedIndex;
 
-void changeTodoPadding() {
-  if (_isFABCollapsed == false) {
-    _isFABCollapsed = true;
-  } else {
-    _isFABCollapsed = false;
+  void updateEditMode() {
+    if (_isEditMode) {
+      _isEditMode = false;
+    } else {
+      _isEditMode = true;
+    }
+
+    notifyListeners();
   }
 
-  print(_isFABCollapsed);
+  void updateSelectedIndex(int index) {
+    _selectedIndex = index;
 
-  notifyListeners();
-}
+    notifyListeners();
+  }
 }

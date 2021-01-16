@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../widgets/sigma_button.dart';
+import '../models/sigma_note.dart';
+import '../sigma_provider.dart';
+import '../view_models/note_view_model.dart';
+import '../theme/colors.dart';
 
 class NoteView extends StatefulWidget {
   @override
@@ -6,84 +13,130 @@ class NoteView extends StatefulWidget {
 }
 
 class _NoteViewState extends State<NoteView> {
-  bool isNoteCollapsed = false;
+  NoteViewModel noteViewModel = NoteViewModel();
+  SigmaNote noteObject = SigmaNote();
+
+  SigmaProvider sigmaProviderFalse, sigmaProvider;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 8.0,
-      ),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 12.0,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.07),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: Column(
-          children: [
-            // >>> Title, Collapse and Expand button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Note',
-                  style: Theme.of(context).textTheme.headline5,
+    sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
+    sigmaProvider = Provider.of<SigmaProvider>(context);
+
+    noteObject = noteViewModel.getFromHiveProvider(sigmaProvider.selectedIndex);
+    // >>> Note View
+    return Scaffold(
+      backgroundColor: AppColor.darkGrey,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 32.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
+                child: Text(
+                  noteObject.title,
+                  style: Theme.of(context).textTheme.headline3,
                 ),
-                InkWell(
-                  splashColor: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                  onTap: () {
-                    setState(() {
-                      if(isNoteCollapsed) {
-                        isNoteCollapsed = false;
-                      } else {
-                        isNoteCollapsed = true;
-                      }
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Icon(
-                      Icons.watch_later,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
-                  ),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
+                child: Text(
+                  dateFormat(noteObject.dateCreated),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
-              ],
-            ),
-            isNoteCollapsed ? Container() : Column(
-              children: [
-                SizedBox(height: 8.0,),
-                // >>> Body
-                Container(
-                  alignment: Alignment.topLeft,
-                  height: 160.0,
-                  // color: Colors.red,
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Text('This is note body.', style: Theme.of(context).textTheme.bodyText1,),),
+              ),
+              SizedBox(height: 16.0),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
+                child: Text(
+                  noteObject.noteBody,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
-                SizedBox(height: 8.0,),
-                // >>> Date Created
-                Container(
-                  alignment: Alignment.centerLeft,
-                  // color: Colors.green,
-                  child: Text('23 December, 2020', style: Theme.of(context).textTheme.bodyText2,),
-                ),
-                SizedBox(height: 8.0),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(height: 100.0),
+            ],
+          ),
         ),
       ),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SigmaButton(
+            kHeroTag: 'white',
+            kOnPressed: () => Navigator.pop(context),
+            kIcon: Icons.chevron_left_rounded,
+            kSize: 40.0,
+          ),
+          SizedBox(width: 16.0),
+          SigmaButton(
+            kHeroTag: 'blackNote',
+            kOnPressed: () {
+              sigmaProviderFalse.updateEditMode();
+              Navigator.popAndPushNamed(context, 'NoteScreen');
+            },
+            kIcon: Icons.edit,
+            kIconColor: Colors.white,
+            kBackgroundColor: AppColor.darkGrey,
+            kForegroundColor: Colors.white.withOpacity(0.12),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
+  }
+
+  String dateFormat(DateTime dateTime) {
+    String _dateTime;
+
+    _dateTime = '${dateTime.day} ${monthName(dateTime.month)}, ${dateTime.year}';
+
+    return _dateTime;
+  }
+
+  String monthName(int month) {
+    switch (month) {
+      case 1:
+        return 'January';
+
+      case 2:
+        return 'February';
+
+      case 3:
+        return 'March';
+
+      case 4:
+        return 'April';
+
+      case 5:
+        return 'May';
+
+      case 6:
+        return 'June';
+
+      case 7:
+        return 'July';
+
+      case 8:
+        return 'August';
+
+      case 9:
+        return 'September';
+
+      case 10:
+        return 'October';
+
+      case 11:
+        return 'November';
+
+      case 12:
+        return 'December';
+
+      default:
+        return 'January';
+    }
   }
 }
