@@ -51,58 +51,60 @@ class _TodoViewState extends State<TodoView> {
               ),
               SizedBox(height: 16.0),
               // >>> To Do list layout
-              Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: todoObject.todoItems.length,
-                          itemBuilder: (context, index) {
-                            if (todoObject.todoItems.isEmpty) {
-                              return Container();
-                            }
+              Flexible(
+                child: Container(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          child: ListView.builder(
+                            // physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: todoObject.todoItems.length,
+                            itemBuilder: (context, index) {
+                              if (todoObject.todoItems.isEmpty) {
+                                return Container();
+                              }
 
-                            return Container(
-                              alignment: Alignment.center,
-                              height: 56.0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    todoObject.todoItems[index].todoItem,
-                                    style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0),
-                                  ),
-                                  // InkWell(
-                                  //   splashColor: Colors.white,
-                                  //   borderRadius: BorderRadius.circular(28.0),
-                                  //   onTap: () {
-                                  //     setState(() {
-                                  //       todoObject.todoItems.removeAt(index);
-                                  //     });
-                                  //   },
-                                  //   child: Container(
-                                  //     alignment: Alignment.center,
-                                  //     height: 56.0,
-                                  //     width: 56.0,
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(28.0),
-                                  //     ),
-                                  //     child: Icon(
-                                  //       Icons.delete_rounded,
-                                  //       color: Colors.white,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            );
-                          },
+                              return Container(
+                                alignment: Alignment.center,
+                                height: 56.0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      todoObject.todoItems[index].todoItem,
+                                      style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0),
+                                    ),
+                                    // InkWell(
+                                    //   splashColor: Colors.white,
+                                    //   borderRadius: BorderRadius.circular(28.0),
+                                    //   onTap: () {
+                                    //     setState(() {
+                                    //       todoObject.todoItems.removeAt(index);
+                                    //     });
+                                    //   },
+                                    //   child: Container(
+                                    //     alignment: Alignment.center,
+                                    //     height: 56.0,
+                                    //     width: 56.0,
+                                    //     decoration: BoxDecoration(
+                                    //       borderRadius: BorderRadius.circular(28.0),
+                                    //     ),
+                                    //     child: Icon(
+                                    //       Icons.delete_rounded,
+                                    //       color: Colors.white,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

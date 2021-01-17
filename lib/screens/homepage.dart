@@ -72,32 +72,31 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     );
-                  } else {
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          if (note.getAt(index).noteType == NoteType.note) {
-                            SigmaNote noteObject = note.getAt(index);
-                            return GestureDetector(
-                                onTap: () {
-                                  sigmaProviderFalse.updateSelectedIndex(index);
-                                  Navigator.pushNamed(context, 'NoteView');
-                                },
-                                child: CompactNoteView(noteObject: noteObject));
-                          } else {
-                            SigmaNote todoObject = note.getAt(index);
-                            return GestureDetector(
-                                onTap: () {
-                                  sigmaProviderFalse.updateSelectedIndex(index);
-                                  Navigator.pushNamed(context, 'TodoView');
-                                },
-                                child: CompactTodoView(todoObject: todoObject));
-                          }
-                        },
-                        childCount: note.length,
-                      ),
-                    );
                   }
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (note.getAt(index).noteType == NoteType.note) {
+                          SigmaNote noteObject = note.getAt(index);
+                          return GestureDetector(
+                              onTap: () {
+                                sigmaProviderFalse.updateSelectedIndex(index);
+                                Navigator.pushNamed(context, 'NoteView');
+                              },
+                              child: CompactNoteView(noteObject: noteObject));
+                        } else {
+                          SigmaNote todoObject = note.getAt(index);
+                          return GestureDetector(
+                              onTap: () {
+                                sigmaProviderFalse.updateSelectedIndex(index);
+                                Navigator.pushNamed(context, 'TodoView');
+                              },
+                              child: CompactTodoView(todoObject: todoObject));
+                        }
+                      },
+                      childCount: note.length,
+                    ),
+                  );
                 },
               ),
               SliverFillRemaining(
@@ -106,79 +105,144 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          _showOverlay
-              ? GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _showOverlay = false;
-                    });
-                  },
-                  child: Container(
-                    color: Colors.white.withOpacity(0.3),
-                  ),
-                )
-              : Container(),
         ],
       ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedOpacity(
-            // >>> New Todo Button
-            duration: Duration(milliseconds: 200),
-            opacity: _showOverlay ? 1.0 : 0.0,
-            child: SigmaButton(
-              kHeroTag: 'back2',
-              kIcon: Icons.check_box_rounded,
-              kOnPressed: () {
-                if (_showOverlay) {
-                  Navigator.pushNamed(context, 'TodoScreen');
-                  setState(() {
-                    _showOverlay = false;
-                  });
-                }
-              },
-              kIconColor: Colors.white,
-              kBackgroundColor: AppColor.darkGrey,
+      floatingActionButton: SigmaButton(
+        kHeroTag: 'sigma',
+        kIcon: Icons.add,
+        kOnPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) => Container(
+              height: 258.0,
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Container(
+                    child: Container(
+                      height: 5.0,
+                      width: 36.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      //New Note Button
+                      NoteButton(
+                        kOnTap: () {
+                          Navigator.popAndPushNamed(context, 'NoteScreen');
+                        },
+                        kIcon: Icons.edit,
+                        kLabel: 'New Note',
+                      ),
+                      SizedBox(width: 16.0),
+                      //Other Buttons
+                      Container(
+                        // color: Colors.green,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SigmaButton(
+                              kHeroTag: 'search',
+                              kIcon: Icons.search,
+                              kIconColor: Colors.white,
+                              kBackgroundColor: Colors.white.withOpacity(0.12),
+                            ),
+                            SizedBox(height: 16.0),
+                            SigmaButton(
+                              kHeroTag: 'settings',
+                              kIcon: Icons.settings,
+                              kIconColor: Colors.white,
+                              kBackgroundColor: Colors.white.withOpacity(0.12),
+                            ),
+                            SizedBox(height: 16.0),
+                            SigmaButton(
+                              kOnPressed: () {
+                                Navigator.pop(context);
+                              },
+                              kHeroTag: 'sigma',
+                              kIcon: Icons.keyboard_arrow_down_rounded,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 16.0),
+                      // New ToDo Button
+                      NoteButton(
+                        kOnTap: () {
+                          Navigator.popAndPushNamed(context, 'TodoScreen');
+                        },
+                        kIcon: Icons.check_box_rounded,
+                        kLabel: 'New ToDo',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            backgroundColor: AppColor.darkGrey,
+            barrierColor: Colors.black87,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+class NoteButton extends StatelessWidget {
+  final IconData kIcon;
+  final String kLabel;
+  final Function kOnTap;
+
+  NoteButton({@required this.kIcon, @required this.kLabel, this.kOnTap,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: kOnTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColor.darkGrey,
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0.0, 0.0),
+                color: Colors.black.withOpacity(0.12),
+                blurRadius: 1.0,
+              ),
+            ],
+          ),
+          child: Container(
+            height: 200.0,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.07),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  kIcon,
+                  color: Colors.white,
+                  size: 40.0,
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  kLabel,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+              ],
             ),
           ),
-          SizedBox(height: 16.0),
-          // >>> New Note Button
-          AnimatedOpacity(
-            duration: Duration(milliseconds: 200),
-            opacity: _showOverlay ? 1.0 : 0.0,
-            child: SigmaButton(
-              kHeroTag: 'blackNote',
-              kIcon: Icons.edit,
-              kOnPressed: () {
-                if (_showOverlay) {
-                  Navigator.pushNamed(context, 'NoteScreen');
-                  setState(() {
-                    _showOverlay = false;
-                  });
-                }
-              },
-              kIconColor: Colors.white,
-              kBackgroundColor: AppColor.darkGrey,
-            ),
-          ),
-          // >>> Sigma Button
-          SizedBox(height: 16.0),
-          // TODO : replace icon with custom sigma icon
-          SigmaButton(
-            kHeroTag: 'white',
-            kIcon: Icons.add,
-            kOnPressed: () {
-              setState(() {
-                if (_showOverlay) {
-                  _showOverlay = false;
-                } else {
-                  _showOverlay = true;
-                }
-              });
-            },
-          ),
-        ],
+        ),
       ),
     );
   }

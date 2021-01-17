@@ -36,10 +36,13 @@ class _CompactTodoViewState extends State<CompactTodoView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.todoObject.title,
-                  style: Theme.of(context).textTheme.headline5,
+                Container(
+                  child: Text(
+                    widget.todoObject.title,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
+                SizedBox(width: 8.0),
                 InkWell(
                   splashColor: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
@@ -58,7 +61,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: Icon(
-                      isTodoCollapsed ? Icons.watch_later : Icons.watch_later_outlined,
+                      isTodoCollapsed ? Icons.visibility : Icons.visibility_off,
                       color: Colors.white,
                       size: 24.0,
                     ),
@@ -73,7 +76,8 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                       // >>> Body
                       Container(
                         alignment: Alignment.topLeft,
-                        height: 260.0,
+                        // color: Colors.red,
+                        height: 240.0,
                         // color: Colors.red,
                         child: ListView.builder(
                           // padding: EdgeInsets.symmetric(vertical: 16.0),

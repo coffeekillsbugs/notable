@@ -43,6 +43,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ),
+                SizedBox(width: 16.0),
                 InkWell(
                   splashColor: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
@@ -61,7 +62,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: Icon(
-                      isNoteCollapsed ? Icons.watch_later : Icons.watch_later_outlined,
+                      isNoteCollapsed ? Icons.visibility : Icons.visibility_off,
                       color: Colors.white,
                       size: 24.0,
                     ),
