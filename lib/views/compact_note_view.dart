@@ -37,10 +37,17 @@ class _CompactNoteViewState extends State<CompactNoteView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  child: Text(
-                    widget.noteObject.title,
-                    style: Theme.of(context).textTheme.headline5,
+                Flexible(
+                  child: Container(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        widget.noteObject.title,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(width: 16.0),

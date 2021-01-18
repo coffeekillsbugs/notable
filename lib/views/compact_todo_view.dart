@@ -36,10 +36,16 @@ class _CompactTodoViewState extends State<CompactTodoView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  child: Text(
-                    widget.todoObject.title,
-                    style: Theme.of(context).textTheme.headline5,
+                Flexible(
+                  child: Container(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        widget.todoObject.title,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(width: 8.0),
