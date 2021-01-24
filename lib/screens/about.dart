@@ -11,19 +11,19 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  ScrollController _scrollController;
+  // ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
 
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
+    // _scrollController = ScrollController();
+    // _scrollController.addListener(_scrollListener);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    // _scrollController.dispose();
 
     super.dispose();
   }
@@ -36,7 +36,6 @@ class _AboutScreenState extends State<AboutScreen> {
         Scaffold(
           backgroundColor: AppColor.darkGrey,
           body: CustomScrollView(
-            controller: _scrollController,
             physics: BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
@@ -69,7 +68,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           height: 110.0,
                           width: 110.0,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.09),
+                            color: AppColor.overlaySeven,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(10.0),
                               bottomRight: Radius.circular(10.0),
@@ -161,7 +160,7 @@ class _AboutScreenState extends State<AboutScreen> {
     }
   }
 
-  void _scrollListener() {}
+  // void _scrollListener() {}
 }
 
 class KitKatButton extends StatelessWidget {

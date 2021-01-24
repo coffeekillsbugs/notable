@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                               kHeroTag: 'search',
                               kIcon: Icons.search,
                               kIconColor: Colors.white,
-                              kBackgroundColor: Colors.white.withOpacity(0.12),
+                              kBackgroundColor: AppColor.overlayTwelve,
                             ),
                             SizedBox(height: 16.0),
                             SigmaButton(
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                               },
                               kIcon: Icons.info_outline_rounded,
                               kIconColor: Colors.white,
-                              kBackgroundColor: Colors.white.withOpacity(0.12),
+                              kBackgroundColor: AppColor.overlayTwelve,
                             ),
                             SizedBox(height: 16.0),
                             SigmaButton(
@@ -230,8 +230,8 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            backgroundColor: AppColor.darkGrey,
-            barrierColor: Colors.black87,
+            backgroundColor: AppColor.overlayFive,
+            barrierColor: AppColor.darkGrey.withOpacity(0.9),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           );
         },
@@ -246,8 +246,7 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                // backgroundColor: Colors.white30,
-                backgroundColor: AppColor.darkGrey,
+                backgroundColor: AppColor.overlayTwelve,
                 title: Text('Delete?', style: Theme.of(context).textTheme.headline6),
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,11 +261,6 @@ class _HomePageState extends State<HomePage> {
                     Text('This action is not reversible.', style: Theme.of(context).textTheme.subtitle2),
                   ],
                 ),
-                // content: SingleChildScrollView(
-                //   physics: BouncingScrollPhysics(),
-                //   scrollDirection: Axis.horizontal,
-                //   child: Text('You\'re about to delete \"$habitName\".\n\nThis action is not reversible.', style: Theme.of(context).textTheme.subtitle2),
-                // ),
                 actions: [
                   FlatButton(
                     child: Text('YES', style: Theme.of(context).textTheme.button),
@@ -305,7 +299,6 @@ class NoteButton extends StatelessWidget {
         onTap: kOnTap,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColor.darkGrey,
             borderRadius: BorderRadius.circular(5.0),
             boxShadow: [
               BoxShadow(
@@ -318,7 +311,7 @@ class NoteButton extends StatelessWidget {
           child: Container(
             height: 200.0,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.07),
+              color: AppColor.overlayTwelve,
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Column(

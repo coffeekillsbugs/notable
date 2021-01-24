@@ -170,7 +170,7 @@ class _NoteScreenState extends State<NoteScreen> {
             },
             kIcon: Icons.save,
             kIconColor: Colors.white,
-            kBackgroundColor: Colors.white.withOpacity(0.12),
+            kBackgroundColor: AppColor.overlayTwelve,
           ),
         ],
       ),
@@ -235,7 +235,7 @@ class _NoteScreenState extends State<NoteScreen> {
       barrierColor: AppColor.darkGrey.withOpacity(0.9),
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: AppColor.darkGrey,
+          backgroundColor: AppColor.overlayTwelve,
           title: Text(
             'But...',
             style: Theme.of(context).textTheme.headline6,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sigma/theme/colors.dart';
 
 import '../models/sigma_note.dart';
 
@@ -28,7 +29,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
           vertical: 12.0,
         ),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.07),
+          color: AppColor.overlaySeven,
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Column(

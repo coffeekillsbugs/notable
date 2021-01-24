@@ -7,7 +7,6 @@ class SigmaButton extends StatelessWidget {
   final double kSize;
   final Function kOnPressed;
   final Color kBackgroundColor;
-  final Color kForegroundColor;
   final Color kIconColor;
   final String kHeroTag;
 
@@ -16,7 +15,6 @@ class SigmaButton extends StatelessWidget {
     this.kSize = 24.0,
     this.kOnPressed,
     this.kBackgroundColor = Colors.white,
-    this.kForegroundColor,
     this.kIconColor = AppColor.darkGrey,
     @required this.kHeroTag,
   });
@@ -38,7 +36,6 @@ class SigmaButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
         ),
         backgroundColor: kBackgroundColor,
-        foregroundColor: kForegroundColor,
       ),
     );
   }

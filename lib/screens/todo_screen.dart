@@ -174,7 +174,7 @@ class _TodoScreenState extends State<TodoScreen> {
                                 child: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  decoration: BoxDecoration(color: Colors.white.withOpacity(0.12), borderRadius: BorderRadius.circular(5.0)),
+                                  decoration: BoxDecoration(color: AppColor.overlaySeven, borderRadius: BorderRadius.circular(5.0)),
                                   child: TextField(
                                     focusNode: _todoItem,
                                     controller: _todoItemController,
@@ -277,7 +277,7 @@ class _TodoScreenState extends State<TodoScreen> {
             },
             kIcon: Icons.save,
             kIconColor: Colors.white,
-            kBackgroundColor: Colors.white.withOpacity(0.12),
+            kBackgroundColor: AppColor.overlayTwelve,
           ),
         ],
       ),
@@ -342,7 +342,7 @@ class _TodoScreenState extends State<TodoScreen> {
       barrierColor: AppColor.darkGrey.withOpacity(0.9),
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: AppColor.darkGrey,
+          backgroundColor: AppColor.overlayTwelve,
           title: Text(
             'Hmm...',
             style: Theme.of(context).textTheme.headline6,

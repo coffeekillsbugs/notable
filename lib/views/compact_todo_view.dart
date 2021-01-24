@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/colors.dart';
 import '../models/sigma_note.dart';
 
 class CompactTodoView extends StatefulWidget {
@@ -27,7 +28,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
           vertical: 12.0,
         ),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.07),
+          color: AppColor.overlaySeven,
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Column(
