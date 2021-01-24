@@ -79,39 +79,63 @@ class _HomePageState extends State<HomePage> {
                     if (note.getAt(index).noteType == NoteType.note) {
                       SigmaNote noteObject = note.getAt(index);
                       return GestureDetector(
-                          onTap: () {
-                            sigmaProviderFalse.updateSelectedIndex(index);
-                            Navigator.pushNamed(context, 'NoteView');
+                        onTap: () {
+                          sigmaProviderFalse.updateSelectedIndex(index);
+                          Navigator.pushNamed(context, 'NoteView');
+                        },
+                        child: Dismissible(
+                          background: Container(color: Colors.white),
+                          secondaryBackground: Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.all(16.0),
+                            color: Colors.white,
+                            child: Icon(
+                              Icons.delete_rounded,
+                              color: AppColor.darkGrey,
+                            ),
+                          ),
+                          key: Key(noteObject.dateCreated.toString()),
+                          direction: DismissDirection.endToStart,
+                          // dismissThresholds: Map<DismissDirection.endToStart: 4.0>,
+                          confirmDismiss: (direction) async {
+                            return _deleteConfirmationDialog(habitName: noteObject.title);
                           },
-                          child: Dismissible(
-                            background: Container(color: Colors.red),
-                            secondaryBackground: Container(
-                                alignment: Alignment.centerRight,
-                                padding: EdgeInsets.all(16.0),
-                                color: Colors.white,
-                                child: Icon(
-                                  Icons.delete_rounded,
-                                  color: AppColor.darkGrey,
-                                )),
-                            key: Key(noteObject.dateCreated.toString()),
-                            direction: DismissDirection.endToStart,
-                            // dismissThresholds: Map<DismissDirection.endToStart: 4.0>,
-                            confirmDismiss: (direction) async {
-                              return _deleteConfirmationDialog(habitName: noteObject.title);
-                            },
-                            onDismissed: (direction) {
-                             noteViewModel.deleteFromHiveProvider(index);
-                            },
-                            child: CompactNoteView(noteObject: noteObject),
-                          ));
+                          onDismissed: (direction) {
+                            noteViewModel.deleteFromHiveProvider(index);
+                          },
+                          child: CompactNoteView(noteObject: noteObject),
+                        ),
+                      );
                     } else {
                       SigmaNote todoObject = note.getAt(index);
                       return GestureDetector(
-                          onTap: () {
-                            sigmaProviderFalse.updateSelectedIndex(index);
-                            Navigator.pushNamed(context, 'TodoView');
+                        onTap: () {
+                          sigmaProviderFalse.updateSelectedIndex(index);
+                          Navigator.pushNamed(context, 'TodoView');
+                        },
+                        child: Dismissible(
+                          background: Container(color: Colors.white),
+                          secondaryBackground: Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.all(16.0),
+                            color: Colors.white,
+                            child: Icon(
+                              Icons.delete_rounded,
+                              color: AppColor.darkGrey,
+                            ),
+                          ),
+                          key: Key(todoObject.dateCreated.toString()),
+                          direction: DismissDirection.endToStart,
+                          // dismissThresholds: Map<DismissDirection.endToStart: 4.0>,
+                          confirmDismiss: (direction) async {
+                            return _deleteConfirmationDialog(habitName: todoObject.title);
                           },
-                          child: CompactTodoView(todoObject: todoObject));
+                          onDismissed: (direction) {
+                            noteViewModel.deleteFromHiveProvider(index);
+                          },
+                          child: CompactTodoView(todoObject: todoObject),
+                        ),
+                      );
                     }
                   },
                   childCount: note.length,
@@ -127,7 +151,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: SigmaButton(
         kHeroTag: 'sigma',
-        kIcon: Icons.add,
+        kIcon: Icons.keyboard_arrow_up_rounded,
         kOnPressed: () {
           showModalBottomSheet(
             context: context,
@@ -215,30 +239,48 @@ class _HomePageState extends State<HomePage> {
 
   Future<bool> _deleteConfirmationDialog({String habitName}) async {
     return showDialog<bool>(
-        context: context,
-        builder: (BuildContext ctx) {
-          return AlertDialog(
-            title: Text('Delete', style: Theme.of(context).textTheme.caption),
-            content: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text('$habitName?', style: Theme.of(context).textTheme.caption),
-            ),
-            actions: [
-              FlatButton(
-                child: Text('YES', style: Theme.of(context).textTheme.button),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-              ),
-              FlatButton(
-                child: Text('NO', style: Theme.of(context).textTheme.button),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-            ],
-          );
-        });
+            barrierColor: AppColor.darkGrey.withOpacity(0.9),
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                // backgroundColor: Colors.white30,
+                backgroundColor: AppColor.darkGrey,
+                title: Text('Delete?', style: Theme.of(context).textTheme.headline6),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Text('You\'re about to delete \"$habitName\".', style: Theme.of(context).textTheme.subtitle2),
+                    ),
+                    SizedBox(height: 16.0),
+                    Text('This action is not reversible.', style: Theme.of(context).textTheme.subtitle2),
+                  ],
+                ),
+                // content: SingleChildScrollView(
+                //   physics: BouncingScrollPhysics(),
+                //   scrollDirection: Axis.horizontal,
+                //   child: Text('You\'re about to delete \"$habitName\".\n\nThis action is not reversible.', style: Theme.of(context).textTheme.subtitle2),
+                // ),
+                actions: [
+                  FlatButton(
+                    child: Text('YES', style: Theme.of(context).textTheme.button),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('NO', style: Theme.of(context).textTheme.button),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                ],
+              );
+            }) ??
+        false;
   }
 }
 
