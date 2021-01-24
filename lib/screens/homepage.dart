@@ -197,8 +197,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(height: 16.0),
                             SigmaButton(
-                              kHeroTag: 'settings',
-                              kIcon: Icons.settings,
+                              kHeroTag: 'about',
+                              kOnPressed: () {
+                                Navigator.popAndPushNamed(context, 'About');
+                              },
+                              kIcon: Icons.info_outline_rounded,
                               kIconColor: Colors.white,
                               kBackgroundColor: Colors.white.withOpacity(0.12),
                             ),

@@ -246,30 +246,34 @@ class _TodoScreenState extends State<TodoScreen> {
           SigmaButton(
             kHeroTag: 'blackTodo',
             kOnPressed: () {
-              if (isEditMode) {
-                isEditMode = false;
-                todoViewModel.updateToHiveProvider(
-                  selectedIndex,
-                  SigmaNote(
-                    title: _titleController.text,
-                    dateCreated: todoObject.dateCreated,
-                    noteType: NoteType.todo,
-                    todoItems: todoObject.todoItems,
-                  ),
-                );
-                // Show updated
-                Navigator.popAndPushNamed(context, 'TodoView');
-              } else {
-                todoViewModel.writeToHiveProvider(
-                  SigmaNote(
-                    title: _titleController.text,
-                    dateCreated: dateTime,
-                    noteType: NoteType.todo,
-                    todoItems: todoObject.todoItems,
-                  ),
-                );
+             if(_titleController.text.isEmpty) {
+               _emptyFieldWarning();
+             } else {
+                if (isEditMode) {
+                  isEditMode = false;
+                  todoViewModel.updateToHiveProvider(
+                    selectedIndex,
+                    SigmaNote(
+                      title: _titleController.text,
+                      dateCreated: todoObject.dateCreated,
+                      noteType: NoteType.todo,
+                      todoItems: todoObject.todoItems,
+                    ),
+                  );
+                  // Show updated
+                  Navigator.popAndPushNamed(context, 'TodoView');
+                } else {
+                  todoViewModel.writeToHiveProvider(
+                    SigmaNote(
+                      title: _titleController.text,
+                      dateCreated: dateTime,
+                      noteType: NoteType.todo,
+                      todoItems: todoObject.todoItems,
+                    ),
+                  );
+                  Navigator.pop(context);
+                }
               }
-              Navigator.pop(context);
             },
             kIcon: Icons.save,
             kIconColor: Colors.white,
@@ -330,5 +334,30 @@ class _TodoScreenState extends State<TodoScreen> {
       default:
         return 'January';
     }
+  }
+
+  Future<void> _emptyFieldWarning() async {
+    return showDialog(
+      context: context,
+      barrierColor: AppColor.darkGrey.withOpacity(0.9),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColor.darkGrey,
+          title: Text(
+            'Hmm...',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          content: Text('...seems you forgot the title.', style: Theme.of(context).textTheme.subtitle2),
+          actions: [
+            FlatButton(
+              child: Text('SILLY ME', style: Theme.of(context).textTheme.button),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

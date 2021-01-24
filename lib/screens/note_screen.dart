@@ -138,30 +138,34 @@ class _NoteScreenState extends State<NoteScreen> {
           SigmaButton(
             kHeroTag: 'blackNote',
             kOnPressed: () {
-              if (isEditMode) {
-                isEditMode = false;
-                noteViewModel.updateToHiveProvider(
-                  selectedIndex,
-                  SigmaNote(
-                    title: _titleController.text,
-                    dateCreated: noteObject.dateCreated,
-                    noteType: NoteType.note,
-                    noteBody: _noteBodyController.text,
-                  ),
-                );
-                sigmaProvider.updateEditMode();
-                // Show updated
-                Navigator.popAndPushNamed(context, 'NoteView');
+              if (_noteBodyController.text.isEmpty) {
+                _emptyFieldWarning();
               } else {
-                noteViewModel.writeToHiveProvider(
-                  SigmaNote(
-                    title: _titleController.text,
-                    dateCreated: dateTime,
-                    noteType: NoteType.note,
-                    noteBody: _noteBodyController.text,
-                  ),
-                );
-                Navigator.pop(context);
+                if (isEditMode) {
+                  isEditMode = false;
+                  noteViewModel.updateToHiveProvider(
+                    selectedIndex,
+                    SigmaNote(
+                      title: _titleController.text,
+                      dateCreated: noteObject.dateCreated,
+                      noteType: NoteType.note,
+                      noteBody: _noteBodyController.text,
+                    ),
+                  );
+                  sigmaProvider.updateEditMode();
+                  // Show updated
+                  Navigator.popAndPushNamed(context, 'NoteView');
+                } else {
+                  noteViewModel.writeToHiveProvider(
+                    SigmaNote(
+                      title: _titleController.text,
+                      dateCreated: dateTime,
+                      noteType: NoteType.note,
+                      noteBody: _noteBodyController.text,
+                    ),
+                  );
+                  Navigator.pop(context);
+                }
               }
             },
             kIcon: Icons.save,
@@ -223,5 +227,30 @@ class _NoteScreenState extends State<NoteScreen> {
       default:
         return 'January';
     }
+  }
+
+  Future<void> _emptyFieldWarning() async {
+    return showDialog(
+      context: context,
+      barrierColor: AppColor.darkGrey.withOpacity(0.9),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColor.darkGrey,
+          title: Text(
+            'But...',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          content: Text('...you haven\'t written anything.', style: Theme.of(context).textTheme.subtitle2),
+          actions: [
+            FlatButton(
+              child: Text('SILLY ME', style: Theme.of(context).textTheme.button),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

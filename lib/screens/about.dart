@@ -5,12 +5,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widgets/sigma_button.dart';
 import '../theme/colors.dart';
 
-class InfoScreen extends StatefulWidget {
+class AboutScreen extends StatefulWidget {
   @override
-  _InfoScreenState createState() => _InfoScreenState();
+  _AboutScreenState createState() => _AboutScreenState();
 }
 
-class _InfoScreenState extends State<InfoScreen> {
+class _AboutScreenState extends State<AboutScreen> {
   ScrollController _scrollController;
 
   @override
