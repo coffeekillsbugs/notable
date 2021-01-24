@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../view_models/note_view_model.dart';
 import '../sigma_provider.dart';
 import '../theme/colors.dart';
 import '../widgets/sigma_button.dart';
@@ -16,94 +17,111 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _showOverlay = false;
+  bool toDelete;
   bool temp = true;
 
   SigmaProvider sigmaProviderFalse;
+  NoteViewModel noteViewModel = NoteViewModel();
 
   @override
   Widget build(BuildContext context) {
     sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: AppColor.darkGrey,
-      body: Stack(
-        children: [
-          CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                pinned: true,
-                floating: false,
-                toolbarHeight: 80.0,
-                expandedHeight: 120.0,
-                backgroundColor: AppColor.darkGrey,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    'Home',
-                    textScaleFactor: 0.9,
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  titlePadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                ),
+      body: CustomScrollView(
+        physics: BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            floating: false,
+            toolbarHeight: 80.0,
+            expandedHeight: 120.0,
+            backgroundColor: AppColor.darkGrey,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                'Home',
+                textScaleFactor: 0.9,
+                style: Theme.of(context).textTheme.headline4,
               ),
-              ValueListenableBuilder(
-                valueListenable: Hive.box<SigmaNote>('sigmaNotes').listenable(),
-                builder: (context, Box<SigmaNote> note, widget) {
-                  if (note.isEmpty) {
-                    return SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: Theme.of(context).textTheme.headline6,
-                            children: [
-                              TextSpan(
-                                text: 'Such Empty.\n',
-                                style: Theme.of(context).textTheme.headline5,
-                              ),
-                              TextSpan(
-                                text: 'Try adding a few notes.',
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                            ],
+              titlePadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: Hive.box<SigmaNote>('sigmaNotes').listenable(),
+            builder: (context, Box<SigmaNote> note, widget) {
+              if (note.isEmpty) {
+                return SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.headline6,
+                        children: [
+                          TextSpan(
+                            text: 'Such Empty.\n',
+                            style: Theme.of(context).textTheme.headline5,
                           ),
-                        ),
+                          TextSpan(
+                            text: 'Try adding a few notes.',
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ],
                       ),
-                    );
-                  }
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (note.getAt(index).noteType == NoteType.note) {
-                          SigmaNote noteObject = note.getAt(index);
-                          return GestureDetector(
-                              onTap: () {
-                                sigmaProviderFalse.updateSelectedIndex(index);
-                                Navigator.pushNamed(context, 'NoteView');
-                              },
-                              child: CompactNoteView(noteObject: noteObject));
-                        } else {
-                          SigmaNote todoObject = note.getAt(index);
-                          return GestureDetector(
-                              onTap: () {
-                                sigmaProviderFalse.updateSelectedIndex(index);
-                                Navigator.pushNamed(context, 'TodoView');
-                              },
-                              child: CompactTodoView(todoObject: todoObject));
-                        }
-                      },
-                      childCount: note.length,
                     ),
-                  );
-                },
-              ),
-              SliverFillRemaining(
-                child: SizedBox(height: 80.0),
-                hasScrollBody: false,
-              ),
-            ],
+                  ),
+                );
+              }
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (note.getAt(index).noteType == NoteType.note) {
+                      SigmaNote noteObject = note.getAt(index);
+                      return GestureDetector(
+                          onTap: () {
+                            sigmaProviderFalse.updateSelectedIndex(index);
+                            Navigator.pushNamed(context, 'NoteView');
+                          },
+                          child: Dismissible(
+                            background: Container(color: Colors.red),
+                            secondaryBackground: Container(
+                                alignment: Alignment.centerRight,
+                                padding: EdgeInsets.all(16.0),
+                                color: Colors.white,
+                                child: Icon(
+                                  Icons.delete_rounded,
+                                  color: AppColor.darkGrey,
+                                )),
+                            key: Key(noteObject.dateCreated.toString()),
+                            direction: DismissDirection.endToStart,
+                            // dismissThresholds: Map<DismissDirection.endToStart: 4.0>,
+                            confirmDismiss: (direction) async {
+                              return _deleteConfirmationDialog(habitName: noteObject.title);
+                            },
+                            onDismissed: (direction) {
+                             noteViewModel.deleteFromHiveProvider(index);
+                            },
+                            child: CompactNoteView(noteObject: noteObject),
+                          ));
+                    } else {
+                      SigmaNote todoObject = note.getAt(index);
+                      return GestureDetector(
+                          onTap: () {
+                            sigmaProviderFalse.updateSelectedIndex(index);
+                            Navigator.pushNamed(context, 'TodoView');
+                          },
+                          child: CompactTodoView(todoObject: todoObject));
+                    }
+                  },
+                  childCount: note.length,
+                ),
+              );
+            },
+          ),
+          SliverFillRemaining(
+            child: SizedBox(height: 80.0),
+            hasScrollBody: false,
           ),
         ],
       ),
@@ -194,6 +212,34 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  Future<bool> _deleteConfirmationDialog({String habitName}) async {
+    return showDialog<bool>(
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: Text('Delete', style: Theme.of(context).textTheme.caption),
+            content: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text('$habitName?', style: Theme.of(context).textTheme.caption),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('YES', style: Theme.of(context).textTheme.button),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+              FlatButton(
+                child: Text('NO', style: Theme.of(context).textTheme.button),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          );
+        });
+  }
 }
 
 class NoteButton extends StatelessWidget {
@@ -201,7 +247,11 @@ class NoteButton extends StatelessWidget {
   final String kLabel;
   final Function kOnTap;
 
-  NoteButton({@required this.kIcon, @required this.kLabel, this.kOnTap,});
+  NoteButton({
+    @required this.kIcon,
+    @required this.kLabel,
+    this.kOnTap,
+  });
 
   @override
   Widget build(BuildContext context) {

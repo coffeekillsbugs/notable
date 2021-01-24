@@ -21,4 +21,8 @@ class HiveProvider extends ChangeNotifier {
     _sigmaNoteBox.putAt(index, updateObject);
   }
 
+  void deleteInHive(int index) {
+    _sigmaNoteBox.deleteAt(index);
+  }
+
 }
