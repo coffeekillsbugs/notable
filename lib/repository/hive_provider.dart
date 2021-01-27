@@ -7,6 +7,8 @@ class HiveProvider extends ChangeNotifier {
 
   Box<SigmaNote> _sigmaNoteBox = Hive.box<SigmaNote>('sigmaNotes');
 
+  Box<SigmaNote> get sigmaNoteBox => _sigmaNoteBox;
+
   SigmaNote readFromHive(int index) {
       SigmaNote readObject = _sigmaNoteBox.getAt(index);
 
@@ -25,4 +27,8 @@ class HiveProvider extends ChangeNotifier {
     _sigmaNoteBox.deleteAt(index);
   }
 
+  Iterable<SigmaNote> allNotes() =>
+    _sigmaNoteBox.values;
+
+  NoteType noteType(int index) => _sigmaNoteBox.values.elementAt(index).noteType;
 }

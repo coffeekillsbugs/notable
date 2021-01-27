@@ -7,9 +7,12 @@ import '../view_models/note_view_model.dart';
 import '../sigma_provider.dart';
 import '../theme/colors.dart';
 import '../widgets/sigma_button.dart';
+import '../widgets/note_button.dart';
 import '../views/compact_note_view.dart';
 import '../views/compact_todo_view.dart';
 import '../models/sigma_note.dart';
+import '../repository/hive_provider.dart';
+import '../services/search_delegate.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   bool temp = true;
 
   SigmaProvider sigmaProviderFalse;
+  HiveProvider hiveProvider = HiveProvider();
   NoteViewModel noteViewModel = NoteViewModel();
 
   @override
@@ -191,6 +195,18 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             SigmaButton(
                               kHeroTag: 'search',
+                              kOnPressed: () async {
+                                final selectedIndex = await showSearch(context: context, delegate: NoteSearch(Theme.of(context).textTheme.headline6.copyWith(color: AppColor.darkGrey),),);
+
+                                if (selectedIndex != null) {
+                                  NoteType noteType;
+                                  sigmaProviderFalse.updateSelectedIndex(selectedIndex);
+                                  noteType = hiveProvider.noteType(selectedIndex);
+                                  Navigator.popAndPushNamed(context, noteType == NoteType.note ? 'NoteView' : 'TodoView');
+                                } else {
+                                  Navigator.pop(context);
+                                }
+                              },
                               kIcon: Icons.search,
                               kIconColor: Colors.white,
                               kBackgroundColor: AppColor.overlayTwelve,
@@ -278,60 +294,5 @@ class _HomePageState extends State<HomePage> {
               );
             }) ??
         false;
-  }
-}
-
-class NoteButton extends StatelessWidget {
-  final IconData kIcon;
-  final String kLabel;
-  final Function kOnTap;
-
-  NoteButton({
-    @required this.kIcon,
-    @required this.kLabel,
-    this.kOnTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: kOnTap,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            boxShadow: [
-              BoxShadow(
-                offset: Offset(0.0, 0.0),
-                color: Colors.black.withOpacity(0.12),
-                blurRadius: 1.0,
-              ),
-            ],
-          ),
-          child: Container(
-            height: 200.0,
-            decoration: BoxDecoration(
-              color: AppColor.overlayTwelve,
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  kIcon,
-                  color: Colors.white,
-                  size: 40.0,
-                ),
-                SizedBox(height: 8.0),
-                Text(
-                  kLabel,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
