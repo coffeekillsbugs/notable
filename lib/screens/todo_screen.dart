@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../models/sigma_note.dart';
 import '../view_models/todo_view_model.dart';
-import '../sigma_provider.dart';
+import '../services/sigma_provider.dart';
 import '../theme/colors.dart';
 import '../widgets/sigma_button.dart';
 
@@ -62,7 +62,6 @@ class _TodoScreenState extends State<TodoScreen> {
     }
     // >>> Todo Screen
     return Scaffold(
-      backgroundColor: AppColor.darkGrey,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -240,7 +239,6 @@ class _TodoScreenState extends State<TodoScreen> {
             kHeroTag: 'white',
             kOnPressed: () => Navigator.pop(context),
             kIcon: Icons.chevron_left_rounded,
-            kSize: 40.0,
           ),
           SizedBox(width: 16.0),
           SigmaButton(
@@ -339,18 +337,15 @@ class _TodoScreenState extends State<TodoScreen> {
   Future<void> _emptyFieldWarning() async {
     return showDialog(
       context: context,
-      barrierColor: AppColor.darkGrey.withOpacity(0.9),
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: AppColor.overlayTwelve,
           title: Text(
             'Hmm...',
-            style: Theme.of(context).textTheme.headline6,
           ),
-          content: Text('...seems you forgot the title.', style: Theme.of(context).textTheme.subtitle2),
+          content: Text('...seems you forgot the title.',),
           actions: [
             FlatButton(
-              child: Text('SILLY ME', style: Theme.of(context).textTheme.button),
+              child: Text('SILLY ME',),
               onPressed: () {
                 Navigator.pop(context);
               },

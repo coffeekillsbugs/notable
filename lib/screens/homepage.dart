@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../view_models/note_view_model.dart';
-import '../sigma_provider.dart';
+import '../services/sigma_provider.dart';
 import '../theme/colors.dart';
 import '../widgets/sigma_button.dart';
 import '../widgets/note_button.dart';
@@ -31,7 +31,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
     return Scaffold(
-      backgroundColor: AppColor.darkGrey,
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),
         slivers: [
@@ -40,11 +39,9 @@ class _HomePageState extends State<HomePage> {
             floating: false,
             toolbarHeight: 80.0,
             expandedHeight: 120.0,
-            backgroundColor: AppColor.darkGrey,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'Home',
-                textScaleFactor: 0.9,
                 style: Theme.of(context).textTheme.headline4,
               ),
               titlePadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
@@ -88,14 +85,16 @@ class _HomePageState extends State<HomePage> {
                           Navigator.pushNamed(context, 'NoteView');
                         },
                         child: Dismissible(
-                          background: Container(color: Colors.white),
+                          background: Container(
+                              // color: Colors.white,
+                              ),
                           secondaryBackground: Container(
                             alignment: Alignment.centerRight,
                             padding: EdgeInsets.all(16.0),
                             color: Colors.white,
                             child: Icon(
                               Icons.delete_rounded,
-                              color: AppColor.darkGrey,
+                              color: Colors.black,
                             ),
                           ),
                           key: Key(noteObject.dateCreated.toString()),
@@ -118,14 +117,16 @@ class _HomePageState extends State<HomePage> {
                           Navigator.pushNamed(context, 'TodoView');
                         },
                         child: Dismissible(
-                          background: Container(color: Colors.white),
+                          background: Container(
+                              // color: Colors.white,
+                              ),
                           secondaryBackground: Container(
                             alignment: Alignment.centerRight,
                             padding: EdgeInsets.all(16.0),
-                            color: Colors.white,
+                            // color: Colors.white,
                             child: Icon(
                               Icons.delete_rounded,
-                              color: AppColor.darkGrey,
+                              // color: AppColor.darkGrey,
                             ),
                           ),
                           key: Key(todoObject.dateCreated.toString()),
@@ -196,7 +197,10 @@ class _HomePageState extends State<HomePage> {
                             SigmaButton(
                               kHeroTag: 'search',
                               kOnPressed: () async {
-                                final selectedIndex = await showSearch(context: context, delegate: NoteSearch(Theme.of(context).textTheme.headline6.copyWith(color: AppColor.darkGrey),),);
+                                final selectedIndex = await showSearch(
+                                  context: context,
+                                  delegate: NoteSearch(),
+                                );
 
                                 if (selectedIndex != null) {
                                   NoteType noteType;
@@ -209,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                               },
                               kIcon: Icons.search,
                               kIconColor: Colors.white,
-                              kBackgroundColor: AppColor.overlayTwelve,
+                              kBackgroundColor: AppColor.overlayEight,
                             ),
                             SizedBox(height: 16.0),
                             SigmaButton(
@@ -219,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                               },
                               kIcon: Icons.info_outline_rounded,
                               kIconColor: Colors.white,
-                              kBackgroundColor: AppColor.overlayTwelve,
+                              kBackgroundColor: AppColor.overlayEight,
                             ),
                             SizedBox(height: 16.0),
                             SigmaButton(
@@ -246,9 +250,6 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            backgroundColor: AppColor.overlayFive,
-            barrierColor: AppColor.darkGrey.withOpacity(0.9),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           );
         },
       ),
@@ -258,12 +259,13 @@ class _HomePageState extends State<HomePage> {
 
   Future<bool> _deleteConfirmationDialog({String habitName}) async {
     return showDialog<bool>(
-            barrierColor: AppColor.darkGrey.withOpacity(0.9),
+            // barrierColor: AppColor.darkGrey.withOpacity(0.9),
             context: context,
             builder: (context) {
               return AlertDialog(
-                backgroundColor: AppColor.overlayTwelve,
-                title: Text('Delete?', style: Theme.of(context).textTheme.headline6),
+                title: Text(
+                  'Delete?',
+                ),
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -271,21 +273,29 @@ class _HomePageState extends State<HomePage> {
                     SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      child: Text('You\'re about to delete \"$habitName\".', style: Theme.of(context).textTheme.subtitle2),
+                      child: Text(
+                        'You\'re about to delete \"$habitName\".',
+                      ),
                     ),
                     SizedBox(height: 16.0),
-                    Text('This action is not reversible.', style: Theme.of(context).textTheme.subtitle2),
+                    Text(
+                      'This action is not reversible.',
+                    ),
                   ],
                 ),
                 actions: [
                   FlatButton(
-                    child: Text('YES', style: Theme.of(context).textTheme.button),
+                    child: Text(
+                      'YES',
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
                   ),
                   FlatButton(
-                    child: Text('NO', style: Theme.of(context).textTheme.button),
+                    child: Text(
+                      'NO',
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop(false);
                     },

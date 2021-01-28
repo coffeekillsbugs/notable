@@ -24,15 +24,14 @@ class NoteButton extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 offset: Offset(0.0, 0.0),
-                color: Colors.black.withOpacity(0.12),
-                blurRadius: 1.0,
+                blurRadius: 5.0,
               ),
             ],
           ),
           child: Container(
             height: 200.0,
             decoration: BoxDecoration(
-              color: AppColor.overlayTwelve,
+              color: AppColor.overlayEight,
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Column(

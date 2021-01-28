@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../sigma_provider.dart';
+import '../services/sigma_provider.dart';
 import '../widgets/sigma_button.dart';
 import '../models/sigma_note.dart';
 import '../view_models/note_view_model.dart';
@@ -63,7 +63,6 @@ class _NoteScreenState extends State<NoteScreen> {
     }
     // >>> Note Screen
     return Scaffold(
-      backgroundColor: AppColor.darkGrey,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -73,7 +72,6 @@ class _NoteScreenState extends State<NoteScreen> {
               SizedBox(height: 32.0),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 32.0),
-                // color: Colors.white,
                 child: TextField(
                   autofocus: true,
                   controller: _titleController,
@@ -132,7 +130,7 @@ class _NoteScreenState extends State<NoteScreen> {
             kHeroTag: 'white',
             kOnPressed: () => Navigator.pop(context),
             kIcon: Icons.chevron_left_rounded,
-            kSize: 40.0,
+            // kSize: 40.0,
           ),
           SizedBox(width: 16.0),
           SigmaButton(
@@ -232,18 +230,15 @@ class _NoteScreenState extends State<NoteScreen> {
   Future<void> _emptyFieldWarning() async {
     return showDialog(
       context: context,
-      barrierColor: AppColor.darkGrey.withOpacity(0.9),
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: AppColor.overlayTwelve,
           title: Text(
             'But...',
-            style: Theme.of(context).textTheme.headline6,
           ),
-          content: Text('...you haven\'t written anything.', style: Theme.of(context).textTheme.subtitle2),
+          content: Text('...you haven\'t written anything.',),
           actions: [
             FlatButton(
-              child: Text('SILLY ME', style: Theme.of(context).textTheme.button),
+              child: Text('SILLY ME',),
               onPressed: () {
                 Navigator.pop(context);
               },

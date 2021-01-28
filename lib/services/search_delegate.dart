@@ -7,12 +7,19 @@ import '../views/compact_todo_view.dart';
 import '../theme/colors.dart';
 
 class NoteSearch extends SearchDelegate<int> {
-  final textStyle;
-
-  NoteSearch(this.textStyle);
 
   @override
-  TextStyle get searchFieldStyle => textStyle;
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      primaryColor: AppColor.overlayEight,
+      // cursorColor: Colors.white,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+      textTheme: Theme.of(context).textTheme,
+      textSelectionColor: AppColor.darkGrey,
+    );
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -24,7 +31,7 @@ class NoteSearch extends SearchDelegate<int> {
         },
         icon: Icon(
           Icons.close,
-          color: Colors.black,
+          // color: Colors.black,
         ),
       ),
     ];
@@ -38,7 +45,7 @@ class NoteSearch extends SearchDelegate<int> {
       },
       icon: Icon(
         Icons.keyboard_arrow_left_rounded,
-        color: Colors.black,
+        size: 32.0,
       ),
     );
   }
@@ -46,7 +53,7 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildResults(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
       return Text('Nothing to show');
@@ -57,12 +64,12 @@ class NoteSearch extends SearchDelegate<int> {
       children: allNotes
           .map<GestureDetector>(
             (a) => GestureDetector(
-          onTap: () {
-            close(context, hiveProvider.allNotes().toList().indexOf(a));
-          },
-          child: a.noteType == NoteType.note ? CompactNoteView(noteObject: a) : CompactTodoView(todoObject: a),
-        ),
-      )
+              onTap: () {
+                close(context, hiveProvider.allNotes().toList().indexOf(a));
+              },
+              child: a.noteType == NoteType.note ? CompactNoteView(noteObject: a) : CompactTodoView(todoObject: a),
+            ),
+          )
           .toList(),
       padding: EdgeInsets.symmetric(vertical: 8.0),
     );
@@ -71,7 +78,7 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildSuggestions(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
       return Text('Nothing to show');
@@ -82,34 +89,34 @@ class NoteSearch extends SearchDelegate<int> {
       children: allNotes
           .map<Padding>(
             (a) => Padding(
-          padding: EdgeInsets.symmetric(vertical: 4.0),
-          child: GestureDetector(
-            onTap: () {
-              close(context, hiveProvider.allNotes().toList().indexOf(a));
-            },
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: AppColor.overlaySeven,
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: Row(
-                children: [
-                  Icon(a.noteType == NoteType.note ? Icons.edit : Icons.check_box_rounded, color: Colors.white),
-                  SizedBox(width: 16.0),
-                  SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Text(
-                      a.title,
-                      style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
-                    ),
+              padding: EdgeInsets.symmetric(vertical: 4.0),
+              child: GestureDetector(
+                onTap: () {
+                  close(context, hiveProvider.allNotes().toList().indexOf(a));
+                },
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: AppColor.overlaySeven,
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
-                ],
+                  child: Row(
+                    children: [
+                      Icon(a.noteType == NoteType.note ? Icons.edit : Icons.check_box_rounded, color: Colors.white),
+                      SizedBox(width: 16.0),
+                      SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        child: Text(
+                          a.title,
+                          style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      )
+          )
           .toList(),
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
     );

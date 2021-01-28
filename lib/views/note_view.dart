@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/sigma_button.dart';
 import '../models/sigma_note.dart';
-import '../sigma_provider.dart';
+import '../services/sigma_provider.dart';
 import '../view_models/note_view_model.dart';
 import '../theme/colors.dart';
 

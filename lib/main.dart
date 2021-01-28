@@ -3,11 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sigma/theme/theme_data.dart';
 
-import './routes.dart' as router;
-import './theme/colors.dart';
-import './theme/textTheme.dart';
-import 'sigma_provider.dart';
+import 'services/routes.dart' as router;
+import 'services/sigma_provider.dart';
 import './models/sigma_note.dart';
 
 void main() async {
@@ -17,10 +16,12 @@ void main() async {
     ),
   );
 
+  // >>> Hive Adapters
   Hive.registerAdapter(SigmaNoteAdapter());
   Hive.registerAdapter(TodoItemModelAdapter());
   Hive.registerAdapter(NoteTypeAdapter());
 
+  // >>> Hive Box
   await Hive.initFlutter();
   await Hive.openBox<SigmaNote>('sigmaNotes');
 
@@ -35,12 +36,13 @@ class Sigma extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    ThemeData sigmaTheme = ThemeData.light();
-
     return ChangeNotifierProvider(
       create: (context) => SigmaProvider(),
       child: MaterialApp(
         title: 'Sigma',
+        theme: sigmaTheme,
+        onGenerateRoute: router.generateRoute,
+        initialRoute: '/',
         builder: (BuildContext context, Widget child) {
           final MediaQueryData data = MediaQuery.of(context);
 
@@ -51,14 +53,6 @@ class Sigma extends StatelessWidget {
             child: child,
           );
         },
-        theme: sigmaTheme.copyWith(
-          primaryColor: AppColor.darkGrey,
-          // primaryColor: Colors.white,
-          // accentColor: AppColor.darkGrey,
-          textTheme: sigmaTextTheme,
-        ),
-        onGenerateRoute: router.generateRoute,
-        initialRoute: '/',
       ),
     );
   }

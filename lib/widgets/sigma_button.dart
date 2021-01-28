@@ -14,7 +14,7 @@ class SigmaButton extends StatelessWidget {
     @required this.kIcon,
     this.kSize = 24.0,
     this.kOnPressed,
-    this.kBackgroundColor = Colors.white,
+    this.kBackgroundColor,
     this.kIconColor = AppColor.darkGrey,
     @required this.kHeroTag,
   });
@@ -35,7 +35,7 @@ class SigmaButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        backgroundColor: kBackgroundColor,
+        backgroundColor: kBackgroundColor ?? Theme.of(context).accentColor,
       ),
     );
   }
