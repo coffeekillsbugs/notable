@@ -40,14 +40,10 @@ class _CompactNoteViewState extends State<CompactNoteView> {
               children: [
                 Flexible(
                   child: Container(
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        widget.noteObject.title,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
+                    child: Text(
+                      widget.noteObject.title,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.headline5,
                     ),
                   ),
                 ),

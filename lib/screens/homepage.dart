@@ -94,12 +94,14 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                             child: Icon(
                               Icons.delete_rounded,
-                              color: Colors.black,
+                              color: AppColor.darkGrey,
                             ),
                           ),
                           key: Key(noteObject.dateCreated.toString()),
                           direction: DismissDirection.endToStart,
-                          // dismissThresholds: Map<DismissDirection.endToStart: 4.0>,
+                          dismissThresholds: {
+                            DismissDirection.endToStart: 0.1,
+                          },
                           confirmDismiss: (direction) async {
                             return _deleteConfirmationDialog(habitName: noteObject.title);
                           },
@@ -123,15 +125,17 @@ class _HomePageState extends State<HomePage> {
                           secondaryBackground: Container(
                             alignment: Alignment.centerRight,
                             padding: EdgeInsets.all(16.0),
-                            // color: Colors.white,
+                            color: Colors.white,
                             child: Icon(
                               Icons.delete_rounded,
-                              // color: AppColor.darkGrey,
+                              color: AppColor.darkGrey,
                             ),
                           ),
                           key: Key(todoObject.dateCreated.toString()),
                           direction: DismissDirection.endToStart,
-                          // dismissThresholds: Map<DismissDirection.endToStart: 4.0>,
+                          dismissThresholds: {
+                            DismissDirection.endToStart: 0.1,
+                          },
                           confirmDismiss: (direction) async {
                             return _deleteConfirmationDialog(habitName: todoObject.title);
                           },

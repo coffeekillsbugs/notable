@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sigma/view_models/compact_todo_view_model.dart';
 
 import '../theme/colors.dart';
 import '../models/sigma_note.dart';
@@ -15,6 +16,8 @@ class CompactTodoView extends StatefulWidget {
 
 class _CompactTodoViewState extends State<CompactTodoView> {
   bool isTodoCollapsed = true;
+  CompactTodoViewModel compactTodoViewModel = CompactTodoViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,13 +42,9 @@ class _CompactTodoViewState extends State<CompactTodoView> {
               children: [
                 Flexible(
                   child: Container(
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        widget.todoObject.title,
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
+                    child: Text(
+                      widget.todoObject.title,
+                      style: Theme.of(context).textTheme.headline5,
                     ),
                   ),
                 ),
@@ -109,20 +108,25 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                 // padding: EdgeInsets.symmetric(vertical: 16.0),
                                 physics: BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  return InkWell(
-                                    splashColor: Colors.white,
-                                    onTap: () {
-                                      //TODO
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                                      // color: Colors.green,
-                                      child: Text(
-                                        widget.todoObject.todoItems[index].todoItem,
-                                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                              fontSize: 16.0,
-                                              decoration: widget.todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
-                                            ),
+                                  return Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      splashColor: Colors.white,
+                                      onTap: () {
+                                        setState(() {
+                                          compactTodoViewModel.changeItemState(widget.todoObject, index);
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                                        // color: Colors.green,
+                                        child: Text(
+                                          widget.todoObject.todoItems[index].todoItem,
+                                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                                fontSize: 16.0,
+                                                decoration: widget.todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
+                                              ),
+                                        ),
                                       ),
                                     ),
                                   );

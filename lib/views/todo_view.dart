@@ -77,38 +77,19 @@ class _TodoViewState extends State<TodoView> {
                               shrinkWrap: true,
                               itemCount: todoObject.todoItems.length,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  alignment: Alignment.center,
-                                  height: 56.0,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        todoObject.todoItems[index].todoItem,
-                                        style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0),
-                                      ),
-                                      // InkWell(
-                                      //   splashColor: Colors.white,
-                                      //   borderRadius: BorderRadius.circular(28.0),
-                                      //   onTap: () {
-                                      //     setState(() {
-                                      //       todoObject.todoItems.removeAt(index);
-                                      //     });
-                                      //   },
-                                      //   child: Container(
-                                      //     alignment: Alignment.center,
-                                      //     height: 56.0,
-                                      //     width: 56.0,
-                                      //     decoration: BoxDecoration(
-                                      //       borderRadius: BorderRadius.circular(28.0),
-                                      //     ),
-                                      //     child: Icon(
-                                      //       Icons.delete_rounded,
-                                      //       color: Colors.white,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ],
+                                return InkWell(
+                                  splashColor: Colors.white,
+                                  onTap: () {
+                                    todoViewModel.changeItemState(todoObject, index);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                                    // color: Colors.green,
+                                    child: Text(
+                                      todoObject.todoItems[index].todoItem,
+                                      style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0,decoration: todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,),
+
+                                    ),
                                   ),
                                 );
                               },

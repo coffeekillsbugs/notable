@@ -31,4 +31,16 @@ class HiveProvider extends ChangeNotifier {
     _sigmaNoteBox.values;
 
   NoteType noteType(int index) => _sigmaNoteBox.values.elementAt(index).noteType;
+
+  void changeTodoItemState(SigmaNote changeObject, int index) {
+    int objectIndex;
+
+    // temp  = _sigmaNoteBox.values.where((element) => element.dateCreated == dateCreated);
+    objectIndex = _sigmaNoteBox.values.toList().indexOf(changeObject);
+
+    changeObject.todoItems[index].isDone = !changeObject.todoItems[index].isDone;
+
+    updateInHive(objectIndex, changeObject);
+
+  }
 }

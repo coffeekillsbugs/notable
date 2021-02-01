@@ -13,7 +13,7 @@ ThemeData sigmaTheme = ThemeData(
     color: Colors.white,
   ),
   bottomSheetTheme: BottomSheetThemeData(
-    modalBackgroundColor: AppColor.overlayFive,
+    modalBackgroundColor: AppColor.darkGrey,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(10.0),

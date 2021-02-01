@@ -23,8 +23,10 @@ class NoteButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(5.0),
             boxShadow: [
               BoxShadow(
-                offset: Offset(0.0, 0.0),
-                blurRadius: 5.0,
+                color: Colors.black.withOpacity(0.2),
+                offset: Offset(2.0, 2.0),
+                blurRadius: 4.0,
+                // spreadRadius: 1.0,
               ),
             ],
           ),

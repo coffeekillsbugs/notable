@@ -30,4 +30,10 @@ class TodoViewModel {
 
     putObject.updateInHive(index, updateObject);
   }
+
+  void changeItemState(SigmaNote changeObject, int index) {
+    HiveProvider modifyObject = HiveProvider();
+
+    modifyObject.changeTodoItemState(changeObject, index);
+  }
 }
