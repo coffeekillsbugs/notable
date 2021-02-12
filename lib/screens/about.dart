@@ -75,13 +75,13 @@ class _AboutScreenState extends State<AboutScreen> {
                           ),
                           SizedBox(height: 4.0),
                           Text(
-                            'v1.0.0',
+                            'v0.5.3-alpha',
                             // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.caption,
                           ),
                           SizedBox(height: 16.0),
                           Text(
-                            'A simple app.\nWrite notes, create todo\'s.',
+                            'Write notes, create todo\'s.',
                             // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
