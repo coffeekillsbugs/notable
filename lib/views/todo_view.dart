@@ -80,7 +80,9 @@ class _TodoViewState extends State<TodoView> {
                                 return InkWell(
                                   splashColor: Colors.white,
                                   onTap: () {
-                                    todoViewModel.changeItemState(todoObject, index);
+                                    setState(() {
+                                      todoViewModel.changeItemState(todoObject, index);
+                                    });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(vertical: 16.0),
