@@ -206,6 +206,7 @@ class _TodoScreenState extends State<TodoScreen> {
                             // New To Do item add button
                             SigmaButton(
                               kHeroTag: 'add',
+                              buttonSize: 56.0,
                               kOnPressed: () {
                                 print('add button pressed');
                                 if (_todoItemController.text.isNotEmpty) {
@@ -217,7 +218,8 @@ class _TodoScreenState extends State<TodoScreen> {
                                   });
                                 }
                               },
-                              kIcon: Icons.add,
+                              kIcon: Icons.close,
+                              kSize: 24.0,
                             ),
                           ],
                         ),
