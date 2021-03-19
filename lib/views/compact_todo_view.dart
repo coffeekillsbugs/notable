@@ -78,77 +78,78 @@ class _CompactTodoViewState extends State<CompactTodoView> {
             isTodoCollapsed
                 ? Container()
                 : Column(
-                    children: [
-                      // >>> Body
-                      Container(
-                        alignment: Alignment.topLeft,
-                        // color: Colors.red,
-                        height: widget.todoObject.todoItems.isEmpty ? 100.0 : 240.0,
-                        // color: Colors.red,
-                        child: widget.todoObject.todoItems.isEmpty
-                            ? Container(
-                                alignment: Alignment.center,
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.white),
-                                    children: [
-                                      TextSpan(
-                                        text: 'Huh?\n',
-                                        style: Theme.of(context).textTheme.headline6,
-                                      ),
-                                      TextSpan(
-                                        text: 'The list is empty. Did you forget to add items?',
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : ListView.builder(
-                                // padding: EdgeInsets.symmetric(vertical: 16.0),
-                                physics: BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      splashColor: Colors.white,
-                                      onTap: () {
-                                        setState(() {
-                                          compactTodoViewModel.changeItemState(widget.todoObject, index);
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                                        // color: Colors.green,
-                                        child: Text(
-                                          widget.todoObject.todoItems[index].todoItem,
-                                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                                fontSize: 16.0,
-                                                decoration: widget.todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
-                                              ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                itemCount: widget.todoObject.todoItems.length,
+              children: [
+                // >>> Body
+                Container(
+                  alignment: Alignment.topLeft,
+                  // color: Colors.red,
+                  height: widget.todoObject.todoItems.isEmpty ? 100.0 : 240.0,
+                  // color: Colors.red,
+                  child: widget.todoObject.todoItems.isEmpty
+                      ? Container(
+                    alignment: Alignment.center,
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.white),
+                        children: [
+                          TextSpan(
+                            text: 'Huh?\n',
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          TextSpan(
+                            text: 'The list is empty. Did you forget to add items?',
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                      : ListView.builder(
+                    // padding: EdgeInsets.symmetric(vertical: 16.0),
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          splashColor: Colors.white,
+                          onTap: () {
+                            setState(() {
+                              compactTodoViewModel.changeItemState(widget.todoObject, index);
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            // color: Colors.green,
+                            child: Text(
+                              widget.todoObject.todoItems[index].todoItem,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                fontSize: 16.0,
+                                decoration: widget.todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
                               ),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      // >>> Date Created
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        // color: Colors.green,
-                        child: Text(
-                          dateFormat(widget.todoObject.dateCreated),
-                          style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 8.0),
-                    ],
+                      );
+                    },
+                    itemCount: widget.todoObject.todoItems.length,
                   ),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                // >>> Date Created
+                Container(
+                  alignment: Alignment.centerLeft,
+                  // color: Colors.green,
+                  child: Text(
+                    dateFormat(widget.todoObject.dateCreated),
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+              ],
+            ),
           ],
         ),
       ),
