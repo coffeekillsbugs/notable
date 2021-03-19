@@ -246,6 +246,7 @@ class _TodoScreenState extends State<TodoScreen> {
                               ),
                             ),
                           ),
+
                         ),
                         SizedBox(width: 16.0),
                         // New To Do item add button
