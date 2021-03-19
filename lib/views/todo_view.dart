@@ -25,109 +25,123 @@ class _TodoViewState extends State<TodoView> {
 
     todoObject = todoViewModel.getFromHiveProvider(sigmaProvider.selectedIndex);
 
-    return Scaffold(
-      backgroundColor: AppColor.darkGrey,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 32.0),
-              // >>> Title
-              Container(
-                child: Text(
-                  todoObject.title,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-              ),
-              SizedBox(height: 16.0),
-              // >>> Current Date
-              Container(
-                child: Text(
-                  dateFormat(todoObject.dateCreated),
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
-              SizedBox(height: 16.0),
-              // >>> To Do list layout
-              Flexible(
-                child: Container(
-                  child: todoObject.todoItems.isEmpty
-                      ? Container(
-                          alignment: Alignment.center,
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white), children: [
-                              TextSpan(
-                                text: 'Hmm...\n',
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              TextSpan(
-                                text: 'Looks like you forgot to add items. Click on the edit button below to add.',
-                              ),
-                            ]),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
-                          child: Container(
-                            child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: todoObject.todoItems.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  splashColor: Colors.white,
-                                  onTap: () {
-                                    setState(() {
-                                      todoViewModel.changeItemState(todoObject, index);
-                                    });
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                                    // color: Colors.green,
-                                    child: Text(
-                                      todoObject.todoItems[index].todoItem,
-                                      style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0,decoration: todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,),
-
-                                    ),
+    return Stack(
+      children: [
+        Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 32.0),
+                  // >>> Title
+                  Container(
+                    child: Text(
+                      todoObject.title,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  // >>> Current Date
+                  Container(
+                    child: Text(
+                      dateFormat(todoObject.dateCreated),
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  // >>> To Do list layout
+                  Flexible(
+                    child: Container(
+                      child: todoObject.todoItems.isEmpty
+                          ? Container(
+                              alignment: Alignment.center,
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white), children: [
+                                  TextSpan(
+                                    text: 'Hmm...\n',
+                                    style: Theme.of(context).textTheme.headline4,
                                   ),
-                                );
-                              },
+                                  TextSpan(
+                                    text: 'Looks like you forgot to add items. Click on the edit button below to add.',
+                                  ),
+                                ]),
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
+                              child: Container(
+                                child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: todoObject.todoItems.length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      splashColor: Colors.white,
+                                      onTap: () {
+                                        setState(() {
+                                          todoViewModel.changeItemState(todoObject, index);
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                                        // color: Colors.green,
+                                        child: SingleChildScrollView(
+                                          physics: BouncingScrollPhysics(),
+                                          scrollDirection: Axis.horizontal,
+                                          child: Text(
+                                            todoObject.todoItems[index].todoItem,
+                                            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                                  fontSize: 20.0,
+                                                  decoration: todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                ),
+                    ),
+                  ),
+                  SizedBox(height: 88.0),
+                ],
               ),
-              SizedBox(height: 100.0),
-            ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SigmaButton(
-            kHeroTag: 'back2',
-            kOnPressed: () => Navigator.pop(context),
-            kIcon: Icons.chevron_left_rounded,
-            kSize: 40.0,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SigmaButton(
+                  kHeroTag: 'back2',
+                  kOnPressed: () => Navigator.pop(context),
+                  kIcon: Icons.chevron_left_rounded,
+                  kSize: 40.0,
+                ),
+                SizedBox(width: 16.0),
+                SigmaButton(
+                  kHeroTag: 'blackTodo',
+                  kOnPressed: () {
+                    sigmaProviderFalse.updateEditMode();
+                    Navigator.popAndPushNamed(context, 'TodoScreen');
+                  },
+                  kIcon: Icons.edit,
+                  kIconColor: Colors.white,
+                  kBackgroundColor: Colors.white.withOpacity(0.12),
+                ),
+              ],
+            ),
           ),
-          SizedBox(width: 16.0),
-          SigmaButton(
-            kHeroTag: 'blackTodo',
-            kOnPressed: () {
-              sigmaProviderFalse.updateEditMode();
-              Navigator.popAndPushNamed(context, 'TodoScreen');
-            },
-            kIcon: Icons.edit,
-            kIconColor: Colors.white,
-            kBackgroundColor: Colors.white.withOpacity(0.12),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        ),
+      ],
     );
   }
 

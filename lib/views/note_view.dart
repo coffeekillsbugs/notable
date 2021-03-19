@@ -25,66 +25,78 @@ class _NoteViewState extends State<NoteView> {
 
     noteObject = noteViewModel.getFromHiveProvider(sigmaProvider.selectedIndex);
     // >>> Note View
-    return Scaffold(
-      backgroundColor: AppColor.darkGrey,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 32.0),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: Text(
-                  noteObject.title,
-                  style: Theme.of(context).textTheme.headline3,
+    return Stack(
+      children: [
+        Scaffold(
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 32.0),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 32.0),
+                  child: Text(
+                    noteObject.title,
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.0),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: Text(
-                  dateFormat(noteObject.dateCreated),
-                  style: Theme.of(context).textTheme.bodyText1,
+                SizedBox(height: 16.0),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 32.0),
+                  child: Text(
+                    dateFormat(noteObject.dateCreated),
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.0),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: Text(
-                  noteObject.noteBody,
-                  style: Theme.of(context).textTheme.bodyText1,
+                SizedBox(height: 16.0),
+                Flexible(
+                  child: Container(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 32.0),
+                        child: Text(
+                          noteObject.noteBody,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(height: 100.0),
-            ],
+                SizedBox(height: 100.0),
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SigmaButton(
-            kHeroTag: 'white',
-            kOnPressed: () => Navigator.pop(context),
-            kIcon: Icons.chevron_left_rounded,
-            kSize: 40.0,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SigmaButton(
+                  kHeroTag: 'white',
+                  kOnPressed: () => Navigator.pop(context),
+                  kIcon: Icons.chevron_left_rounded,
+                  kSize: 40.0,
+                ),
+                SizedBox(width: 16.0),
+                SigmaButton(
+                  kHeroTag: 'blackNote',
+                  kOnPressed: () {
+                    sigmaProviderFalse.updateEditMode();
+                    Navigator.popAndPushNamed(context, 'NoteScreen');
+                  },
+                  kIcon: Icons.edit,
+                  kIconColor: Colors.white,
+                  kBackgroundColor: AppColor.overlaySeven,
+                ),
+              ],
+            ),
           ),
-          SizedBox(width: 16.0),
-          SigmaButton(
-            kHeroTag: 'blackNote',
-            kOnPressed: () {
-              sigmaProviderFalse.updateEditMode();
-              Navigator.popAndPushNamed(context, 'NoteScreen');
-            },
-            kIcon: Icons.edit,
-            kIconColor: Colors.white,
-            kBackgroundColor: AppColor.overlaySeven,
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        ),
+      ],
     );
   }
 

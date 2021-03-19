@@ -62,117 +62,130 @@ class _NoteScreenState extends State<NoteScreen> {
       _kDateTime = dateFormat(dateTime);
     }
     // >>> Note Screen
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 32.0),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: TextField(
-                  autofocus: true,
-                  controller: _titleController,
-                  maxLines: 1,
-                  keyboardType: TextInputType.text,
-                  textCapitalization: TextCapitalization.sentences,
-                  autocorrect: false,
-                  style: Theme.of(context).textTheme.headline3,
-                  cursorColor: Colors.white,
-                  cursorRadius: Radius.circular(10.0),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Title',
-                    hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white60),
-                  ),
-                  onSubmitted: (text) {
-                    _noteBody.requestFocus();
-                  },
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: Text(
-                  _kDateTime,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: TextField(
-                  controller: _noteBodyController,
-                  focusNode: _noteBody,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  style: Theme.of(context).textTheme.bodyText1,
-                  cursorColor: Colors.white,
-                  cursorRadius: Radius.circular(10.0),
-                  cursorHeight: 20.0,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Whats on your mind?',
-                    hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white60),
+    return Stack(
+      children: [
+        Scaffold(
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 32.0),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 32.0),
+                  child: TextField(
+                    autofocus: true,
+                    controller: _titleController,
+                    maxLines: 1,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.sentences,
+                    autocorrect: false,
+                    style: Theme.of(context).textTheme.headline3,
+                    cursorColor: Colors.white,
+                    cursorRadius: Radius.circular(10.0),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Title',
+                      hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white60),
+                    ),
+                    onSubmitted: (text) {
+                      _noteBody.requestFocus();
+                    },
                   ),
                 ),
-              ),
-              SizedBox(height: 100.0),
-            ],
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 32.0),
+                  child: Text(
+                    _kDateTime,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Flexible(
+                  child: Container(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextField(
+                          controller: _noteBodyController,
+                          focusNode: _noteBody,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                          style: Theme.of(context).textTheme.bodyText1,
+                          cursorColor: Colors.white,
+                          cursorRadius: Radius.circular(10.0),
+                          cursorHeight: 20.0,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Whats on your mind?',
+                            hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white60),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 88.0),
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SigmaButton(
-            kHeroTag: 'white',
-            kOnPressed: () => Navigator.pop(context),
-            kIcon: Icons.chevron_left_rounded,
-            // kSize: 40.0,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SigmaButton(
+                  kHeroTag: 'white',
+                  kOnPressed: () => Navigator.pop(context),
+                  kIcon: Icons.chevron_left_rounded,
+                  // kSize: 40.0,
+                ),
+                SizedBox(width: 16.0),
+                SigmaButton(
+                  kHeroTag: 'blackNote',
+                  kOnPressed: () {
+                    if (_noteBodyController.text.isEmpty) {
+                      _emptyFieldWarning();
+                    } else {
+                      if (isEditMode) {
+                        isEditMode = false;
+                        noteViewModel.updateToHiveProvider(
+                          selectedIndex,
+                          SigmaNote(
+                            title: _titleController.text,
+                            dateCreated: noteObject.dateCreated,
+                            noteType: NoteType.note,
+                            noteBody: _noteBodyController.text,
+                          ),
+                        );
+                        sigmaProvider.updateEditMode();
+                        // Show updated
+                        Navigator.popAndPushNamed(context, 'NoteView');
+                      } else {
+                        noteViewModel.writeToHiveProvider(
+                          SigmaNote(
+                            title: _titleController.text,
+                            dateCreated: dateTime,
+                            noteType: NoteType.note,
+                            noteBody: _noteBodyController.text,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      }
+                    }
+                  },
+                  kIcon: Icons.save,
+                  kIconColor: Colors.white,
+                  kBackgroundColor: AppColor.overlayTwelve,
+                ),
+              ],
+            ),
           ),
-          SizedBox(width: 16.0),
-          SigmaButton(
-            kHeroTag: 'blackNote',
-            kOnPressed: () {
-              if (_noteBodyController.text.isEmpty) {
-                _emptyFieldWarning();
-              } else {
-                if (isEditMode) {
-                  isEditMode = false;
-                  noteViewModel.updateToHiveProvider(
-                    selectedIndex,
-                    SigmaNote(
-                      title: _titleController.text,
-                      dateCreated: noteObject.dateCreated,
-                      noteType: NoteType.note,
-                      noteBody: _noteBodyController.text,
-                    ),
-                  );
-                  sigmaProvider.updateEditMode();
-                  // Show updated
-                  Navigator.popAndPushNamed(context, 'NoteView');
-                } else {
-                  noteViewModel.writeToHiveProvider(
-                    SigmaNote(
-                      title: _titleController.text,
-                      dateCreated: dateTime,
-                      noteType: NoteType.note,
-                      noteBody: _noteBodyController.text,
-                    ),
-                  );
-                  Navigator.pop(context);
-                }
-              }
-            },
-            kIcon: Icons.save,
-            kIconColor: Colors.white,
-            kBackgroundColor: AppColor.overlayTwelve,
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        ),
+      ],
     );
   }
 
@@ -235,10 +248,14 @@ class _NoteScreenState extends State<NoteScreen> {
           title: Text(
             'But...',
           ),
-          content: Text('...you haven\'t written anything.',),
+          content: Text(
+            '...you haven\'t written anything.',
+          ),
           actions: [
             FlatButton(
-              child: Text('SILLY ME',),
+              child: Text(
+                'SILLY ME',
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },

@@ -122,6 +122,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                         // color: Colors.green,
                                         child: Text(
                                           widget.todoObject.todoItems[index].todoItem,
+                                          overflow: TextOverflow.ellipsis,
                                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                                                 fontSize: 16.0,
                                                 decoration: widget.todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
