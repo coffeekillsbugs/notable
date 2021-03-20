@@ -31,6 +31,12 @@ class TodoViewModel {
     putObject.updateInHive(index, updateObject);
   }
 
+  void deleteFromHiveProvider(int index) {
+    HiveProvider deleteObject = HiveProvider();
+
+    deleteObject.deleteInHive(index);
+  }
+
   void changeItemState(SigmaNote changeObject, int index) {
     HiveProvider modifyObject = HiveProvider();
 

@@ -144,16 +144,6 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
 
-  _donate() async {
-    const url = 'https://www.buymeacoffee.com/bugCatcher';
-
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   _externalLink(String url) async {
     // const url = link;
 

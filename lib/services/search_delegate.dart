@@ -7,7 +7,6 @@ import '../views/compact_todo_view.dart';
 import '../theme/colors.dart';
 
 class NoteSearch extends SearchDelegate<int> {
-
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -67,7 +66,13 @@ class NoteSearch extends SearchDelegate<int> {
               onTap: () {
                 close(context, hiveProvider.allNotes().toList().indexOf(a));
               },
-              child: a.noteType == NoteType.note ? CompactNoteView(noteObject: a) : CompactTodoView(todoObject: a),
+              child: a.noteType == NoteType.note
+                  ? CompactNoteView(
+                      kIndex: hiveProvider.allNotes().toList().indexOf(a),
+                    )
+                  : CompactTodoView(
+                      kIndex: hiveProvider.allNotes().toList().indexOf(a),
+                    ),
             ),
           )
           .toList(),
