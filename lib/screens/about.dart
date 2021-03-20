@@ -127,21 +127,6 @@ class _AboutScreenState extends State<AboutScreen> {
                     _externalLink('mailto:arthurexcalibur9@protonmail.com?subject=Reporting%20Bug&body=What%20seems%20broken?');
                   },
                 ),
-                SizedBox(height: 26.0),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: 56.0,
-                    width: 200.0,
-                    child: GestureDetector(
-                      onTap: _donate,
-                      child: Image(
-                        image: AssetImage('assets/images/donate.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(height: 96.0),
               ],
             ),
@@ -155,7 +140,7 @@ class _AboutScreenState extends State<AboutScreen> {
         },
         kIcon: Icons.chevron_left_rounded,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
