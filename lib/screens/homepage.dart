@@ -19,10 +19,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool toDelete;
+  bool? toDelete;
   bool temp = true;
 
-  SigmaProvider sigmaProviderFalse;
+  late SigmaProvider sigmaProviderFalse;
   HiveProvider hiveProvider = HiveProvider();
 
 
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    if (note.getAt(index).noteType == NoteType.note) {
+                    if (note.getAt(index)!.noteType == NoteType.note) {
                       // SigmaNote noteObject = note.getAt(index);
                       return GestureDetector(
                         onTap: () {
@@ -157,10 +157,11 @@ class _HomePageState extends State<HomePage> {
                                 );
 
                                 if (selectedIndex != null) {
-                                  NoteType noteType;
+                                  NoteType? noteType;
                                   sigmaProviderFalse.updateSelectedIndex(selectedIndex);
                                   noteType = hiveProvider.noteType(selectedIndex);
-                                  Navigator.popAndPushNamed(context, noteType == NoteType.note ? 'NoteView' : 'TodoView');
+                                  // Navigator.popAndPushNamed(context, noteType == NoteType.note ? 'NoteView' : 'TodoView');
+                                  Navigator.of(context).pushNamed(noteType == NoteType.note ? 'NoteView' : 'TodoView');
                                 } else {
                                   Navigator.pop(context);
                                 }
@@ -211,5 +212,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
+  // Route _createNewRoute(NoteType noteType) {
+  //   return PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => noteType == NoteType.note ? 'NoteView' : 'TodoView', transitionsBuilder: );
+  // }
 }

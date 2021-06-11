@@ -52,7 +52,7 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildResults(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title!.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
       return Text('Nothing to show');
@@ -83,7 +83,7 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildSuggestions(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title!.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
       return Text('Nothing to show');
@@ -112,8 +112,8 @@ class NoteSearch extends SearchDelegate<int> {
                       SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         child: Text(
-                          a.title,
-                          style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
+                          a.title!,
+                          style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
                         ),
                       ),
                     ],

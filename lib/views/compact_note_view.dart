@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 import '../theme/colors.dart';
 import '../view_models/note_view_model.dart';
@@ -8,7 +9,7 @@ class CompactNoteView extends StatefulWidget {
   final int kIndex;
 
   CompactNoteView({
-    @required this.kIndex,
+    required this.kIndex,
   });
 
   @override
@@ -18,38 +19,38 @@ class CompactNoteView extends StatefulWidget {
 class _CompactNoteViewState extends State<CompactNoteView> {
   bool isNoteCollapsed = true;
   NoteViewModel noteViewModel = NoteViewModel();
-  SigmaNote noteObject = SigmaNote();
+  SigmaNote? noteObject = SigmaNote();
   @override
   Widget build(BuildContext context) {
 
     noteObject = noteViewModel.getFromHiveProvider(widget.kIndex);
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 8.0,
-      ),
-      child: Dismissible(
-        key: Key(noteObject.dateCreated.toString()),
-        background: Container(),
-        secondaryBackground: Container(
-          alignment: Alignment.centerRight,
-          padding: EdgeInsets.all(16.0),
-          color: Colors.white,
-          child: Icon(
-            Icons.delete_rounded,
-            color: AppColor.darkGrey,
-          ),
+    return Dismissible(
+      key: Key(noteObject!.dateCreated.toString()),
+      background: Container(),
+      secondaryBackground: Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(16.0),
+        color: Colors.white,
+        child: Icon(
+          Icons.delete_rounded,
+          color: AppColor.darkGrey,
         ),
-        direction: isNoteCollapsed ? DismissDirection.endToStart : null,
-        dismissThresholds: {
-          DismissDirection.endToStart: 0.1,
-        },
-        confirmDismiss: (direction) async {
-          return _deleteConfirmationDialog(habitName: noteObject.title);
-        },
-        onDismissed: (direction) {
-          noteViewModel.deleteFromHiveProvider(widget.kIndex);
-        },
+      ),
+      direction: isNoteCollapsed ? DismissDirection.endToStart : DismissDirection.none,
+      dismissThresholds: {
+        DismissDirection.endToStart: 0.1,
+      },
+      confirmDismiss: (direction) async {
+        return _deleteConfirmationDialog(habitName: noteObject!.title);
+      },
+      onDismissed: (direction) {
+        noteViewModel.deleteFromHiveProvider(widget.kIndex);
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 8.0,
+        ),
         child: Container(
           padding: EdgeInsets.symmetric(
             horizontal: 16.0,
@@ -68,7 +69,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                   Flexible(
                     child: Container(
                       child: Text(
-                        noteObject.title,
+                        noteObject!.title!,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.headline5,
                       ),
@@ -116,7 +117,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Text(
-                              noteObject.noteBody,
+                              noteObject!.noteBody!,
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                           ),
@@ -129,7 +130,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                           alignment: Alignment.centerLeft,
                           // color: Colors.green,
                           child: Text(
-                            dateFormat(noteObject.dateCreated),
+                            dateFormat(noteObject!.dateCreated!),
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
@@ -194,7 +195,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
     }
   }
 
-  Future<bool> _deleteConfirmationDialog({String habitName}) async {
+  Future<bool> _deleteConfirmationDialog({String? habitName}) async {
     return showDialog<bool>(
       // barrierColor: AppColor.darkGrey.withOpacity(0.9),
         context: context,
@@ -221,7 +222,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
               ],
             ),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text(
                   'YES',
                 ),
@@ -229,7 +230,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                   Navigator.of(context).pop(true);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'NO',
                 ),
@@ -239,7 +240,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
               ),
             ],
           );
-        }) ??
+        }) as FutureOr<bool>? ??
         false;
   }
 }

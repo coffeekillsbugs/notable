@@ -6,12 +6,12 @@ part of 'sigma_note.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class NoteTypeAdapter extends TypeAdapter<NoteType> {
+class NoteTypeAdapter extends TypeAdapter<NoteType?> {
   @override
   final int typeId = 3;
 
   @override
-  NoteType read(BinaryReader reader) {
+  NoteType? read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
         return NoteType.note;
@@ -23,7 +23,7 @@ class NoteTypeAdapter extends TypeAdapter<NoteType> {
   }
 
   @override
-  void write(BinaryWriter writer, NoteType obj) {
+  void write(BinaryWriter writer, NoteType? obj) {
     switch (obj) {
       case NoteType.note:
         writer.writeByte(0);
@@ -56,11 +56,11 @@ class SigmaNoteAdapter extends TypeAdapter<SigmaNote> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SigmaNote(
-      title: fields[0] as String,
-      dateCreated: fields[1] as DateTime,
-      noteType: fields[2] as NoteType,
-      noteBody: fields[3] as String,
-      todoItems: (fields[4] as List)?.cast<TodoItemModel>(),
+      title: fields[0] as String?,
+      dateCreated: fields[1] as DateTime?,
+      noteType: fields[2] as NoteType?,
+      noteBody: fields[3] as String?,
+      todoItems: (fields[4] as List?)?.cast<TodoItemModel>(),
     );
   }
 
@@ -102,8 +102,8 @@ class TodoItemModelAdapter extends TypeAdapter<TodoItemModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TodoItemModel(
-      todoItem: fields[0] as String,
-      isDone: fields[1] as bool,
+      todoItem: fields[0] as String?,
+      isDone: fields[1] as bool?,
     );
   }
 

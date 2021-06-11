@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sigma/view_models/todo_view_model.dart';
+import 'dart:async';
 
+import '../view_models/todo_view_model.dart';
 import '../view_models/compact_todo_view_model.dart';
 import '../theme/colors.dart';
 import '../models/sigma_note.dart';
@@ -9,7 +10,7 @@ class CompactTodoView extends StatefulWidget {
   final int kIndex;
 
   CompactTodoView({
-    @required this.kIndex,
+    required this.kIndex,
   });
   @override
   _CompactTodoViewState createState() => _CompactTodoViewState();
@@ -19,41 +20,41 @@ class _CompactTodoViewState extends State<CompactTodoView> {
   bool isTodoCollapsed = true;
   CompactTodoViewModel compactTodoViewModel = CompactTodoViewModel();
   TodoViewModel todoViewModel = TodoViewModel();
-  SigmaNote todoObject = SigmaNote();
+  SigmaNote? todoObject = SigmaNote();
 
   @override
   Widget build(BuildContext context) {
 
     todoObject = todoViewModel.getFromHiveProvider(widget.kIndex);
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 8.0,
+    return Dismissible(
+      background: Container(
+        // color: Colors.white,
       ),
-      child: Dismissible(
-        background: Container(
-          // color: Colors.white,
+      secondaryBackground: Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(16.0),
+        color: Colors.white,
+        child: Icon(
+          Icons.delete_rounded,
+          color: AppColor.darkGrey,
         ),
-        secondaryBackground: Container(
-          alignment: Alignment.centerRight,
-          padding: EdgeInsets.all(16.0),
-          color: Colors.white,
-          child: Icon(
-            Icons.delete_rounded,
-            color: AppColor.darkGrey,
-          ),
+      ),
+      key: Key(todoObject!.dateCreated.toString()),
+      direction: isTodoCollapsed ? DismissDirection.endToStart : DismissDirection.none,
+      dismissThresholds: {
+        DismissDirection.endToStart: 0.1,
+      },
+      confirmDismiss: (direction) async {
+        return _deleteConfirmationDialog(habitName: todoObject!.title);
+      },
+      onDismissed: (direction) {
+        todoViewModel.deleteFromHiveProvider(widget.kIndex);
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 8.0,
         ),
-        key: Key(todoObject.dateCreated.toString()),
-        direction: isTodoCollapsed ? DismissDirection.endToStart : null,
-        dismissThresholds: {
-          DismissDirection.endToStart: 0.1,
-        },
-        confirmDismiss: (direction) async {
-          return _deleteConfirmationDialog(habitName: todoObject.title);
-        },
-        onDismissed: (direction) {
-          todoViewModel.deleteFromHiveProvider(widget.kIndex);
-        },
         child: Container(
           padding: EdgeInsets.symmetric(
             horizontal: 16.0,
@@ -72,7 +73,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                   Flexible(
                     child: Container(
                       child: Text(
-                        todoObject.title,
+                        todoObject!.title!,
                         style: Theme.of(context).textTheme.headline5,
                       ),
                     ),
@@ -112,15 +113,15 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                   Container(
                     alignment: Alignment.topLeft,
                     // color: Colors.red,
-                    height: todoObject.todoItems.isEmpty ? 100.0 : 240.0,
+                    height: todoObject!.todoItems!.isEmpty ? 100.0 : 240.0,
                     // color: Colors.red,
-                    child: todoObject.todoItems.isEmpty
+                    child: todoObject!.todoItems!.isEmpty
                         ? Container(
                       alignment: Alignment.center,
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.white),
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.white),
                           children: [
                             TextSpan(
                               text: 'Huh?\n',
@@ -143,25 +144,25 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                             splashColor: Colors.white,
                             onTap: () {
                               setState(() {
-                                compactTodoViewModel.changeItemState(todoObject, index);
+                                compactTodoViewModel.changeItemState(todoObject!, index);
                               });
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 16.0),
                               // color: Colors.green,
                               child: Text(
-                                todoObject.todoItems[index].todoItem,
+                                todoObject!.todoItems![index].todoItem!,
                                 overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                   fontSize: 16.0,
-                                  decoration: todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
+                                  decoration: todoObject!.todoItems![index].isDone! ? TextDecoration.lineThrough : null,
                                 ),
                               ),
                             ),
                           ),
                         );
                       },
-                      itemCount: todoObject.todoItems.length,
+                      itemCount: todoObject!.todoItems!.length,
                     ),
                   ),
                   SizedBox(
@@ -172,7 +173,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                     alignment: Alignment.centerLeft,
                     // color: Colors.green,
                     child: Text(
-                      dateFormat(todoObject.dateCreated),
+                      dateFormat(todoObject!.dateCreated!),
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                   ),
@@ -237,7 +238,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
     }
   }
 
-  Future<bool> _deleteConfirmationDialog({String habitName}) async {
+  Future<bool> _deleteConfirmationDialog({String? habitName}) async {
     return showDialog<bool>(
       // barrierColor: AppColor.darkGrey.withOpacity(0.9),
         context: context,
@@ -264,7 +265,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
               ],
             ),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text(
                   'YES',
                 ),
@@ -272,7 +273,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                   Navigator.of(context).pop(true);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'NO',
                 ),
@@ -282,7 +283,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
               ),
             ],
           );
-        }) ??
+        }) as FutureOr<bool>? ??
         false;
   }
 }

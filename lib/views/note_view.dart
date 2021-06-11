@@ -14,9 +14,9 @@ class NoteView extends StatefulWidget {
 
 class _NoteViewState extends State<NoteView> {
   NoteViewModel noteViewModel = NoteViewModel();
-  SigmaNote noteObject = SigmaNote();
+  SigmaNote? noteObject = SigmaNote();
 
-  SigmaProvider sigmaProviderFalse, sigmaProvider;
+  late SigmaProvider sigmaProviderFalse, sigmaProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _NoteViewState extends State<NoteView> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
-                    noteObject.title,
+                    noteObject!.title!,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                 ),
@@ -44,7 +44,7 @@ class _NoteViewState extends State<NoteView> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
-                    dateFormat(noteObject.dateCreated),
+                    dateFormat(noteObject!.dateCreated!),
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -56,7 +56,7 @@ class _NoteViewState extends State<NoteView> {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 32.0),
                         child: Text(
-                          noteObject.noteBody,
+                          noteObject!.noteBody!,
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),

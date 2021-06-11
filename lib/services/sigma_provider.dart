@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SigmaProvider extends ChangeNotifier {
   bool _isEditMode = false;
-  int _selectedIndex;
+  int? _selectedIndex;
 
   get isEditMode => _isEditMode;
   get selectedIndex => _selectedIndex;
