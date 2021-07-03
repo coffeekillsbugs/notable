@@ -18,7 +18,7 @@ class NoteTypeAdapter extends TypeAdapter<NoteType> {
       case 1:
         return NoteType.todo;
       default:
-        return null;
+        return NoteType.note;
     }
   }
 
@@ -56,11 +56,11 @@ class SigmaNoteAdapter extends TypeAdapter<SigmaNote> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SigmaNote(
-      title: fields[0] as String,
-      dateCreated: fields[1] as DateTime,
-      noteType: fields[2] as NoteType,
-      noteBody: fields[3] as String,
-      todoItems: (fields[4] as List)?.cast<TodoItemModel>(),
+      title: fields[0] as String?,
+      dateCreated: fields[1] as DateTime?,
+      noteType: fields[2] as NoteType?,
+      noteBody: fields[3] as String?,
+      todoItems: (fields[4] as List?)?.cast<TodoItemModel>(),
     );
   }
 
@@ -102,8 +102,8 @@ class TodoItemModelAdapter extends TypeAdapter<TodoItemModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TodoItemModel(
-      todoItem: fields[0] as String,
-      isDone: fields[1] as bool,
+      todoItem: fields[0] as String?,
+      isDone: fields[1] as bool?,
     );
   }
 

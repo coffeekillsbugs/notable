@@ -9,8 +9,8 @@ class HiveProvider extends ChangeNotifier {
 
   Box<SigmaNote> get sigmaNoteBox => _sigmaNoteBox;
 
-  SigmaNote readFromHive(int index) {
-      SigmaNote readObject = _sigmaNoteBox.getAt(index);
+  SigmaNote? readFromHive(int index) {
+      SigmaNote? readObject = _sigmaNoteBox.getAt(index);
 
       return readObject;
   }
@@ -30,7 +30,7 @@ class HiveProvider extends ChangeNotifier {
   Iterable<SigmaNote> allNotes() =>
     _sigmaNoteBox.values;
 
-  NoteType noteType(int index) => _sigmaNoteBox.values.elementAt(index).noteType;
+  NoteType? noteType(int index) => _sigmaNoteBox.values.elementAt(index).noteType;
 
   void changeTodoItemState(SigmaNote changeObject, int index) {
     int objectIndex;
@@ -38,7 +38,7 @@ class HiveProvider extends ChangeNotifier {
     // temp  = _sigmaNoteBox.values.where((element) => element.dateCreated == dateCreated);
     objectIndex = _sigmaNoteBox.values.toList().indexOf(changeObject);
 
-    changeObject.todoItems[index].isDone = !changeObject.todoItems[index].isDone;
+    changeObject.todoItems![index].isDone = !changeObject.todoItems![index].isDone!;
 
     updateInHive(objectIndex, changeObject);
 

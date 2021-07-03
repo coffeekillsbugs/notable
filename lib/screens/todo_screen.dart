@@ -13,18 +13,20 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-  FocusNode _todoItem, _titleFocusNode;
+
+  FocusNode? _todoItem, _titleFocusNode;
   bool isEditMode = false;
-  int selectedIndex;
-  DateTime dateTime;
-  String _kDateTime;
+  int? selectedIndex;
+  DateTime? dateTime;
+  late String _kDateTime;
+
   double _bottomPadding = 100.0;
 
-  TextEditingController _todoItemController, _titleController;
+  TextEditingController? _todoItemController, _titleController;
 
   TodoViewModel todoViewModel = TodoViewModel();
-  SigmaNote todoObject = SigmaNote();
-  SigmaProvider sigmaProvider;
+  SigmaNote? todoObject = SigmaNote();
+  late SigmaProvider sigmaProvider;
 
   @override
   void initState() {
@@ -32,19 +34,23 @@ class _TodoScreenState extends State<TodoScreen> {
 
     _todoItemController = TextEditingController();
     _titleController = TextEditingController();
-    _titleController.addListener(() {});
+
+    _titleController!.addListener(() {});
     _todoItem = FocusNode();
     _titleFocusNode = FocusNode();
-    _titleFocusNode.addListener(() {
-      if (_titleFocusNode.hasFocus) {
+    _titleFocusNode!.addListener(() {
+      if (_titleFocusNode!.hasFocus) {
+
         setState(() {
           // Future.delayed(Duration(seconds: 3));
           _bottomPadding = 16.0;
         });
       }
     });
-    _todoItem.addListener(() {
-      if (_todoItem.hasFocus) {
+
+    _todoItem!.addListener(() {
+      if (_todoItem!.hasFocus) {
+
         // Future.delayed(Duration(seconds: 1));
         setState(() {
           _bottomPadding = 16.0;
@@ -52,15 +58,19 @@ class _TodoScreenState extends State<TodoScreen> {
       }
     });
     dateTime = DateTime.now();
-    todoObject.todoItems = List();
-    _titleFocusNode.requestFocus();
+
+    todoObject!.todoItems = [];
+    _titleFocusNode!.requestFocus();
+
   }
 
   @override
   void dispose() {
-    _todoItemController.dispose();
-    _todoItem.dispose();
-    _titleFocusNode.dispose();
+
+    _todoItemController!.dispose();
+    _todoItem!.dispose();
+    _titleFocusNode!.dispose();
+
 
     super.dispose();
   }
@@ -74,12 +84,12 @@ class _TodoScreenState extends State<TodoScreen> {
       sigmaProvider.updateEditMode();
       selectedIndex = sigmaProvider.selectedIndex;
 
-      todoObject = todoViewModel.getFromHiveProvider(selectedIndex);
+      todoObject = todoViewModel.getFromHiveProvider(selectedIndex!);
 
-      _titleController.text = todoObject.title;
-      _kDateTime = dateFormat(todoObject.dateCreated);
+      _titleController!.text = todoObject!.title!;
+      _kDateTime = dateFormat(todoObject!.dateCreated!);
     } else {
-      _kDateTime = dateFormat(dateTime);
+      _kDateTime = dateFormat(dateTime!);
     }
 
     if (MediaQuery.of(context).viewInsets.bottom == 0.0) {
@@ -115,10 +125,12 @@ class _TodoScreenState extends State<TodoScreen> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Title',
-                        hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white60),
+
+                        hintStyle: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white60),
                       ),
                       onSubmitted: (text) {
-                        _todoItem.requestFocus();
+                        _todoItem!.requestFocus();
+
                       },
                     ),
                   ),
@@ -139,9 +151,11 @@ class _TodoScreenState extends State<TodoScreen> {
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: todoObject.todoItems.length,
+
+                            itemCount: todoObject!.todoItems!.length,
                             itemBuilder: (context, index) {
-                              if (todoObject.todoItems.isEmpty) {
+                              if (todoObject!.todoItems!.isEmpty) {
+
                                 return Container();
                               }
 
@@ -158,8 +172,10 @@ class _TodoScreenState extends State<TodoScreen> {
                                           physics: BouncingScrollPhysics(),
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                            todoObject.todoItems[index].todoItem,
-                                            style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0),
+
+                                            todoObject!.todoItems![index].todoItem!,
+                                            style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20.0),
+
                                           ),
                                         ),
                                       ),
@@ -169,7 +185,9 @@ class _TodoScreenState extends State<TodoScreen> {
                                       borderRadius: BorderRadius.circular(28.0),
                                       onTap: () {
                                         setState(() {
-                                          todoObject.todoItems.removeAt(index);
+
+                                          todoObject!.todoItems!.removeAt(index);
+
                                         });
                                       },
                                       child: Container(
@@ -227,14 +245,18 @@ class _TodoScreenState extends State<TodoScreen> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: 'What\'s next?',
-                                  hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white60),
+
+                                  hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white60),
+
                                 ),
                                 onSubmitted: (text) {
                                   if (text.isNotEmpty) {
                                     setState(() {
-                                      todoObject.todoItems.add(TodoItemModel(todoItem: _todoItemController.text, isDone: false));
-                                      _todoItemController.text = '';
-                                      _todoItem.requestFocus();
+
+                                      todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
+                                      _todoItemController!.text = '';
+                                      _todoItem!.requestFocus();
+
                                     });
                                   } else {
                                     print('inside else');
@@ -246,7 +268,6 @@ class _TodoScreenState extends State<TodoScreen> {
                               ),
                             ),
                           ),
-
                         ),
                         SizedBox(width: 16.0),
                         // New To Do item add button
@@ -254,11 +275,12 @@ class _TodoScreenState extends State<TodoScreen> {
                           kHeroTag: 'add',
                           kOnPressed: () {
                             print('add button pressed');
-                            if (_todoItemController.text.isNotEmpty) {
+                            if (_todoItemController!.text.isNotEmpty) {
                               setState(() {
-                                todoObject.todoItems.add(TodoItemModel(todoItem: _todoItemController.text, isDone: false));
-                                _todoItemController.text = '';
-                                _todoItem.requestFocus();
+                                todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
+                                _todoItemController!.text = '';
+                                _todoItem!.requestFocus();
+
                               });
                             }
                           },
@@ -290,18 +312,21 @@ class _TodoScreenState extends State<TodoScreen> {
                 SigmaButton(
                   kHeroTag: 'blackTodo',
                   kOnPressed: () {
-                    if (_titleController.text.isEmpty) {
+
+                    if (_titleController!.text.isEmpty) {
+
                       _emptyFieldWarning();
                     } else {
                       if (isEditMode) {
                         isEditMode = false;
                         todoViewModel.updateToHiveProvider(
-                          selectedIndex,
+                          selectedIndex!,
                           SigmaNote(
-                            title: _titleController.text,
-                            dateCreated: todoObject.dateCreated,
+                            title: _titleController!.text,
+                            dateCreated: todoObject!.dateCreated,
                             noteType: NoteType.todo,
-                            todoItems: todoObject.todoItems,
+                            todoItems: todoObject!.todoItems,
+
                           ),
                         );
                         // Show updated
@@ -309,10 +334,11 @@ class _TodoScreenState extends State<TodoScreen> {
                       } else {
                         todoViewModel.writeToHiveProvider(
                           SigmaNote(
-                            title: _titleController.text,
+                            title: _titleController!.text,
                             dateCreated: dateTime,
                             noteType: NoteType.todo,
-                            todoItems: todoObject.todoItems,
+                            todoItems: todoObject!.todoItems,
+
                           ),
                         );
                         Navigator.pop(context);
@@ -394,7 +420,8 @@ class _TodoScreenState extends State<TodoScreen> {
             '...seems you forgot the title.',
           ),
           actions: [
-            FlatButton(
+            TextButton(
+
               child: Text(
                 'SILLY ME',
               ),

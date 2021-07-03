@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sigma/view_models/compact_todo_view_model.dart';
+import 'dart:async';
 
+import '../view_models/todo_view_model.dart';
+import '../view_models/compact_todo_view_model.dart';
 import '../theme/colors.dart';
 import '../models/sigma_note.dart';
 
 class CompactTodoView extends StatefulWidget {
-  final SigmaNote todoObject;
+  final int kIndex;
 
   CompactTodoView({
-    @required this.todoObject,
+    required this.kIndex,
   });
   @override
   _CompactTodoViewState createState() => _CompactTodoViewState();
@@ -17,140 +19,169 @@ class CompactTodoView extends StatefulWidget {
 class _CompactTodoViewState extends State<CompactTodoView> {
   bool isTodoCollapsed = true;
   CompactTodoViewModel compactTodoViewModel = CompactTodoViewModel();
+  TodoViewModel todoViewModel = TodoViewModel();
+  SigmaNote? todoObject = SigmaNote();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 8.0,
+
+    todoObject = todoViewModel.getFromHiveProvider(widget.kIndex);
+    return Dismissible(
+      background: Container(
+        // color: Colors.white,
       ),
-      child: Container(
+      secondaryBackground: Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(16.0),
+        color: Colors.white,
+        child: Icon(
+          Icons.delete_rounded,
+          color: AppColor.darkGrey,
+        ),
+      ),
+      key: Key(todoObject!.dateCreated.toString()),
+      direction: isTodoCollapsed ? DismissDirection.endToStart : DismissDirection.none,
+      dismissThresholds: {
+        DismissDirection.endToStart: 0.1,
+      },
+      confirmDismiss: (direction) async {
+        return _deleteConfirmationDialog(habitName: todoObject!.title);
+      },
+      onDismissed: (direction) {
+        todoViewModel.deleteFromHiveProvider(widget.kIndex);
+      },
+      child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.0,
-          vertical: 12.0,
+          vertical: 8.0,
         ),
-        decoration: BoxDecoration(
-          color: AppColor.overlaySeven,
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: Column(
-          children: [
-            // >>> Title, Collapse and Expand button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Container(
-                    child: Text(
-                      widget.todoObject.title,
-                      style: Theme.of(context).textTheme.headline5,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 12.0,
+          ),
+          decoration: BoxDecoration(
+            color: AppColor.overlaySeven,
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: Column(
+            children: [
+              // >>> Title, Collapse and Expand button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Container(
+                      child: Text(
+                        todoObject!.title!,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 8.0),
-                InkWell(
-                  splashColor: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                  onTap: () {
-                    setState(() {
-                      if (isTodoCollapsed) {
-                        isTodoCollapsed = false;
-                      } else {
-                        isTodoCollapsed = true;
-                      }
-                    });
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Icon(
-                      isTodoCollapsed ? Icons.visibility : Icons.visibility_off,
-                      color: Colors.white,
-                      size: 24.0,
+                  SizedBox(width: 8.0),
+                  InkWell(
+                    splashColor: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    onTap: () {
+                      setState(() {
+                        if (isTodoCollapsed) {
+                          isTodoCollapsed = false;
+                        } else {
+                          isTodoCollapsed = true;
+                        }
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Icon(
+                        isTodoCollapsed ? Icons.visibility : Icons.visibility_off,
+                        color: Colors.white,
+                        size: 24.0,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            isTodoCollapsed
-                ? Container()
-                : Column(
-                    children: [
-                      // >>> Body
-                      Container(
-                        alignment: Alignment.topLeft,
-                        // color: Colors.red,
-                        height: widget.todoObject.todoItems.isEmpty ? 100.0 : 240.0,
-                        // color: Colors.red,
-                        child: widget.todoObject.todoItems.isEmpty
-                            ? Container(
-                                alignment: Alignment.center,
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.white),
-                                    children: [
-                                      TextSpan(
-                                        text: 'Huh?\n',
-                                        style: Theme.of(context).textTheme.headline6,
-                                      ),
-                                      TextSpan(
-                                        text: 'The list is empty. Did you forget to add items?',
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : ListView.builder(
-                                // padding: EdgeInsets.symmetric(vertical: 16.0),
-                                physics: BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      splashColor: Colors.white,
-                                      onTap: () {
-                                        setState(() {
-                                          compactTodoViewModel.changeItemState(widget.todoObject, index);
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                                        // color: Colors.green,
-                                        child: Text(
-                                          widget.todoObject.todoItems[index].todoItem,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                                fontSize: 16.0,
-                                                decoration: widget.todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
-                                              ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                itemCount: widget.todoObject.todoItems.length,
-                              ),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      // >>> Date Created
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        // color: Colors.green,
-                        child: Text(
-                          dateFormat(widget.todoObject.dateCreated),
-                          style: Theme.of(context).textTheme.bodyText2,
+                ],
+              ),
+              isTodoCollapsed
+                  ? Container()
+                  : Column(
+                children: [
+                  // >>> Body
+                  Container(
+                    alignment: Alignment.topLeft,
+                    // color: Colors.red,
+                    height: todoObject!.todoItems!.isEmpty ? 100.0 : 240.0,
+                    // color: Colors.red,
+                    child: todoObject!.todoItems!.isEmpty
+                        ? Container(
+                      alignment: Alignment.center,
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.white),
+                          children: [
+                            TextSpan(
+                              text: 'Huh?\n',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            TextSpan(
+                              text: 'The list is empty. Did you forget to add items?',
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 8.0),
-                    ],
+                    )
+                        : ListView.builder(
+                      // padding: EdgeInsets.symmetric(vertical: 16.0),
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            splashColor: Colors.white,
+                            onTap: () {
+                              setState(() {
+                                compactTodoViewModel.changeItemState(todoObject!, index);
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 16.0),
+                              // color: Colors.green,
+                              child: Text(
+                                todoObject!.todoItems![index].todoItem!,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 16.0,
+                                  decoration: todoObject!.todoItems![index].isDone! ? TextDecoration.lineThrough : null,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: todoObject!.todoItems!.length,
+                    ),
                   ),
-          ],
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  // >>> Date Created
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    // color: Colors.green,
+                    child: Text(
+                      dateFormat(todoObject!.dateCreated!),
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -205,5 +236,54 @@ class _CompactTodoViewState extends State<CompactTodoView> {
       default:
         return 'January';
     }
+  }
+
+  Future<bool> _deleteConfirmationDialog({String? habitName}) async {
+    return showDialog<bool>(
+      // barrierColor: AppColor.darkGrey.withOpacity(0.9),
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Delete?',
+            ),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    'You\'re about to delete \"$habitName\".',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'This action is not reversible.',
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  'YES',
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+              TextButton(
+                child: Text(
+                  'NO',
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          );
+        }) as FutureOr<bool>? ??
+        false;
   }
 }
