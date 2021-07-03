@@ -5,20 +5,20 @@ import '../theme/colors.dart';
 class SigmaButton extends StatelessWidget {
   final IconData kIcon;
   final double kSize;
-  final Function? kOnPressed;
-  final Color? kBackgroundColor;
   final double buttonSize;
+  final Function kOnPressed;
+  final Color kBackgroundColor;
   final Color kIconColor;
   final String kHeroTag;
 
   SigmaButton({
-    required this.kIcon,
-    this.kSize = 24.0,
+    @required this.kIcon,
+    this.kSize = 32.0,
     this.buttonSize = 64.0,
     this.kOnPressed,
     this.kBackgroundColor,
     this.kIconColor = AppColor.darkGrey,
-    required this.kHeroTag,
+    @required this.kHeroTag,
   });
 
   @override
@@ -28,11 +28,14 @@ class SigmaButton extends StatelessWidget {
       width: buttonSize,
       child: FloatingActionButton(
         heroTag: kHeroTag,
-    onPressed: kOnPressed as void Function()?,
-        child: Icon(
-          kIcon,
-          size: kSize,
-          color: kIconColor,
+        onPressed: kOnPressed,
+        child: Transform.rotate(
+          angle: 0.785,
+          child: Icon(
+            kIcon,
+            size: kSize,
+            color: kIconColor,
+          ),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),

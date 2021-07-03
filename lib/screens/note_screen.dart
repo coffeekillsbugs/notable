@@ -13,17 +13,17 @@ class NoteScreen extends StatefulWidget {
 }
 
 class _NoteScreenState extends State<NoteScreen> {
-  FocusNode? _noteBody;
-  late String _kDateTime;
+  FocusNode _noteBody;
+  String _kDateTime;
   bool isEditMode = false;
-  int? selectedIndex;
-  DateTime? dateTime;
+  int selectedIndex;
+  DateTime dateTime;
 
-  TextEditingController? _titleController, _noteBodyController;
+  TextEditingController _titleController, _noteBodyController;
 
   NoteViewModel noteViewModel = NoteViewModel();
-  SigmaNote? noteObject = SigmaNote();
-  late SigmaProvider sigmaProvider;
+  SigmaNote noteObject = SigmaNote();
+  SigmaProvider sigmaProvider;
 
   @override
   void initState() {
@@ -37,9 +37,9 @@ class _NoteScreenState extends State<NoteScreen> {
 
   @override
   void dispose() {
-    _noteBody!.dispose();
-    _titleController!.dispose();
-    _noteBodyController!.dispose();
+    _noteBody.dispose();
+    _titleController.dispose();
+    _noteBodyController.dispose();
 
     super.dispose();
   }
@@ -53,13 +53,13 @@ class _NoteScreenState extends State<NoteScreen> {
       sigmaProvider.updateEditMode();
       selectedIndex = sigmaProvider.selectedIndex;
 
-      noteObject = noteViewModel.getFromHiveProvider(selectedIndex!);
+      noteObject = noteViewModel.getFromHiveProvider(selectedIndex);
 
-      _titleController!.text = noteObject!.title!;
-      _noteBodyController!.text = noteObject!.noteBody!;
-      _kDateTime = dateFormat(noteObject!.dateCreated!);
+      _titleController.text = noteObject.title;
+      _noteBodyController.text = noteObject.noteBody;
+      _kDateTime = dateFormat(noteObject.dateCreated);
     } else {
-      _kDateTime = dateFormat(dateTime!);
+      _kDateTime = dateFormat(dateTime);
     }
     // >>> Note Screen
     return Stack(
@@ -85,12 +85,10 @@ class _NoteScreenState extends State<NoteScreen> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Title',
-
-                      hintStyle: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white60),
+                      hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white60),
                     ),
                     onSubmitted: (text) {
-                      _noteBody!.requestFocus();
-
+                      _noteBody.requestFocus();
                     },
                   ),
                 ),
@@ -120,9 +118,7 @@ class _NoteScreenState extends State<NoteScreen> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Whats on your mind?',
-
-                            hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white60),
-
+                            hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white60),
                           ),
                         ),
                       ),
@@ -151,23 +147,18 @@ class _NoteScreenState extends State<NoteScreen> {
                 SigmaButton(
                   kHeroTag: 'blackNote',
                   kOnPressed: () {
-
-                    if (_noteBodyController!.text.isEmpty) {
-
-
+                    if (_noteBodyController.text.isEmpty) {
                       _emptyFieldWarning();
                     } else {
                       if (isEditMode) {
                         isEditMode = false;
                         noteViewModel.updateToHiveProvider(
-
-                          selectedIndex!,
+                          selectedIndex,
                           SigmaNote(
-                            title: _titleController!.text,
-                            dateCreated: noteObject!.dateCreated,
+                            title: _titleController.text,
+                            dateCreated: noteObject.dateCreated,
                             noteType: NoteType.note,
-                            noteBody: _noteBodyController!.text,
-
+                            noteBody: _noteBodyController.text,
                           ),
                         );
                         sigmaProvider.updateEditMode();
@@ -176,11 +167,10 @@ class _NoteScreenState extends State<NoteScreen> {
                       } else {
                         noteViewModel.writeToHiveProvider(
                           SigmaNote(
-                            title: _titleController!.text,
+                            title: _titleController.text,
                             dateCreated: dateTime,
                             noteType: NoteType.note,
-                            noteBody: _noteBodyController!.text,
-
+                            noteBody: _noteBodyController.text,
                           ),
                         );
                         Navigator.pop(context);
@@ -262,8 +252,7 @@ class _NoteScreenState extends State<NoteScreen> {
             '...you haven\'t written anything.',
           ),
           actions: [
-            TextButton(
-
+            FlatButton(
               child: Text(
                 'SILLY ME',
               ),

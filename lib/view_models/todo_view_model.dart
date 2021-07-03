@@ -3,16 +3,16 @@ import '../models/sigma_note.dart';
 
 class TodoViewModel {
 
-  String? title;
-  DateTime? dateCreated;
-  NoteType? noteType;
-  List<TodoItemModel>? todoItems;
+  String title;
+  DateTime dateCreated;
+  NoteType noteType;
+  List<TodoItemModel> todoItems;
 
   TodoViewModel({this.title, this.dateCreated, this.noteType, this.todoItems});
 
-  SigmaNote? getFromHiveProvider(int index) {
+  SigmaNote getFromHiveProvider(int index) {
     HiveProvider getObject = HiveProvider();
-    SigmaNote? readObject;
+    SigmaNote readObject;
 
     readObject = getObject.readFromHive(index);
 
@@ -29,12 +29,6 @@ class TodoViewModel {
     HiveProvider putObject = HiveProvider();
 
     putObject.updateInHive(index, updateObject);
-  }
-
-  void deleteFromHiveProvider(int index) {
-    HiveProvider deleteObject = HiveProvider();
-
-    deleteObject.deleteInHive(index);
   }
 
   void changeItemState(SigmaNote changeObject, int index) {

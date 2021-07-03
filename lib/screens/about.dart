@@ -94,7 +94,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 KitKatButton(
                     kText: 'SHARE',
                     kOnTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
                         content: Text(
                           'Work in progress. Stay tuned ; ).',
                           style: Theme.of(context).textTheme.bodyText2,
@@ -111,7 +111,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 KitKatButton(
                   kText: 'LICENSES',
                   kOnTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    _scaffoldKey.currentState.showSnackBar(SnackBar(
                       content: Text(
                         'Work in progress. Stay tuned ; ).',
                         style: Theme.of(context).textTheme.bodyText2,
@@ -164,7 +164,7 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 
@@ -181,10 +181,10 @@ class _AboutScreenState extends State<AboutScreen> {
 
 class KitKatButton extends StatelessWidget {
   final String kText;
-  final Function? kOnTap;
+  final Function kOnTap;
 
   KitKatButton({
-    required this.kText,
+    @required this.kText,
     this.kOnTap,
   });
 
@@ -194,7 +194,7 @@ class KitKatButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         splashColor: Colors.white,
-        onTap: kOnTap as void Function()?,
+        onTap: kOnTap,
         child: Container(
           alignment: Alignment.center,
           height: 56.0,

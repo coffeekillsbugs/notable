@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../view_models/note_view_model.dart';
 import '../services/sigma_provider.dart';
 import '../theme/colors.dart';
 import '../widgets/sigma_button.dart';
@@ -19,12 +20,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool? toDelete;
+  bool toDelete;
   bool temp = true;
 
-  late SigmaProvider sigmaProviderFalse;
+  SigmaProvider sigmaProviderFalse;
   HiveProvider hiveProvider = HiveProvider();
-
+  NoteViewModel noteViewModel = NoteViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -76,24 +77,73 @@ class _HomePageState extends State<HomePage> {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    if (note.getAt(index)!.noteType == NoteType.note) {
-                      // SigmaNote noteObject = note.getAt(index);
+                    if (note.getAt(index).noteType == NoteType.note) {
+                      SigmaNote noteObject = note.getAt(index);
                       return GestureDetector(
                         onTap: () {
                           sigmaProviderFalse.updateSelectedIndex(index);
                           Navigator.pushNamed(context, 'NoteView');
                         },
-                        // child: CompactNoteView(noteObject: noteObject),
-                        child: CompactNoteView(kIndex: index),
+                        child: Dismissible(
+                          background: Container(
+                              // color: Colors.white,
+                              ),
+                          secondaryBackground: Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.all(16.0),
+                            color: Colors.white,
+                            child: Icon(
+                              Icons.delete_rounded,
+                              color: AppColor.darkGrey,
+                            ),
+                          ),
+                          key: Key(noteObject.dateCreated.toString()),
+                          direction: DismissDirection.endToStart,
+                          dismissThresholds: {
+                            DismissDirection.endToStart: 0.1,
+                          },
+                          confirmDismiss: (direction) async {
+                            return _deleteConfirmationDialog(habitName: noteObject.title);
+                          },
+                          onDismissed: (direction) {
+                            noteViewModel.deleteFromHiveProvider(index);
+                          },
+                          child: CompactNoteView(noteObject: noteObject),
+                        ),
                       );
                     } else {
-                      // SigmaNote todoObject = note.getAt(index);
+                      SigmaNote todoObject = note.getAt(index);
                       return GestureDetector(
                         onTap: () {
                           sigmaProviderFalse.updateSelectedIndex(index);
                           Navigator.pushNamed(context, 'TodoView');
                         },
-                        child: CompactTodoView(kIndex: index),
+                        child: Dismissible(
+                          background: Container(
+                              // color: Colors.white,
+                              ),
+                          secondaryBackground: Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.all(16.0),
+                            color: Colors.white,
+                            child: Icon(
+                              Icons.delete_rounded,
+                              color: AppColor.darkGrey,
+                            ),
+                          ),
+                          key: Key(todoObject.dateCreated.toString()),
+                          direction: DismissDirection.endToStart,
+                          dismissThresholds: {
+                            DismissDirection.endToStart: 0.1,
+                          },
+                          confirmDismiss: (direction) async {
+                            return _deleteConfirmationDialog(habitName: todoObject.title);
+                          },
+                          onDismissed: (direction) {
+                            noteViewModel.deleteFromHiveProvider(index);
+                          },
+                          child: CompactTodoView(todoObject: todoObject),
+                        ),
                       );
                     }
                   },
@@ -204,51 +254,13 @@ class _HomePageState extends State<HomePage> {
                         delegate: NoteSearch(),
                       );
 
-                                if (selectedIndex != null) {
-                                  NoteType? noteType;
-                                  sigmaProviderFalse.updateSelectedIndex(selectedIndex);
-                                  noteType = hiveProvider.noteType(selectedIndex);
-                                  // Navigator.popAndPushNamed(context, noteType == NoteType.note ? 'NoteView' : 'TodoView');
-                                  Navigator.of(context).pushNamed(noteType == NoteType.note ? 'NoteView' : 'TodoView');
-                                } else {
-                                  Navigator.pop(context);
-                                }
-                              },
-                              kIcon: Icons.search,
-                              kIconColor: Colors.white,
-                              kBackgroundColor: AppColor.overlayEight,
-                            ),
-                            SizedBox(height: 16.0),
-                            SigmaButton(
-                              kHeroTag: 'about',
-                              kOnPressed: () {
-                                Navigator.popAndPushNamed(context, 'About');
-                              },
-                              kIcon: Icons.info_outline_rounded,
-                              kIconColor: Colors.white,
-                              kBackgroundColor: AppColor.overlayEight,
-                            ),
-                            SizedBox(height: 16.0),
-                            SigmaButton(
-                              kOnPressed: () {
-                                Navigator.pop(context);
-                              },
-                              kHeroTag: 'sigma',
-                              kIcon: Icons.keyboard_arrow_down_rounded,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 16.0),
-                      // New ToDo Button
-                      NoteButton(
-                        kOnTap: () {
-                          Navigator.popAndPushNamed(context, 'TodoScreen');
-                        },
-                        kIcon: Icons.check_box_rounded,
-                        kLabel: 'New ToDo',
-                      ),
-                    ],
+                      if (selectedIndex != null) {
+                        NoteType noteType;
+                        sigmaProviderFalse.updateSelectedIndex(selectedIndex);
+                        noteType = hiveProvider.noteType(selectedIndex);
+                        Navigator.pushNamed(context, noteType == NoteType.note ? 'NoteView' : 'TodoView');
+                      }
+                    },
                   ),
                 ],
               ),
@@ -279,9 +291,54 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Route _createNewRoute(NoteType noteType) {
-  //   return PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => noteType == NoteType.note ? 'NoteView' : 'TodoView', transitionsBuilder: );
-  // }
+  Future<bool> _deleteConfirmationDialog({String habitName}) async {
+    return showDialog<bool>(
+            // barrierColor: AppColor.darkGrey.withOpacity(0.9),
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'Delete?',
+                ),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        'You\'re about to delete \"$habitName\".',
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      'This action is not reversible.',
+                    ),
+                  ],
+                ),
+                actions: [
+                  FlatButton(
+                    child: Text(
+                      'YES',
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'NO',
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                ],
+              );
+            }) ??
+        false;
+  }
 }
 
 class MiniBox extends StatelessWidget {

@@ -6,7 +6,7 @@ import '../theme/textTheme.dart';
 ThemeData sigmaTheme = ThemeData(
   accentColor: Colors.white,
   brightness: Brightness.dark,
-  // cursorColor: Colors.white,
+  cursorColor: Colors.white,
   dialogBackgroundColor: AppColor.overlayFive,
   hintColor: Colors.white60,
   iconTheme: IconThemeData(
@@ -26,12 +26,7 @@ ThemeData sigmaTheme = ThemeData(
   ),
   primaryColor: AppColor.darkGrey,
   scaffoldBackgroundColor: AppColor.darkGrey,
-  // textSelectionColor: AppColor.darkGrey,
-  // textSelectionHandleColor: Colors.white,
-  textSelectionTheme: TextSelectionThemeData(
-    cursorColor: Colors.white,
-    selectionColor: Colors.white.withOpacity(0.5),
-    selectionHandleColor: Colors.white,
-  ),
+  textSelectionColor: AppColor.darkGrey,
+  textSelectionHandleColor: Colors.white,
   textTheme: sigmaTextTheme,
 );

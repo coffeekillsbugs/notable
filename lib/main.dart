@@ -43,14 +43,14 @@ class Sigma extends StatelessWidget {
         theme: sigmaTheme,
         onGenerateRoute: router.generateRoute,
         initialRoute: '/',
-        builder: (BuildContext context, Widget? child) {
+        builder: (BuildContext context, Widget child) {
           final MediaQueryData data = MediaQuery.of(context);
 
           return MediaQuery(
             data: data.copyWith(
               textScaleFactor: 1.0,
             ),
-            child: child!,
+            child: child,
           );
         },
       ),

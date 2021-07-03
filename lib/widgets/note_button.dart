@@ -5,11 +5,11 @@ import '../theme/colors.dart';
 class NoteButton extends StatelessWidget {
   final IconData kIcon;
   final String kLabel;
-  final Function? kOnTap;
+  final Function kOnTap;
 
   NoteButton({
-    required this.kIcon,
-    required this.kLabel,
+    @required this.kIcon,
+    @required this.kLabel,
     this.kOnTap,
   });
 
@@ -17,7 +17,7 @@ class NoteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: kOnTap as void Function()?,
+        onTap: kOnTap,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),

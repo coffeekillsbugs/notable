@@ -7,12 +7,19 @@ import '../views/compact_todo_view.dart';
 import '../theme/colors.dart';
 
 class NoteSearch extends SearchDelegate<int> {
+
   @override
-  TextStyle? get searchFieldStyle => TextStyle(
-    decoration: TextDecoration.none,
-    color: Colors.white,
-    fontFamily: 'Merriweather',
-  );
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      primaryColor: AppColor.overlayEight,
+      // cursorColor: Colors.white,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+      textTheme: Theme.of(context).textTheme,
+      textSelectionColor: AppColor.darkGrey,
+    );
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -46,7 +53,7 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildResults(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title!.toLowerCase().contains(query.toLowerCase()));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
       return Text('Nothing to show');
@@ -60,13 +67,7 @@ class NoteSearch extends SearchDelegate<int> {
               onTap: () {
                 close(context, hiveProvider.allNotes().toList().indexOf(a));
               },
-              child: a.noteType == NoteType.note
-                  ? CompactNoteView(
-                      kIndex: hiveProvider.allNotes().toList().indexOf(a),
-                    )
-                  : CompactTodoView(
-                      kIndex: hiveProvider.allNotes().toList().indexOf(a),
-                    ),
+              child: a.noteType == NoteType.note ? CompactNoteView(noteObject: a) : CompactTodoView(todoObject: a),
             ),
           )
           .toList(),
@@ -77,7 +78,7 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildSuggestions(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title!.toLowerCase().contains(query.toLowerCase()));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
       return Text('Nothing to show');
@@ -106,8 +107,8 @@ class NoteSearch extends SearchDelegate<int> {
                       SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         child: Text(
-                          a.title!,
-                          style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
+                          a.title,
+                          style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
                         ),
                       ),
                     ],

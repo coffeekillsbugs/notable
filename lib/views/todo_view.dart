@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/sigma_note.dart';
 import '../services/sigma_provider.dart';
 import '../view_models/todo_view_model.dart';
+import '../theme/colors.dart';
 import '../widgets/sigma_button.dart';
 
 class TodoView extends StatefulWidget {
@@ -13,9 +14,9 @@ class TodoView extends StatefulWidget {
 
 class _TodoViewState extends State<TodoView> {
   TodoViewModel todoViewModel = TodoViewModel();
-  SigmaNote? todoObject = SigmaNote();
+  SigmaNote todoObject = SigmaNote();
 
-  late SigmaProvider sigmaProviderFalse, sigmaProvider;
+  SigmaProvider sigmaProviderFalse, sigmaProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _TodoViewState extends State<TodoView> {
                   // >>> Title
                   Container(
                     child: Text(
-                      todoObject!.title!,
+                      todoObject.title,
                       style: Theme.of(context).textTheme.headline3,
                     ),
                   ),
@@ -45,8 +46,7 @@ class _TodoViewState extends State<TodoView> {
                   // >>> Current Date
                   Container(
                     child: Text(
-                      dateFormat(todoObject!.dateCreated!),
-
+                      dateFormat(todoObject.dateCreated),
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),
@@ -54,57 +54,57 @@ class _TodoViewState extends State<TodoView> {
                   // >>> To Do list layout
                   Flexible(
                     child: Container(
-                      child: todoObject!.todoItems!.isEmpty
+                      child: todoObject.todoItems.isEmpty
                           ? Container(
-                        alignment: Alignment.center,
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white), children: [
-                            TextSpan(
-                              text: 'Hmm...\n',
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                            TextSpan(
-                              text: 'Looks like you forgot to add items. Click on the edit button below to add.',
-                            ),
-                          ]),
-                        ),
-                      )
-                          : SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Container(
-                          child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: todoObject!.todoItems!.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                splashColor: Colors.white,
-                                onTap: () {
-                                  setState(() {
-                                    todoViewModel.changeItemState(todoObject!, index);
-                                  });
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                                  // color: Colors.green,
-                                  child: SingleChildScrollView(
-                                    physics: BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                      todoObject!.todoItems![index].todoItem!,
-                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                        fontSize: 20.0,
-                                        decoration: todoObject!.todoItems![index].isDone! ? TextDecoration.lineThrough : null,
-                                      ),
-                                    ),
+                              alignment: Alignment.center,
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white), children: [
+                                  TextSpan(
+                                    text: 'Hmm...\n',
+                                    style: Theme.of(context).textTheme.headline4,
                                   ),
+                                  TextSpan(
+                                    text: 'Looks like you forgot to add items. Click on the edit button below to add.',
+                                  ),
+                                ]),
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
+                              child: Container(
+                                child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: todoObject.todoItems.length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      splashColor: Colors.white,
+                                      onTap: () {
+                                        setState(() {
+                                          todoViewModel.changeItemState(todoObject, index);
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                                        // color: Colors.green,
+                                        child: SingleChildScrollView(
+                                          physics: BouncingScrollPhysics(),
+                                          scrollDirection: Axis.horizontal,
+                                          child: Text(
+                                            todoObject.todoItems[index].todoItem,
+                                            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                                  fontSize: 20.0,
+                                                  decoration: todoObject.todoItems[index].isDone ? TextDecoration.lineThrough : null,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
+                              ),
+                            ),
                     ),
                   ),
                   SizedBox(height: 88.0),
