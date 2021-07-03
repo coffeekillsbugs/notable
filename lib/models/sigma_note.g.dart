@@ -6,24 +6,24 @@ part of 'sigma_note.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class NoteTypeAdapter extends TypeAdapter<NoteType?> {
+class NoteTypeAdapter extends TypeAdapter<NoteType> {
   @override
   final int typeId = 3;
 
   @override
-  NoteType? read(BinaryReader reader) {
+  NoteType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
         return NoteType.note;
       case 1:
         return NoteType.todo;
       default:
-        return null;
+        return NoteType.note;
     }
   }
 
   @override
-  void write(BinaryWriter writer, NoteType? obj) {
+  void write(BinaryWriter writer, NoteType obj) {
     switch (obj) {
       case NoteType.note:
         writer.writeByte(0);

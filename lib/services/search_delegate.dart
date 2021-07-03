@@ -8,17 +8,11 @@ import '../theme/colors.dart';
 
 class NoteSearch extends SearchDelegate<int> {
   @override
-  ThemeData appBarTheme(BuildContext context) {
-    return ThemeData(
-      primaryColor: AppColor.overlayEight,
-      // cursorColor: Colors.white,
-      iconTheme: IconThemeData(
-        color: Colors.white,
-      ),
-      textTheme: Theme.of(context).textTheme,
-      textSelectionColor: AppColor.darkGrey,
-    );
-  }
+  TextStyle? get searchFieldStyle => TextStyle(
+    decoration: TextDecoration.none,
+    color: Colors.white,
+    fontFamily: 'Merriweather',
+  );
 
   @override
   List<Widget> buildActions(BuildContext context) {
