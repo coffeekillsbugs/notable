@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../repository/hive_provider.dart';
-import '../models/sigma_note.dart';
-import '../views/compact_note_view.dart';
-import '../views/compact_todo_view.dart';
-import '../theme/colors.dart';
+import 'package:sigma/repository/hive_provider.dart';
+import 'package:sigma/models/sigma_note.dart';
+import 'package:sigma/views/compact_note_view.dart';
+import 'package:sigma/views/compact_todo_view.dart';
+import 'package:sigma/theme/colors.dart';
 
 class NoteSearch extends SearchDelegate<int> {
   @override

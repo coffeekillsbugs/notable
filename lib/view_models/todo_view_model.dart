@@ -1,5 +1,5 @@
-import '../repository/hive_provider.dart';
-import '../models/sigma_note.dart';
+import 'package:sigma/repository/hive_provider.dart';
+import 'package:sigma/models/sigma_note.dart';
 
 class TodoViewModel {
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/sigma_button.dart';
-import '../models/sigma_note.dart';
-import '../services/sigma_provider.dart';
-import '../view_models/note_view_model.dart';
-import '../theme/colors.dart';
+import 'package:sigma/widgets/sigma_button.dart';
+import 'package:sigma/models/sigma_note.dart';
+import 'package:sigma/services/sigma_provider.dart';
+import 'package:sigma/view_models/note_view_model.dart';
+import 'package:sigma/theme/colors.dart';
 
 class NoteView extends StatefulWidget {
   @override

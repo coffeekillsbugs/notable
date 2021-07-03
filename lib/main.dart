@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sigma/theme/theme_data.dart';
 
-import 'services/routes.dart' as router;
-import 'services/sigma_provider.dart';
-import './models/sigma_note.dart';
+import 'package:sigma/theme/theme_data.dart';
+import 'package:sigma/services/routes.dart' as router;
+import 'package:sigma/services/sigma_provider.dart';
+import 'package:sigma/models/sigma_note.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -45,7 +45,6 @@ class Sigma extends StatelessWidget {
         initialRoute: '/',
         builder: (BuildContext context, Widget? child) {
           final MediaQueryData data = MediaQuery.of(context);
-
           return MediaQuery(
             data: data.copyWith(
               textScaleFactor: 1.0,

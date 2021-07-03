@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import '../theme/colors.dart';
-import '../view_models/note_view_model.dart';
-import '../models/sigma_note.dart';
+import 'package:sigma/theme/colors.dart';
+import 'package:sigma/view_models/note_view_model.dart';
+import 'package:sigma/models/sigma_note.dart';
 
 class CompactNoteView extends StatefulWidget {
   final int kIndex;

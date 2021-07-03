@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import '../view_models/todo_view_model.dart';
-import '../view_models/compact_todo_view_model.dart';
-import '../theme/colors.dart';
-import '../models/sigma_note.dart';
+import 'package:sigma/view_models/todo_view_model.dart';
+import 'package:sigma/view_models/compact_todo_view_model.dart';
+import 'package:sigma/theme/colors.dart';
+import 'package:sigma/models/sigma_note.dart';
 
 class CompactTodoView extends StatefulWidget {
   final int kIndex;

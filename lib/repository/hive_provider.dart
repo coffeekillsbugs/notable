@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-import '../models/sigma_note.dart';
+import 'package:sigma/models/sigma_note.dart';
 
 class HiveProvider extends ChangeNotifier {
 

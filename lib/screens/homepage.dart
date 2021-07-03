@@ -3,15 +3,15 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../services/sigma_provider.dart';
-import '../theme/colors.dart';
-import '../widgets/sigma_button.dart';
-import '../widgets/note_button.dart';
-import '../views/compact_note_view.dart';
-import '../views/compact_todo_view.dart';
-import '../models/sigma_note.dart';
-import '../repository/hive_provider.dart';
-import '../services/search_delegate.dart';
+import 'package:sigma/services/sigma_provider.dart';
+import 'package:sigma/theme/colors.dart';
+import 'package:sigma/widgets/sigma_button.dart';
+import 'package:sigma/widgets/note_button.dart';
+import 'package:sigma/views/compact_note_view.dart';
+import 'package:sigma/views/compact_todo_view.dart';
+import 'package:sigma/models/sigma_note.dart';
+import 'package:sigma/repository/hive_provider.dart';
+import 'package:sigma/services/search_delegate.dart';
 
 class HomePage extends StatefulWidget {
   @override

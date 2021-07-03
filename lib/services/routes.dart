@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../screens/note_screen.dart';
-import '../screens/homepage.dart';
-import '../screens/about.dart';
-import '../screens/todo_screen.dart';
-import '../views/note_view.dart';
-import '../views/todo_view.dart';
+import 'package:sigma/screens/note_screen.dart';
+import 'package:sigma/screens/homepage.dart';
+import 'package:sigma/screens/about.dart';
+import 'package:sigma/screens/todo_screen.dart';
+import 'package:sigma/views/note_view.dart';
+import 'package:sigma/views/todo_view.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {

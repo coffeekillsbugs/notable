@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
-import '../theme/textTheme.dart';
+import 'package:sigma/theme/colors.dart';
+import 'package:sigma/theme/textTheme.dart';
 
 ThemeData sigmaTheme = ThemeData(
   accentColor: Colors.white,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/colors.dart';
+import 'package:sigma/theme/colors.dart';
 
 class SigmaButton extends StatelessWidget {
   final IconData kIcon;

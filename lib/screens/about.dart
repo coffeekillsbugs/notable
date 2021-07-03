@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// import '../widgets/gradient_background.dart';
-import '../widgets/sigma_button.dart';
-import '../theme/colors.dart';
+import 'package:sigma/widgets/sigma_button.dart';
+import 'package:sigma/theme/colors.dart';
 
 class AboutScreen extends StatefulWidget {
   @override
