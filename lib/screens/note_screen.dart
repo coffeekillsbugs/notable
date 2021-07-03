@@ -85,10 +85,12 @@ class _NoteScreenState extends State<NoteScreen> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Title',
+
                       hintStyle: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white60),
                     ),
                     onSubmitted: (text) {
                       _noteBody!.requestFocus();
+
                     },
                   ),
                 ),
@@ -118,7 +120,9 @@ class _NoteScreenState extends State<NoteScreen> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Whats on your mind?',
+
                             hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white60),
+
                           ),
                         ),
                       ),
@@ -147,18 +151,23 @@ class _NoteScreenState extends State<NoteScreen> {
                 SigmaButton(
                   kHeroTag: 'blackNote',
                   kOnPressed: () {
+
                     if (_noteBodyController!.text.isEmpty) {
+
+
                       _emptyFieldWarning();
                     } else {
                       if (isEditMode) {
                         isEditMode = false;
                         noteViewModel.updateToHiveProvider(
+
                           selectedIndex!,
                           SigmaNote(
                             title: _titleController!.text,
                             dateCreated: noteObject!.dateCreated,
                             noteType: NoteType.note,
                             noteBody: _noteBodyController!.text,
+
                           ),
                         );
                         sigmaProvider.updateEditMode();
@@ -171,6 +180,7 @@ class _NoteScreenState extends State<NoteScreen> {
                             dateCreated: dateTime,
                             noteType: NoteType.note,
                             noteBody: _noteBodyController!.text,
+
                           ),
                         );
                         Navigator.pop(context);
@@ -253,6 +263,7 @@ class _NoteScreenState extends State<NoteScreen> {
           ),
           actions: [
             TextButton(
+
               child: Text(
                 'SILLY ME',
               ),

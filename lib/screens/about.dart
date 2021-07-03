@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sigma/screens/homepage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // import '../widgets/gradient_background.dart';
@@ -70,13 +71,11 @@ class _AboutScreenState extends State<AboutScreen> {
                         children: [
                           Text(
                             'Sigma',
-                            // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.headline5,
                           ),
                           SizedBox(height: 4.0),
                           Text(
                             'v0.5.3-alpha',
-                            // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.caption,
                           ),
                           SizedBox(height: 16.0),
@@ -133,12 +132,37 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
         ],
       ),
-      floatingActionButton: SigmaButton(
-        kHeroTag: 'about',
-        kOnPressed: () {
-          Navigator.pop(context);
-        },
-        kIcon: Icons.chevron_left_rounded,
+      floatingActionButton: Transform.rotate(
+        angle: -0.785,
+        child: SigmaButton(
+          kHeroTag: 'sigma',
+          kIcon: Icons.keyboard_arrow_left_rounded,
+          kOnPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: AppColor.darkGrey,
+        child: ClipPath(
+          clipper: SigmaClipper(),
+          child: Container(
+            alignment: Alignment.bottomRight,
+            padding: EdgeInsets.only(
+              right: 8.0,
+              bottom: 8.0,
+            ),
+            color: Colors.white,
+            height: 72.0,
+            child: Image(
+              image: AssetImage('assets/images/sigma_symbol.png'),
+              color: Colors.black45,
+              fit: BoxFit.contain,
+              height: 20.0,
+              width: 20.0,
+            ),
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

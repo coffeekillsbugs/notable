@@ -46,6 +46,7 @@ class _TodoViewState extends State<TodoView> {
                   Container(
                     child: Text(
                       dateFormat(todoObject!.dateCreated!),
+
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),

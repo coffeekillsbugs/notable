@@ -7,12 +7,14 @@ class SigmaButton extends StatelessWidget {
   final double kSize;
   final Function? kOnPressed;
   final Color? kBackgroundColor;
+  final double buttonSize;
   final Color kIconColor;
   final String kHeroTag;
 
   SigmaButton({
     required this.kIcon,
     this.kSize = 24.0,
+    this.buttonSize = 64.0,
     this.kOnPressed,
     this.kBackgroundColor,
     this.kIconColor = AppColor.darkGrey,
@@ -22,11 +24,11 @@ class SigmaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56.0,
-      width: 56.0,
+      height: buttonSize,
+      width: buttonSize,
       child: FloatingActionButton(
         heroTag: kHeroTag,
-        onPressed: kOnPressed as void Function()?,
+    onPressed: kOnPressed as void Function()?,
         child: Icon(
           kIcon,
           size: kSize,
@@ -36,6 +38,7 @@ class SigmaButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
         ),
         backgroundColor: kBackgroundColor ?? Theme.of(context).accentColor,
+        // backgroundColor: Colors.white12,
       ),
     );
   }

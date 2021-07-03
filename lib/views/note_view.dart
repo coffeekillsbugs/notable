@@ -45,6 +45,7 @@ class _NoteViewState extends State<NoteView> {
                   padding: EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
                     dateFormat(noteObject!.dateCreated!),
+
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -57,6 +58,7 @@ class _NoteViewState extends State<NoteView> {
                         padding: EdgeInsets.symmetric(horizontal: 32.0),
                         child: Text(
                           noteObject!.noteBody!,
+
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),

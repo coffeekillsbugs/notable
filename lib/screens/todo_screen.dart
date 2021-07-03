@@ -13,11 +13,13 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
+
   FocusNode? _todoItem, _titleFocusNode;
   bool isEditMode = false;
   int? selectedIndex;
   DateTime? dateTime;
   late String _kDateTime;
+
   double _bottomPadding = 100.0;
 
   TextEditingController? _todoItemController, _titleController;
@@ -32,19 +34,23 @@ class _TodoScreenState extends State<TodoScreen> {
 
     _todoItemController = TextEditingController();
     _titleController = TextEditingController();
+
     _titleController!.addListener(() {});
     _todoItem = FocusNode();
     _titleFocusNode = FocusNode();
     _titleFocusNode!.addListener(() {
       if (_titleFocusNode!.hasFocus) {
+
         setState(() {
           // Future.delayed(Duration(seconds: 3));
           _bottomPadding = 16.0;
         });
       }
     });
+
     _todoItem!.addListener(() {
       if (_todoItem!.hasFocus) {
+
         // Future.delayed(Duration(seconds: 1));
         setState(() {
           _bottomPadding = 16.0;
@@ -52,15 +58,19 @@ class _TodoScreenState extends State<TodoScreen> {
       }
     });
     dateTime = DateTime.now();
+
     todoObject!.todoItems = [];
     _titleFocusNode!.requestFocus();
+
   }
 
   @override
   void dispose() {
+
     _todoItemController!.dispose();
     _todoItem!.dispose();
     _titleFocusNode!.dispose();
+
 
     super.dispose();
   }
@@ -115,10 +125,12 @@ class _TodoScreenState extends State<TodoScreen> {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Title',
+
                         hintStyle: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white60),
                       ),
                       onSubmitted: (text) {
                         _todoItem!.requestFocus();
+
                       },
                     ),
                   ),
@@ -139,9 +151,11 @@ class _TodoScreenState extends State<TodoScreen> {
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
+
                             itemCount: todoObject!.todoItems!.length,
                             itemBuilder: (context, index) {
                               if (todoObject!.todoItems!.isEmpty) {
+
                                 return Container();
                               }
 
@@ -158,8 +172,10 @@ class _TodoScreenState extends State<TodoScreen> {
                                           physics: BouncingScrollPhysics(),
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
+
                                             todoObject!.todoItems![index].todoItem!,
                                             style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20.0),
+
                                           ),
                                         ),
                                       ),
@@ -169,7 +185,9 @@ class _TodoScreenState extends State<TodoScreen> {
                                       borderRadius: BorderRadius.circular(28.0),
                                       onTap: () {
                                         setState(() {
+
                                           todoObject!.todoItems!.removeAt(index);
+
                                         });
                                       },
                                       child: Container(
@@ -227,14 +245,18 @@ class _TodoScreenState extends State<TodoScreen> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: 'What\'s next?',
+
                                   hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white60),
+
                                 ),
                                 onSubmitted: (text) {
                                   if (text.isNotEmpty) {
                                     setState(() {
+
                                       todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
                                       _todoItemController!.text = '';
                                       _todoItem!.requestFocus();
+
                                     });
                                   } else {
                                     print('inside else');
@@ -258,6 +280,7 @@ class _TodoScreenState extends State<TodoScreen> {
                                 todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
                                 _todoItemController!.text = '';
                                 _todoItem!.requestFocus();
+
                               });
                             }
                           },
@@ -289,7 +312,9 @@ class _TodoScreenState extends State<TodoScreen> {
                 SigmaButton(
                   kHeroTag: 'blackTodo',
                   kOnPressed: () {
+
                     if (_titleController!.text.isEmpty) {
+
                       _emptyFieldWarning();
                     } else {
                       if (isEditMode) {
@@ -301,6 +326,7 @@ class _TodoScreenState extends State<TodoScreen> {
                             dateCreated: todoObject!.dateCreated,
                             noteType: NoteType.todo,
                             todoItems: todoObject!.todoItems,
+
                           ),
                         );
                         // Show updated
@@ -312,6 +338,7 @@ class _TodoScreenState extends State<TodoScreen> {
                             dateCreated: dateTime,
                             noteType: NoteType.todo,
                             todoItems: todoObject!.todoItems,
+
                           ),
                         );
                         Navigator.pop(context);
@@ -394,6 +421,7 @@ class _TodoScreenState extends State<TodoScreen> {
           ),
           actions: [
             TextButton(
+
               child: Text(
                 'SILLY ME',
               ),
