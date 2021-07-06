@@ -100,25 +100,30 @@ class _NoteScreenState extends State<NoteScreen> {
                   ),
                 ),
                 SizedBox(height: 16.0),
-                Flexible(
-                  child: Container(
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 32.0),
-                        child: TextField(
-                          controller: _noteBodyController,
-                          focusNode: _noteBody,
-                          maxLines: null,
-                          keyboardType: TextInputType.multiline,
-                          style: Theme.of(context).textTheme.bodyText1,
-                          cursorColor: Colors.white,
-                          cursorRadius: Radius.circular(10.0),
-                          cursorHeight: 20.0,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Whats on your mind?',
-                            hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white60),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      _noteBody!.requestFocus();
+                    },
+                    child: Container(
+                      child: SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 32.0),
+                          child: TextField(
+                            controller: _noteBodyController,
+                            focusNode: _noteBody,
+                            maxLines: null,
+                            keyboardType: TextInputType.multiline,
+                            style: Theme.of(context).textTheme.bodyText1,
+                            cursorColor: Colors.white,
+                            cursorRadius: Radius.circular(10.0),
+                            cursorHeight: 20.0,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Whats on your mind?',
+                              hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.white60),
+                            ),
                           ),
                         ),
                       ),

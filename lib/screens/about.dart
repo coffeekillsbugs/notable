@@ -74,7 +74,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           ),
                           SizedBox(height: 4.0),
                           Text(
-                            'v0.5.3-alpha',
+                            'v0.6.1',
                             // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.caption,
                           ),

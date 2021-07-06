@@ -45,7 +45,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
         color: Colors.red,
         child: Icon(
           Icons.delete_rounded,
-          color: Colors.white,
+          color: AppColor.darkGrey,
         ),
       ),
       direction:
@@ -70,7 +70,6 @@ class _CompactNoteViewState extends State<CompactNoteView> {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.0,
-          vertical: 8.0,
         ),
         child: Container(
           padding: EdgeInsets.symmetric(

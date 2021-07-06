@@ -34,4 +34,17 @@ ThemeData sigmaTheme = ThemeData(
     selectionHandleColor: Colors.white,
   ),
   textTheme: sigmaTextTheme,
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(AppColor.overlayFourteen),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      overlayColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.2)),
+      textStyle: MaterialStateProperty.all<TextStyle>(
+        TextStyle(
+          fontFamily: 'Montserrat',
+        ),
+      ),
+
+    ),
+  ),
 );

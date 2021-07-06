@@ -78,22 +78,28 @@ class _HomePageState extends State<HomePage> {
                   (context, index) {
                     if (note.getAt(index)!.noteType == NoteType.note) {
                       // SigmaNote noteObject = note.getAt(index);
-                      return GestureDetector(
-                        onTap: () {
-                          sigmaProviderFalse.updateSelectedIndex(index);
-                          Navigator.pushNamed(context, 'NoteView');
-                        },
-                        // child: CompactNoteView(noteObject: noteObject),
-                        child: CompactNoteView(kIndex: index),
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            sigmaProviderFalse.updateSelectedIndex(index);
+                            Navigator.pushNamed(context, 'NoteView');
+                          },
+                          // child: CompactNoteView(noteObject: noteObject),
+                          child: CompactNoteView(kIndex: index),
+                        ),
                       );
                     } else {
                       // SigmaNote todoObject = note.getAt(index);
-                      return GestureDetector(
-                        onTap: () {
-                          sigmaProviderFalse.updateSelectedIndex(index);
-                          Navigator.pushNamed(context, 'TodoView');
-                        },
-                        child: CompactTodoView(kIndex: index),
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            sigmaProviderFalse.updateSelectedIndex(index);
+                            Navigator.pushNamed(context, 'TodoView');
+                          },
+                          child: CompactTodoView(kIndex: index),
+                        ),
                       );
                     }
                   },

@@ -72,7 +72,6 @@ class _CompactTodoViewState extends State<CompactTodoView> {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.0,
-          vertical: 8.0,
         ),
         child: Container(
           padding: EdgeInsets.symmetric(
