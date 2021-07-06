@@ -161,7 +161,7 @@ class _NoteScreenState extends State<NoteScreen> {
                             noteBody: _noteBodyController!.text,
                           ),
                         );
-                        sigmaProvider.updateEditMode();
+                        // sigmaProvider.updateEditMode();
                         // Show updated
                         Navigator.popAndPushNamed(context, 'NoteView');
                       } else {

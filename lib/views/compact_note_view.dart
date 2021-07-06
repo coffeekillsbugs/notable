@@ -1,8 +1,10 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:sigma/theme/colors.dart';
 import 'package:sigma/view_models/note_view_model.dart';
+import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/models/sigma_note.dart';
 
 class CompactNoteView extends StatefulWidget {
@@ -20,31 +22,50 @@ class _CompactNoteViewState extends State<CompactNoteView> {
   bool isNoteCollapsed = true;
   NoteViewModel noteViewModel = NoteViewModel();
   SigmaNote? noteObject = SigmaNote();
+  late SigmaProvider sigmaProviderFalse;
+
   @override
   Widget build(BuildContext context) {
-
     noteObject = noteViewModel.getFromHiveProvider(widget.kIndex);
+    sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
     return Dismissible(
       key: Key(noteObject!.dateCreated.toString()),
-      background: Container(),
-      secondaryBackground: Container(
-        alignment: Alignment.centerRight,
+      background: Container(
+        alignment: Alignment.centerLeft,
         padding: EdgeInsets.all(16.0),
         color: Colors.white,
         child: Icon(
-          Icons.delete_rounded,
+          Icons.edit,
           color: AppColor.darkGrey,
         ),
       ),
-      direction: isNoteCollapsed ? DismissDirection.endToStart : DismissDirection.none,
+      secondaryBackground: Container(
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.all(16.0),
+        color: Colors.red,
+        child: Icon(
+          Icons.delete_rounded,
+          color: Colors.white,
+        ),
+      ),
+      direction:
+          isNoteCollapsed ? DismissDirection.horizontal : DismissDirection.none,
       dismissThresholds: {
         DismissDirection.endToStart: 0.1,
       },
       confirmDismiss: (direction) async {
-        return _deleteConfirmationDialog(habitName: noteObject!.title);
+        if (direction == DismissDirection.endToStart) {
+          return _deleteConfirmationDialog(habitName: noteObject!.title);
+        } else {
+          sigmaProviderFalse.updateSelectedIndex(widget.kIndex);
+          sigmaProviderFalse.updateEditMode();
+          Navigator.pushNamed(context, 'NoteScreen');
+        }
       },
       onDismissed: (direction) {
-        noteViewModel.deleteFromHiveProvider(widget.kIndex);
+        if (direction == DismissDirection.endToStart) {
+          noteViewModel.deleteFromHiveProvider(widget.kIndex);
+        }
       },
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -94,7 +115,9 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Icon(
-                        isNoteCollapsed ? Icons.visibility : Icons.visibility_off,
+                        isNoteCollapsed
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: Colors.white,
                         size: 24.0,
                       ),
@@ -147,7 +170,8 @@ class _CompactNoteViewState extends State<CompactNoteView> {
   String dateFormat(DateTime dateTime) {
     String _dateTime;
 
-    _dateTime = '${dateTime.day} ${monthName(dateTime.month)}, ${dateTime.year}';
+    _dateTime =
+        '${dateTime.day} ${monthName(dateTime.month)}, ${dateTime.year}';
 
     return _dateTime;
   }
@@ -195,52 +219,52 @@ class _CompactNoteViewState extends State<CompactNoteView> {
     }
   }
 
-  Future<bool> _deleteConfirmationDialog({String? habitName}) async {
+  Future<bool?> _deleteConfirmationDialog({String? habitName}) async {
     return showDialog<bool>(
       // barrierColor: AppColor.darkGrey.withOpacity(0.9),
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              'Delete?',
-            ),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: Text(
-                    'You\'re about to delete \"$habitName\".',
-                  ),
-                ),
-                SizedBox(height: 16.0),
-                Text(
-                  'This action is not reversible.',
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Delete?',
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
                 child: Text(
-                  'YES',
+                  'You\'re about to delete \"$habitName\".',
                 ),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
               ),
-              TextButton(
-                child: Text(
-                  'NO',
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
+              SizedBox(height: 16.0),
+              Text(
+                'This action is not reversible.',
               ),
             ],
-          );
-        }) as FutureOr<bool>? ??
-        false;
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'YES',
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              child: Text(
+                'NO',
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

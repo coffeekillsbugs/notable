@@ -1,8 +1,10 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:sigma/view_models/todo_view_model.dart';
 import 'package:sigma/view_models/compact_todo_view_model.dart';
+import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/theme/colors.dart';
 import 'package:sigma/models/sigma_note.dart';
 
@@ -21,34 +23,51 @@ class _CompactTodoViewState extends State<CompactTodoView> {
   CompactTodoViewModel compactTodoViewModel = CompactTodoViewModel();
   TodoViewModel todoViewModel = TodoViewModel();
   SigmaNote? todoObject = SigmaNote();
+  late SigmaProvider sigmaProviderFalse;
 
   @override
   Widget build(BuildContext context) {
-
     todoObject = todoViewModel.getFromHiveProvider(widget.kIndex);
+    sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
+
     return Dismissible(
       background: Container(
-        // color: Colors.white,
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.all(16.0),
+        color: Colors.white,
+        child: Icon(
+          Icons.edit,
+          color: AppColor.darkGrey,
+        ),
       ),
       secondaryBackground: Container(
         alignment: Alignment.centerRight,
         padding: EdgeInsets.all(16.0),
-        color: Colors.white,
+        color: Colors.red,
         child: Icon(
           Icons.delete_rounded,
           color: AppColor.darkGrey,
         ),
       ),
       key: Key(todoObject!.dateCreated.toString()),
-      direction: isTodoCollapsed ? DismissDirection.endToStart : DismissDirection.none,
+      direction:
+          isTodoCollapsed ? DismissDirection.horizontal : DismissDirection.none,
       dismissThresholds: {
         DismissDirection.endToStart: 0.1,
       },
       confirmDismiss: (direction) async {
-        return _deleteConfirmationDialog(habitName: todoObject!.title);
+        if (direction == DismissDirection.endToStart) {
+          return _deleteConfirmationDialog(habitName: todoObject!.title);
+        } else {
+          sigmaProviderFalse.updateSelectedIndex(widget.kIndex);
+          sigmaProviderFalse.updateEditMode();
+          Navigator.pushNamed(context, 'TodoScreen');
+        }
       },
       onDismissed: (direction) {
-        todoViewModel.deleteFromHiveProvider(widget.kIndex);
+        if (direction == DismissDirection.endToStart) {
+          todoViewModel.deleteFromHiveProvider(widget.kIndex);
+        }
       },
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -97,7 +116,9 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Icon(
-                        isTodoCollapsed ? Icons.visibility : Icons.visibility_off,
+                        isTodoCollapsed
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: Colors.white,
                         size: 24.0,
                       ),
@@ -108,78 +129,97 @@ class _CompactTodoViewState extends State<CompactTodoView> {
               isTodoCollapsed
                   ? Container()
                   : Column(
-                children: [
-                  // >>> Body
-                  Container(
-                    alignment: Alignment.topLeft,
-                    // color: Colors.red,
-                    height: todoObject!.todoItems!.isEmpty ? 100.0 : 240.0,
-                    // color: Colors.red,
-                    child: todoObject!.todoItems!.isEmpty
-                        ? Container(
-                      alignment: Alignment.center,
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.white),
-                          children: [
-                            TextSpan(
-                              text: 'Huh?\n',
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                            TextSpan(
-                              text: 'The list is empty. Did you forget to add items?',
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                        : ListView.builder(
-                      // padding: EdgeInsets.symmetric(vertical: 16.0),
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            splashColor: Colors.white,
-                            onTap: () {
-                              setState(() {
-                                compactTodoViewModel.changeItemState(todoObject!, index);
-                              });
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 16.0),
-                              // color: Colors.green,
-                              child: Text(
-                                todoObject!.todoItems![index].todoItem!,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                  fontSize: 16.0,
-                                  decoration: todoObject!.todoItems![index].isDone! ? TextDecoration.lineThrough : null,
+                      children: [
+                        // >>> Body
+                        Container(
+                          alignment: Alignment.topLeft,
+                          // color: Colors.red,
+                          height:
+                              todoObject!.todoItems!.isEmpty ? 100.0 : 240.0,
+                          // color: Colors.red,
+                          child: todoObject!.todoItems!.isEmpty
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .copyWith(color: Colors.white),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Huh?\n',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6,
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              'The list is empty. Did you forget to add items?',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  // padding: EdgeInsets.symmetric(vertical: 16.0),
+                                  physics: BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        splashColor: Colors.white,
+                                        onTap: () {
+                                          setState(() {
+                                            compactTodoViewModel
+                                                .changeItemState(
+                                                    todoObject!, index);
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 16.0),
+                                          // color: Colors.green,
+                                          child: Text(
+                                            todoObject!
+                                                .todoItems![index].todoItem!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .copyWith(
+                                                  fontSize: 16.0,
+                                                  decoration: todoObject!
+                                                          .todoItems![index]
+                                                          .isDone!
+                                                      ? TextDecoration
+                                                          .lineThrough
+                                                      : null,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  itemCount: todoObject!.todoItems!.length,
                                 ),
-                              ),
-                            ),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        // >>> Date Created
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          // color: Colors.green,
+                          child: Text(
+                            dateFormat(todoObject!.dateCreated!),
+                            style: Theme.of(context).textTheme.bodyText2,
                           ),
-                        );
-                      },
-                      itemCount: todoObject!.todoItems!.length,
+                        ),
+                        SizedBox(height: 8.0),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  // >>> Date Created
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    // color: Colors.green,
-                    child: Text(
-                      dateFormat(todoObject!.dateCreated!),
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                ],
-              ),
             ],
           ),
         ),
@@ -190,7 +230,8 @@ class _CompactTodoViewState extends State<CompactTodoView> {
   String dateFormat(DateTime dateTime) {
     String _dateTime;
 
-    _dateTime = '${dateTime.day} ${monthName(dateTime.month)}, ${dateTime.year}';
+    _dateTime =
+        '${dateTime.day} ${monthName(dateTime.month)}, ${dateTime.year}';
 
     return _dateTime;
   }
@@ -238,52 +279,52 @@ class _CompactTodoViewState extends State<CompactTodoView> {
     }
   }
 
-  Future<bool> _deleteConfirmationDialog({String? habitName}) async {
+  Future<bool?> _deleteConfirmationDialog({String? habitName}) async {
     return showDialog<bool>(
       // barrierColor: AppColor.darkGrey.withOpacity(0.9),
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              'Delete?',
-            ),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: Text(
-                    'You\'re about to delete \"$habitName\".',
-                  ),
-                ),
-                SizedBox(height: 16.0),
-                Text(
-                  'This action is not reversible.',
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Delete?',
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
                 child: Text(
-                  'YES',
+                  'You\'re about to delete \"$habitName\".',
                 ),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
               ),
-              TextButton(
-                child: Text(
-                  'NO',
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
+              SizedBox(height: 16.0),
+              Text(
+                'This action is not reversible.',
               ),
             ],
-          );
-        }) as FutureOr<bool>? ??
-        false;
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'YES',
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              child: Text(
+                'NO',
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
