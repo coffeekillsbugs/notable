@@ -1,4 +1,4 @@
-package com.example.sigma
+package com.nile.sigma
 
 import io.flutter.embedding.android.FlutterActivity
 
