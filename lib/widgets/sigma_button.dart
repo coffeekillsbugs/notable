@@ -5,7 +5,7 @@ import 'package:sigma/theme/colors.dart';
 class SigmaButton extends StatelessWidget {
   final IconData kIcon;
   final double kSize;
-  final Function? kOnPressed;
+  final Function()? kOnPressed;
   final Color? kBackgroundColor;
   final Color kIconColor;
   final String kHeroTag;
@@ -26,7 +26,7 @@ class SigmaButton extends StatelessWidget {
       width: 56.0,
       child: FloatingActionButton(
         heroTag: kHeroTag,
-        onPressed: kOnPressed as void Function()?,
+        onPressed: kOnPressed,
         child: Icon(
           kIcon,
           size: kSize,

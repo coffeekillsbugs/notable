@@ -44,7 +44,6 @@ ThemeData sigmaTheme = ThemeData(
           fontFamily: 'Montserrat',
         ),
       ),
-
     ),
   ),
 );

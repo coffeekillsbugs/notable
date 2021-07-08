@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 
 import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/theme/colors.dart';
+import 'package:sigma/view_models/home_page_view_model.dart';
 import 'package:sigma/widgets/sigma_button.dart';
 import 'package:sigma/widgets/note_button.dart';
 import 'package:sigma/views/compact_note_view.dart';
 import 'package:sigma/views/compact_todo_view.dart';
 import 'package:sigma/models/sigma_note.dart';
-import 'package:sigma/repository/hive_provider.dart';
 import 'package:sigma/services/search_delegate.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,8 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late SigmaProvider sigmaProviderFalse;
-  HiveProvider hiveProvider = HiveProvider();
-
 
   @override
   Widget build(BuildContext context) {
@@ -160,9 +158,8 @@ class _HomePageState extends State<HomePage> {
                                 );
 
                                 if (selectedIndex != null) {
-                                  NoteType? noteType;
                                   sigmaProviderFalse.updateSelectedIndex(selectedIndex);
-                                  noteType = hiveProvider.noteType(selectedIndex);
+                                  NoteType noteType = HomePageViewModel().getNoteType(selectedIndex);
                                   // Navigator.popAndPushNamed(context, noteType == NoteType.note ? 'NoteView' : 'TodoView');
                                   Navigator.of(context).pushNamed(noteType == NoteType.note ? 'NoteView' : 'TodoView');
                                 } else {
@@ -195,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(width: 16.0),
-                      // New ToDo Button
+                      // New To-Do Button
                       NoteButton(
                         kOnTap: () {
                           Navigator.popAndPushNamed(context, 'TodoScreen');

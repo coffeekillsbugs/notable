@@ -9,10 +9,10 @@ import 'package:sigma/theme/colors.dart';
 class NoteSearch extends SearchDelegate<int> {
   @override
   TextStyle? get searchFieldStyle => TextStyle(
-    decoration: TextDecoration.none,
-    color: Colors.white,
-    fontFamily: 'Merriweather',
-  );
+        decoration: TextDecoration.none,
+        color: Colors.white,
+        fontFamily: 'Merriweather',
+      );
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -46,10 +46,15 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildResults(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title!.toLowerCase().contains(query.toLowerCase()));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
-      return Text('Nothing to show');
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+        child: Text('Nothing to show.',
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+      );
     }
 
     return ListView(
@@ -77,7 +82,7 @@ class NoteSearch extends SearchDelegate<int> {
   @override
   Widget buildSuggestions(BuildContext context) {
     HiveProvider hiveProvider = HiveProvider();
-    var allNotes = hiveProvider.allNotes().where((a) => a.title!.toLowerCase().contains(query.toLowerCase()));
+    var allNotes = hiveProvider.allNotes().where((a) => a.title.toLowerCase().contains(query.toLowerCase()));
 
     if (allNotes.isEmpty) {
       return Text('Nothing to show');
@@ -106,7 +111,7 @@ class NoteSearch extends SearchDelegate<int> {
                       SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         child: Text(
-                          a.title!,
+                          a.title,
                           style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
                         ),
                       ),

@@ -1,12 +1,11 @@
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+
 import 'package:sigma/view_models/todo_view_model.dart';
-import 'package:sigma/view_models/compact_todo_view_model.dart';
 import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/theme/colors.dart';
-import 'package:sigma/models/sigma_note.dart';
 
 class CompactTodoView extends StatefulWidget {
   final int kIndex;
@@ -20,16 +19,13 @@ class CompactTodoView extends StatefulWidget {
 
 class _CompactTodoViewState extends State<CompactTodoView> {
   bool isTodoCollapsed = true;
-  CompactTodoViewModel compactTodoViewModel = CompactTodoViewModel();
-  TodoViewModel todoViewModel = TodoViewModel();
-  SigmaNote? todoObject = SigmaNote();
+  late TodoViewModel todoViewModel;
   late SigmaProvider sigmaProviderFalse;
 
   @override
   Widget build(BuildContext context) {
-    todoObject = todoViewModel.getFromHiveProvider(widget.kIndex);
     sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
-
+    todoViewModel = TodoViewModel.getFromHive(widget.kIndex);
     return Dismissible(
       background: Container(
         alignment: Alignment.centerLeft,
@@ -49,7 +45,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
           color: AppColor.darkGrey,
         ),
       ),
-      key: Key(todoObject!.dateCreated.toString()),
+      key: Key(todoViewModel.dateCreated.toString()),
       direction:
           isTodoCollapsed ? DismissDirection.horizontal : DismissDirection.none,
       dismissThresholds: {
@@ -57,7 +53,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
       },
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.endToStart) {
-          return _deleteConfirmationDialog(habitName: todoObject!.title);
+          return _deleteConfirmationDialog(habitName: todoViewModel.title);
         } else {
           sigmaProviderFalse.updateSelectedIndex(widget.kIndex);
           sigmaProviderFalse.updateEditMode();
@@ -66,7 +62,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          todoViewModel.deleteFromHiveProvider(widget.kIndex);
+          todoViewModel.deleteInHive(widget.kIndex);
         }
       },
       child: Padding(
@@ -91,7 +87,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                   Flexible(
                     child: Container(
                       child: Text(
-                        todoObject!.title!,
+                        todoViewModel.title,
                         style: Theme.of(context).textTheme.headline5,
                       ),
                     ),
@@ -134,9 +130,9 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                           alignment: Alignment.topLeft,
                           // color: Colors.red,
                           height:
-                              todoObject!.todoItems!.isEmpty ? 100.0 : 240.0,
+                              todoViewModel.todoItemList!.isEmpty ? 100.0 : 240.0,
                           // color: Colors.red,
-                          child: todoObject!.todoItems!.isEmpty
+                          child: todoViewModel.todoItemList!.isEmpty
                               ? Container(
                                   alignment: Alignment.center,
                                   child: RichText(
@@ -170,9 +166,9 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                         splashColor: Colors.white,
                                         onTap: () {
                                           setState(() {
-                                            compactTodoViewModel
-                                                .changeItemState(
-                                                    todoObject!, index);
+                                            todoViewModel
+                                                .changeTodoItemState(
+                                                    todoViewModel.dateCreated, index);
                                           });
                                         },
                                         child: Container(
@@ -180,23 +176,19 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                               vertical: 16.0),
                                           // color: Colors.green,
                                           child: Text(
-                                            todoObject!
-                                                .todoItems![index].todoItem!,
+                                            todoViewModel.todoItemList![index].todoItem,
                                             overflow: TextOverflow.ellipsis,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1!
                                                 .copyWith(
                                                   fontSize: 16.0,
-                                                  decoration: todoObject!
-                                                          .todoItems![index]
-                                                          .isDone!
-                                                      ? TextDecoration
+                                                  decoration: todoViewModel.todoItemList![index]
+                                                          .isDone? TextDecoration
                                                           .lineThrough
                                                       : null,
-                                                  color: todoObject!
-                                                          .todoItems![index]
-                                                          .isDone!
+                                                  color: todoViewModel.todoItemList![index]
+                                                          .isDone
                                                       ? Colors.white38
                                                       : Colors.white,
                                                 ),
@@ -205,7 +197,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                       ),
                                     );
                                   },
-                                  itemCount: todoObject!.todoItems!.length,
+                                  itemCount: todoViewModel.todoItemList!.length,
                                 ),
                         ),
                         SizedBox(height: 8.0),
@@ -213,7 +205,7 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            dateFormat(todoObject!.dateCreated!),
+                            dateFormat(todoViewModel.dateCreated),
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),

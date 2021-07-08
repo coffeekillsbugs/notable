@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/widgets/sigma_button.dart';
-import 'package:sigma/models/sigma_note.dart';
 import 'package:sigma/view_models/note_view_model.dart';
 import 'package:sigma/theme/colors.dart';
 
@@ -13,33 +12,30 @@ class NoteScreen extends StatefulWidget {
 }
 
 class _NoteScreenState extends State<NoteScreen> {
-  FocusNode? _noteBody;
-  late String _kDateTime;
   bool isEditMode = false;
-  int? selectedIndex;
-  DateTime? dateTime;
 
-  TextEditingController? _titleController, _noteBodyController;
+  late TextEditingController _titleController, _noteBodyController;
+  late FocusNode _noteBodyFocusNode;
 
-  NoteViewModel noteViewModel = NoteViewModel();
-  SigmaNote? noteObject = SigmaNote();
+  late NoteViewModel noteViewModel;
   late SigmaProvider sigmaProvider;
 
   @override
   void initState() {
     super.initState();
 
-    _noteBody = FocusNode();
+    _noteBodyFocusNode = FocusNode();
     _titleController = TextEditingController();
     _noteBodyController = TextEditingController();
-    dateTime = DateTime.now();
+
+    noteViewModel = NoteViewModel();
   }
 
   @override
   void dispose() {
-    _noteBody!.dispose();
-    _titleController!.dispose();
-    _noteBodyController!.dispose();
+    _noteBodyFocusNode.dispose();
+    _titleController.dispose();
+    _noteBodyController.dispose();
 
     super.dispose();
   }
@@ -51,15 +47,11 @@ class _NoteScreenState extends State<NoteScreen> {
     if (sigmaProvider.isEditMode) {
       isEditMode = sigmaProvider.isEditMode;
       sigmaProvider.updateEditMode();
-      selectedIndex = sigmaProvider.selectedIndex;
 
-      noteObject = noteViewModel.getFromHiveProvider(selectedIndex!);
+      noteViewModel = NoteViewModel.getFromHive(sigmaProvider.selectedIndex);
 
-      _titleController!.text = noteObject!.title!;
-      _noteBodyController!.text = noteObject!.noteBody!;
-      _kDateTime = dateFormat(noteObject!.dateCreated!);
-    } else {
-      _kDateTime = dateFormat(dateTime!);
+      _titleController.text = noteViewModel.title;
+      _noteBodyController.text = noteViewModel.noteBody!;
     }
     // >>> Note Screen
     return Stack(
@@ -88,14 +80,14 @@ class _NoteScreenState extends State<NoteScreen> {
                       hintStyle: Theme.of(context).textTheme.headline3!.copyWith(color: Colors.white60),
                     ),
                     onSubmitted: (text) {
-                      _noteBody!.requestFocus();
+                      _noteBodyFocusNode.requestFocus();
                     },
                   ),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
-                    _kDateTime,
+                    dateFormat(noteViewModel.dateCreated),
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -103,7 +95,7 @@ class _NoteScreenState extends State<NoteScreen> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      _noteBody!.requestFocus();
+                      _noteBodyFocusNode.requestFocus();
                     },
                     child: Container(
                       child: SingleChildScrollView(
@@ -112,7 +104,7 @@ class _NoteScreenState extends State<NoteScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 32.0),
                           child: TextField(
                             controller: _noteBodyController,
-                            focusNode: _noteBody,
+                            focusNode: _noteBodyFocusNode,
                             maxLines: null,
                             keyboardType: TextInputType.multiline,
                             style: Theme.of(context).textTheme.bodyText1,
@@ -152,31 +144,27 @@ class _NoteScreenState extends State<NoteScreen> {
                 SigmaButton(
                   kHeroTag: 'blackNote',
                   kOnPressed: () {
-                    if (_noteBodyController!.text.isEmpty) {
+                    if (_noteBodyController.text.isEmpty) {
                       _emptyFieldWarning();
                     } else {
                       if (isEditMode) {
                         isEditMode = false;
-                        noteViewModel.updateToHiveProvider(
-                          selectedIndex!,
-                          SigmaNote(
-                            title: _titleController!.text,
-                            dateCreated: noteObject!.dateCreated,
-                            noteType: NoteType.note,
-                            noteBody: _noteBodyController!.text,
-                          ),
+                        noteViewModel.updateToHive(
+                          sigmaProvider.selectedIndex,
+                          _titleController.text,
+                          noteViewModel.dateCreated,
+                          noteViewModel.noteType,
+                          _noteBodyController.text,
                         );
                         // sigmaProvider.updateEditMode();
                         // Show updated
                         Navigator.popAndPushNamed(context, 'NoteView');
                       } else {
-                        noteViewModel.writeToHiveProvider(
-                          SigmaNote(
-                            title: _titleController!.text,
-                            dateCreated: dateTime,
-                            noteType: NoteType.note,
-                            noteBody: _noteBodyController!.text,
-                          ),
+                        noteViewModel.writeToHive(
+                          _titleController.text,
+                          noteViewModel.dateCreated,
+                          noteViewModel.noteType,
+                          _noteBodyController.text,
                         );
                         Navigator.pop(context);
                       }

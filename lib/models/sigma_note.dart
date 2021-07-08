@@ -5,13 +5,13 @@ part 'sigma_note.g.dart';
 @HiveType(typeId: 1)
 class SigmaNote {
   @HiveField(0)
-  String? title;
+  String title;
 
   @HiveField(1)
-  DateTime? dateCreated;
+  DateTime dateCreated;
 
   @HiveField(2)
-  NoteType? noteType;
+  NoteType noteType;
 
   @HiveField(3)
   String? noteBody;
@@ -20,9 +20,9 @@ class SigmaNote {
   List<TodoItemModel>? todoItems;
 
   SigmaNote(
-      {this.title,
-      this.dateCreated,
-      this.noteType,
+      {required this.title,
+      required this.dateCreated,
+      required this.noteType,
       this.noteBody,
       this.todoItems});
 }
@@ -30,12 +30,12 @@ class SigmaNote {
 @HiveType(typeId: 2)
 class TodoItemModel {
   @HiveField(0)
-  String? todoItem;
+  String todoItem;
 
   @HiveField(1)
-  bool? isDone;
+  bool isDone;
 
-  TodoItemModel({this.todoItem, this.isDone});
+  TodoItemModel({required this.todoItem, required this.isDone});
 }
 
 @HiveType(typeId: 3)

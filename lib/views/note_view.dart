@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:sigma/widgets/sigma_button.dart';
-import 'package:sigma/models/sigma_note.dart';
 import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/view_models/note_view_model.dart';
 import 'package:sigma/theme/colors.dart';
@@ -13,9 +12,7 @@ class NoteView extends StatefulWidget {
 }
 
 class _NoteViewState extends State<NoteView> {
-  NoteViewModel noteViewModel = NoteViewModel();
-  SigmaNote? noteObject = SigmaNote();
-
+  late NoteViewModel noteViewModel;
   late SigmaProvider sigmaProviderFalse, sigmaProvider;
 
   @override
@@ -23,7 +20,7 @@ class _NoteViewState extends State<NoteView> {
     sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
     sigmaProvider = Provider.of<SigmaProvider>(context);
 
-    noteObject = noteViewModel.getFromHiveProvider(sigmaProvider.selectedIndex);
+    noteViewModel = NoteViewModel.getFromHive(sigmaProvider.selectedIndex);
     // >>> Note View
     return Stack(
       children: [
@@ -36,7 +33,7 @@ class _NoteViewState extends State<NoteView> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
-                    noteObject!.title!,
+                    noteViewModel.title,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                 ),
@@ -44,7 +41,7 @@ class _NoteViewState extends State<NoteView> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
-                    dateFormat(noteObject!.dateCreated!),
+                    dateFormat(noteViewModel.dateCreated),
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -56,7 +53,7 @@ class _NoteViewState extends State<NoteView> {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 32.0),
                         child: Text(
-                          noteObject!.noteBody!,
+                          noteViewModel.noteBody!,
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),

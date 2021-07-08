@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:sigma/models/sigma_note.dart';
 import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/view_models/todo_view_model.dart';
 import 'package:sigma/widgets/sigma_button.dart';
@@ -12,9 +11,7 @@ class TodoView extends StatefulWidget {
 }
 
 class _TodoViewState extends State<TodoView> {
-  TodoViewModel todoViewModel = TodoViewModel();
-  SigmaNote? todoObject = SigmaNote();
-
+  late TodoViewModel todoViewModel;
   late SigmaProvider sigmaProviderFalse, sigmaProvider;
 
   @override
@@ -22,7 +19,7 @@ class _TodoViewState extends State<TodoView> {
     sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
     sigmaProvider = Provider.of<SigmaProvider>(context);
 
-    todoObject = todoViewModel.getFromHiveProvider(sigmaProvider.selectedIndex);
+    todoViewModel = TodoViewModel.getFromHive(sigmaProvider.selectedIndex);
 
     return Stack(
       children: [
@@ -37,7 +34,7 @@ class _TodoViewState extends State<TodoView> {
                   // >>> Title
                   Container(
                     child: Text(
-                      todoObject!.title!,
+                      todoViewModel.title,
                       style: Theme.of(context).textTheme.headline3,
                     ),
                   ),
@@ -45,7 +42,7 @@ class _TodoViewState extends State<TodoView> {
                   // >>> Current Date
                   Container(
                     child: Text(
-                      dateFormat(todoObject!.dateCreated!),
+                      dateFormat(todoViewModel.dateCreated),
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),
@@ -53,7 +50,7 @@ class _TodoViewState extends State<TodoView> {
                   // >>> To Do list layout
                   Flexible(
                     child: Container(
-                      child: todoObject!.todoItems!.isEmpty
+                      child: todoViewModel.todoItemList!.isEmpty
                           ? Container(
                         alignment: Alignment.center,
                         child: RichText(
@@ -75,13 +72,13 @@ class _TodoViewState extends State<TodoView> {
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: todoObject!.todoItems!.length,
+                            itemCount: todoViewModel.todoItemList!.length,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 splashColor: Colors.white,
                                 onTap: () {
                                   setState(() {
-                                    todoViewModel.changeItemState(todoObject!, index);
+                                    todoViewModel.changeTodoItemState(todoViewModel.dateCreated, index);
                                   });
                                 },
                                 child: Container(
@@ -91,11 +88,11 @@ class _TodoViewState extends State<TodoView> {
                                     physics: BouncingScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
                                     child: Text(
-                                      todoObject!.todoItems![index].todoItem!,
+                                      todoViewModel.todoItemList![index].todoItem,
                                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                         fontSize: 20.0,
-                                        decoration: todoObject!.todoItems![index].isDone! ? TextDecoration.lineThrough : null,
-                                        color: todoObject!.todoItems![index].isDone! ? Colors.white38 : Colors.white,
+                                        decoration: todoViewModel.todoItemList![index].isDone ? TextDecoration.lineThrough : null,
+                                        color: todoViewModel.todoItemList![index].isDone ? Colors.white38 : Colors.white,
                                       ),
                                     ),
                                   ),

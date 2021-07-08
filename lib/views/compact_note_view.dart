@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:sigma/theme/colors.dart';
 import 'package:sigma/view_models/note_view_model.dart';
 import 'package:sigma/services/sigma_provider.dart';
-import 'package:sigma/models/sigma_note.dart';
 
 class CompactNoteView extends StatefulWidget {
   final int kIndex;
@@ -20,16 +19,16 @@ class CompactNoteView extends StatefulWidget {
 
 class _CompactNoteViewState extends State<CompactNoteView> {
   bool isNoteCollapsed = true;
-  NoteViewModel noteViewModel = NoteViewModel();
-  SigmaNote? noteObject = SigmaNote();
+
+  late NoteViewModel noteViewModel;
   late SigmaProvider sigmaProviderFalse;
 
   @override
   Widget build(BuildContext context) {
-    noteObject = noteViewModel.getFromHiveProvider(widget.kIndex);
     sigmaProviderFalse = Provider.of<SigmaProvider>(context, listen: false);
+    noteViewModel = NoteViewModel.getFromHive(widget.kIndex);
     return Dismissible(
-      key: Key(noteObject!.dateCreated.toString()),
+      key: Key(noteViewModel.dateCreated.toString()),
       background: Container(
         alignment: Alignment.centerLeft,
         padding: EdgeInsets.all(16.0),
@@ -48,14 +47,13 @@ class _CompactNoteViewState extends State<CompactNoteView> {
           color: AppColor.darkGrey,
         ),
       ),
-      direction:
-          isNoteCollapsed ? DismissDirection.horizontal : DismissDirection.none,
+      direction: isNoteCollapsed ? DismissDirection.horizontal : DismissDirection.none,
       dismissThresholds: {
         DismissDirection.endToStart: 0.1,
       },
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.endToStart) {
-          return _deleteConfirmationDialog(habitName: noteObject!.title);
+          return _deleteConfirmationDialog(habitName: noteViewModel.title);
         } else {
           sigmaProviderFalse.updateSelectedIndex(widget.kIndex);
           sigmaProviderFalse.updateEditMode();
@@ -64,7 +62,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          noteViewModel.deleteFromHiveProvider(widget.kIndex);
+          noteViewModel.deleteInHive(widget.kIndex);
         }
       },
       child: Padding(
@@ -89,7 +87,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                   Flexible(
                     child: Container(
                       child: Text(
-                        noteObject!.title!,
+                        noteViewModel.title,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.headline5,
                       ),
@@ -114,9 +112,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Icon(
-                        isNoteCollapsed
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                        isNoteCollapsed ? Icons.visibility : Icons.visibility_off,
                         color: Colors.white,
                         size: 24.0,
                       ),
@@ -139,7 +135,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Text(
-                              noteObject!.noteBody!,
+                              noteViewModel.noteBody!,
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                           ),
@@ -152,7 +148,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                           alignment: Alignment.centerLeft,
                           // color: Colors.green,
                           child: Text(
-                            dateFormat(noteObject!.dateCreated!),
+                            dateFormat(noteViewModel.dateCreated),
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
@@ -169,8 +165,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
   String dateFormat(DateTime dateTime) {
     String _dateTime;
 
-    _dateTime =
-        '${dateTime.day} ${monthName(dateTime.month)}, ${dateTime.year}';
+    _dateTime = '${dateTime.day} ${monthName(dateTime.month)}, ${dateTime.year}';
 
     return _dateTime;
   }
