@@ -19,9 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool? toDelete;
-  bool temp = true;
-
   late SigmaProvider sigmaProviderFalse;
   HiveProvider hiveProvider = HiveProvider();
 

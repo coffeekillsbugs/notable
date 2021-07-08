@@ -162,7 +162,6 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                   ),
                                 )
                               : ListView.builder(
-                                  // padding: EdgeInsets.symmetric(vertical: 16.0),
                                   physics: BouncingScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     return Material(
@@ -195,6 +194,11 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                                       ? TextDecoration
                                                           .lineThrough
                                                       : null,
+                                                  color: todoObject!
+                                                          .todoItems![index]
+                                                          .isDone!
+                                                      ? Colors.white38
+                                                      : Colors.white,
                                                 ),
                                           ),
                                         ),
@@ -204,13 +208,10 @@ class _CompactTodoViewState extends State<CompactTodoView> {
                                   itemCount: todoObject!.todoItems!.length,
                                 ),
                         ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
+                        SizedBox(height: 8.0),
                         // >>> Date Created
                         Container(
                           alignment: Alignment.centerLeft,
-                          // color: Colors.green,
                           child: Text(
                             dateFormat(todoObject!.dateCreated!),
                             style: Theme.of(context).textTheme.bodyText2,

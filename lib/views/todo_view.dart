@@ -95,6 +95,7 @@ class _TodoViewState extends State<TodoView> {
                                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                         fontSize: 20.0,
                                         decoration: todoObject!.todoItems![index].isDone! ? TextDecoration.lineThrough : null,
+                                        color: todoObject!.todoItems![index].isDone! ? Colors.white38 : Colors.white,
                                       ),
                                     ),
                                   ),

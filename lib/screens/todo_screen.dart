@@ -59,7 +59,9 @@ class _TodoScreenState extends State<TodoScreen> {
   @override
   void dispose() {
     _todoItemController!.dispose();
+    _todoItem!.removeListener(() { });
     _todoItem!.dispose();
+    _titleFocusNode!.removeListener(() { });
     _titleFocusNode!.dispose();
 
     super.dispose();
@@ -232,7 +234,8 @@ class _TodoScreenState extends State<TodoScreen> {
                                 onSubmitted: (text) {
                                   if (text.isNotEmpty) {
                                     setState(() {
-                                      todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
+                                      // todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
+                                      todoObject!.todoItems!.insert(0, TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
                                       _todoItemController!.text = '';
                                       _todoItem!.requestFocus();
                                     });
@@ -255,7 +258,8 @@ class _TodoScreenState extends State<TodoScreen> {
                             print('add button pressed');
                             if (_todoItemController!.text.isNotEmpty) {
                               setState(() {
-                                todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
+                                // todoObject!.todoItems!.add(TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
+                                todoObject!.todoItems!.insert(0, TodoItemModel(todoItem: _todoItemController!.text, isDone: false));
                                 _todoItemController!.text = '';
                                 _todoItem!.requestFocus();
                               });
