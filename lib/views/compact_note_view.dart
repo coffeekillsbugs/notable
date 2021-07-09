@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:sigma/theme/colors.dart';
 import 'package:sigma/view_models/note_view_model.dart';
@@ -22,6 +23,7 @@ class _CompactNoteViewState extends State<CompactNoteView> {
 
   late NoteViewModel noteViewModel;
   late SigmaProvider sigmaProviderFalse;
+
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +133,16 @@ class _CompactNoteViewState extends State<CompactNoteView> {
                         Container(
                           alignment: Alignment.topLeft,
                           height: 160.0,
+                          width: double.infinity,
                           // color: Colors.red,
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
-                            child: Text(
-                              noteViewModel.noteBody!,
-                              style: Theme.of(context).textTheme.bodyText1,
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                noteViewModel.noteBody!,
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
                             ),
                           ),
                         ),

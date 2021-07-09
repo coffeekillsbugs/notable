@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:sigma/screens/note_screen.dart';
-import 'package:sigma/screens/homepage.dart';
+import 'package:sigma/screens/home_screen.dart';
 import 'package:sigma/screens/about.dart';
 import 'package:sigma/screens/todo_screen.dart';
 import 'package:sigma/views/note_view.dart';
 import 'package:sigma/views/todo_view.dart';
+import 'package:sigma/screens/license_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -26,6 +27,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case 'TodoView':
       return MaterialPageRoute(builder: (context) => TodoView());
+
+    case 'license':
+      return MaterialPageRoute(builder: (context) => LicenseScreen());
 
     default:
       return MaterialPageRoute(builder: (context) => HomePage());

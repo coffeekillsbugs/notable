@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:sigma/services/sigma_provider.dart';
 import 'package:sigma/theme/colors.dart';
-import 'package:sigma/view_models/home_page_view_model.dart';
+import 'package:sigma/view_models/home_screen_view_model.dart';
 import 'package:sigma/widgets/sigma_button.dart';
 import 'package:sigma/widgets/note_button.dart';
 import 'package:sigma/views/compact_note_view.dart';
@@ -103,10 +103,10 @@ class _HomePageState extends State<HomePage> {
               );
             },
           ),
-          SliverFillRemaining(
-            child: SizedBox(height: 80.0),
-            hasScrollBody: false,
-          ),
+          // SliverFillRemaining(
+          //   child: SizedBox(height: 80.0),
+          //   hasScrollBody: false,
+          // ),
         ],
       ),
       floatingActionButton: SigmaButton(
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                                   sigmaProviderFalse.updateSelectedIndex(selectedIndex);
                                   NoteType noteType = HomePageViewModel().getNoteType(selectedIndex);
                                   // Navigator.popAndPushNamed(context, noteType == NoteType.note ? 'NoteView' : 'TodoView');
-                                  Navigator.of(context).pushNamed(noteType == NoteType.note ? 'NoteView' : 'TodoView');
+                                  Navigator.of(context).popAndPushNamed(noteType == NoteType.note ? 'NoteView' : 'TodoView');
                                 } else {
                                   Navigator.pop(context);
                                 }

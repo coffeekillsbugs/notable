@@ -10,9 +10,8 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
@@ -74,7 +73,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           ),
                           SizedBox(height: 4.0),
                           Text(
-                            'v0.6.1',
+                            'v0.6.3',
                             // textScaleFactor: 1.0,
                             style: Theme.of(context).textTheme.caption,
                           ),
@@ -91,36 +90,30 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
                 SizedBox(height: 32.0),
                 // >>> External links
-                KitKatButton(
-                    kText: 'SHARE',
-                    kOnTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                          'Work in progress. Stay tuned ; ).',
-                          style: Theme.of(context).textTheme.bodyText2,
-                        ),
-                        backgroundColor: AppColor.overlayEight,
-                      ));
-                    }),
-                KitKatButton(
+                // KitKatButton(
+                //     kText: 'SHARE',
+                //     kOnTap: () {
+                //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                //         content: Text(
+                //           'Work in progress. Stay tuned ; ).',
+                //           style: Theme.of(context).textTheme.bodyText2,
+                //         ),
+                //         backgroundColor: AppColor.overlayEight,
+                //       ));
+                //     }),
+                BarButton(
+                  kText: 'LICENSES',
+                  kOnTap: () {
+                    Navigator.of(context).pushNamed('license');
+                  },
+                ),
+                BarButton(
                   kText: 'FEEDBACK',
                   kOnTap: () {
                     _externalLink('mailto:arthurexcalibur9@protonmail.com?subject=Sigma%20Feedback&body=What%20are%20your%20thoughts?');
                   },
                 ),
-                KitKatButton(
-                  kText: 'LICENSES',
-                  kOnTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                        'Work in progress. Stay tuned ; ).',
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
-                      backgroundColor: AppColor.overlayEight,
-                    ));
-                  },
-                ),
-                KitKatButton(
+                BarButton(
                   kText: 'REPORT BUG',
                   kOnTap: () {
                     _externalLink('mailto:arthurexcalibur9@protonmail.com?subject=Reporting%20Bug&body=What%20seems%20broken?');
@@ -154,11 +147,11 @@ class _AboutScreenState extends State<AboutScreen> {
   }
 }
 
-class KitKatButton extends StatelessWidget {
+class BarButton extends StatelessWidget {
   final String kText;
   final Function? kOnTap;
 
-  KitKatButton({
+  BarButton({
     required this.kText,
     this.kOnTap,
   });
